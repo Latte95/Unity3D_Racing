@@ -26,4 +26,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Water Park.unity
     guid: 6721fe0cfbd289742989990638cc5853
-  m_configObjects: {}
+  m_configObjects:
+    com.unity.input.settings: {fileID: 11400000, guid: 1cf728adea2b16641af03512ae4972ab,
+      type: 2}
