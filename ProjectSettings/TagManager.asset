@@ -5,40 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Ground
-  - GliderPanel
-  - Dirt
-  - Boost
-  - GliderPanelFly
-  - ItemBox
-  - Path
-  - DriftLeft
-  - DriftRight
-  - Non-Hold-Item
-  - Shell
-  - Opponent
-  - Banana
-  - fence
-  - JumpPanel
-  - ColliderInAir
-  - CourseMusic
-  - Explosion
-  - NextLapCollider
-  - CancelDownForce
-  - SlowDownComputer
-  - TrailingItem
-  - Coin
-  - Cow
-  - PlayerTires
-  - TrickCollider
-  - AntiGravity
-  - AntiGravityFalse
-  - Water
-  - OutOfBounds
-  - ShellPlatforms
-  - Trolley
-  - Crate
-  - Submarine
-  - ChainChomp
+  - Wheel
+  - Fense
   layers:
   - Default
   - TransparentFX
