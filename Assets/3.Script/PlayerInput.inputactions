@@ -1,5 +1,5 @@
 {
-    "name": "Input",
+    "name": "PlayerInput",
     "maps": [
         {
             "name": "Player",
@@ -16,9 +16,9 @@
                 },
                 {
                     "name": "Drift",
-                    "type": "Button",
+                    "type": "PassThrough",
                     "id": "bec59e55-ca63-413d-9863-7f95ac7466c2",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -55,7 +55,7 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "Up",
+                    "name": "up",
                     "id": "9a9654fd-0772-4a2c-a75d-0e9c13aa6e45",
                     "path": "<Keyboard>/upArrow",
                     "interactions": "",
@@ -66,7 +66,7 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "Down",
+                    "name": "down",
                     "id": "6978a09a-5718-4df0-942e-70b4e7f5b3e6",
                     "path": "<Keyboard>/downArrow",
                     "interactions": "",
@@ -77,7 +77,7 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "Left",
+                    "name": "left",
                     "id": "e4b71f15-6c65-4e9a-b19d-5e3df3990d08",
                     "path": "<Keyboard>/leftArrow",
                     "interactions": "",
@@ -88,7 +88,7 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "Right",
+                    "name": "right",
                     "id": "35af64f0-f4ce-41e6-8c79-0a941d37a92a",
                     "path": "<Keyboard>/rightArrow",
                     "interactions": "",
@@ -137,7 +137,7 @@
                     "path": "<Keyboard>/leftCtrl",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Keyboard Mouse",
                     "action": "UseItem",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -148,7 +148,7 @@
                     "path": "<Gamepad>/buttonWest",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Gamepad",
                     "action": "UseItem",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -185,6 +185,17 @@
                     "action": "ChangeItem",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "323b07f4-99ad-46f6-b2c8-3be62dbf2c16",
+                    "path": "<Keyboard>/z",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard Mouse",
+                    "action": "ChangeItem",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }

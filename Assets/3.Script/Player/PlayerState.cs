@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public abstract class PlayerState
 {
@@ -9,7 +10,8 @@ public abstract class PlayerState
     public abstract void HandleDirection();
     public virtual void Move(PlayerControl player)
     {
-
+        //if(player.input.)
+        //player.
     }
 }
 
