@@ -8,6 +8,7 @@ TagManager:
   - Wheel
   - Fense
   - WheelMesh
+  - WheelCollider
   layers:
   - Default
   - TransparentFX

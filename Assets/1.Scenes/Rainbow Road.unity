@@ -2709,7 +2709,7 @@ GameObject:
   - component: {fileID: 364931299}
   m_Layer: 0
   m_Name: LBWheel
-  m_TagString: Untagged
+  m_TagString: WheelCollider
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2770,7 +2770,7 @@ GameObject:
   - component: {fileID: 369950813}
   m_Layer: 0
   m_Name: LFWheel
-  m_TagString: Untagged
+  m_TagString: WheelCollider
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4763,7 +4763,7 @@ GameObject:
   - component: {fileID: 588081736}
   m_Layer: 0
   m_Name: RFWheel (1)
-  m_TagString: Untagged
+  m_TagString: WheelCollider
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6043,7 +6043,7 @@ GameObject:
   - component: {fileID: 839075705}
   m_Layer: 0
   m_Name: RBWheel (1)
-  m_TagString: Untagged
+  m_TagString: WheelCollider
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6590,7 +6590,7 @@ GameObject:
   - component: {fileID: 888294904}
   m_Layer: 0
   m_Name: RBWheel
-  m_TagString: Untagged
+  m_TagString: WheelCollider
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6975,7 +6975,7 @@ GameObject:
   - component: {fileID: 924703541}
   m_Layer: 0
   m_Name: LFWheel (1)
-  m_TagString: Untagged
+  m_TagString: WheelCollider
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8643,7 +8643,7 @@ GameObject:
   - component: {fileID: 1115717092}
   m_Layer: 0
   m_Name: RFWheel
-  m_TagString: Untagged
+  m_TagString: WheelCollider
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9493,7 +9493,7 @@ GameObject:
   - component: {fileID: 1260433062}
   m_Layer: 0
   m_Name: LBWheel (1)
-  m_TagString: Untagged
+  m_TagString: WheelCollider
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9931,7 +9931,7 @@ Rigidbody:
   m_AngularDrag: 1.5
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 0
 --- !u!114 &1302425636
@@ -9946,36 +9946,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2d01ab241bed7e4e933d588f33740f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wheels_Col:
-  - {fileID: 369950813}
-  - {fileID: 924703541}
-  - {fileID: 1115717092}
-  - {fileID: 588081736}
-  - {fileID: 364931299}
-  - {fileID: 1260433062}
-  - {fileID: 888294904}
-  - {fileID: 839075705}
-  axleInfos:
-  - leftWheel:
-    - {fileID: 369950813}
-    - {fileID: 924703541}
-    rightWheel:
-    - {fileID: 1115717092}
-    - {fileID: 588081736}
-    motor: 1
-    steering: 1
-  - leftWheel:
-    - {fileID: 364931299}
-    - {fileID: 1260433062}
-    rightWheel:
-    - {fileID: 888294904}
-    - {fileID: 839075705}
-    motor: 1
-    steering: 0
-  speed: 100
-  maxSpeed: 1200
-  boostSpeed: 1.3
-  steerRotate: 10
+  kart: {fileID: 0}
   input: {fileID: 0}
   radius: 6
   downForce: 0
@@ -40652,6 +40623,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 79758684696298436}
+  - component: {fileID: 7984443891178900333}
   m_Layer: 0
   m_Name: Kart
   m_TagString: Untagged
@@ -40659,6 +40631,25 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &7984443891178900333
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7984443891178900332}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf084dfdd6f061f4aaa98b37f51920e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 400
+  maxSpeed: 10
+  steerRotate: 10
+  wheels_Mesh: []
+  wheels_Col: []
+  wheels_Col_Obj: []
+  axleInfos: []
 --- !u!4 &7984580941611296294
 Transform:
   m_ObjectHideFlags: 0
