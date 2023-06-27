@@ -72,6 +72,8 @@ public class PlayerControl : MonoBehaviour
                 {
                     axleInfo.leftWheel[i].steerAngle = Mathf.Rad2Deg * Mathf.Atan(kart.wheelBase / (radius + halfVehicleWidth * input.move.x)) * steering;
                     axleInfo.rightWheel[i].steerAngle = Mathf.Rad2Deg * Mathf.Atan(kart.wheelBase / (radius - halfVehicleWidth * input.move.x)) * steering;
+                    Debug.Log(kart.wheelBase);
+                    Debug.Log(halfVehicleWidth);
                 }
             }
             // ¹ÙÄû ±¼¸²
