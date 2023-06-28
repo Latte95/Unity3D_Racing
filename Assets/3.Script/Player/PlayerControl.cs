@@ -36,7 +36,7 @@ public class PlayerControl : MonoBehaviour
     private void FixedUpdate()
     {
         Move();
-        Drift();
+        //Drift();
         WheelPos();
         AddDownForce();
     }
@@ -46,10 +46,7 @@ public class PlayerControl : MonoBehaviour
     private void Move()
     {
         // 속도 계산
-        if (Mathf.Abs(targetSpeed) < kart.maxSpeed)
-        {
-            targetSpeed += kart.speed * Time.deltaTime * input.move.y;
-        }
+        targetSpeed = kart.speed * input.move.y;
         if (input.move.Equals(Vector2.zero))
         {
             targetSpeed = 0;
@@ -72,8 +69,6 @@ public class PlayerControl : MonoBehaviour
                 {
                     axleInfo.leftWheel[i].steerAngle = Mathf.Rad2Deg * Mathf.Atan(kart.wheelBase / (radius + halfVehicleWidth * input.move.x)) * steering;
                     axleInfo.rightWheel[i].steerAngle = Mathf.Rad2Deg * Mathf.Atan(kart.wheelBase / (radius - halfVehicleWidth * input.move.x)) * steering;
-                    Debug.Log(kart.wheelBase);
-                    Debug.Log(halfVehicleWidth);
                 }
             }
             // 바퀴 굴림
@@ -84,7 +79,10 @@ public class PlayerControl : MonoBehaviour
                 axleInfo.rightWheel[0].motorTorque = targetSpeed;
                 axleInfo.rightWheel[1].motorTorque = targetSpeed;
             }
+            Debug.Log(axleInfo.leftWheel[1].rpm);
+            Debug.Log(axleInfo.rightWheel[1].rpm);
         }
+        Debug.Log($"{rigid.velocity.magnitude * 3.6f} km/h" );
     }
     /// <summary>
     /// 바퀴 이미지를 휠 콜라이더 위치랑 동기화 시키는 메소드

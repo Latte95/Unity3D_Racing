@@ -27,8 +27,6 @@ public class Kart : MonoBehaviour
     [SerializeField]
     public  float speed = 400.0f;
     [SerializeField]
-    public  float maxSpeed = 10f;
-    [SerializeField]
     public readonly float boostSpeed = 1.3f;
     [SerializeField]
     public  float steerRotate = 10.0f;
