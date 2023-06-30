@@ -28,6 +28,7 @@ public class PlayerControl2 : MonoBehaviour
     private float dragCoefficient = 0.3f;   // 항력 계수
 
     private WheelFrictionCurve temp;
+    WheelHit hit;
 
     [Header("Components")]
     public PlayerInput input;
@@ -46,6 +47,7 @@ public class PlayerControl2 : MonoBehaviour
         kart = transform.GetChild(0).GetComponentInChildren<Kart>();
     }
 
+    public GameObject c;
     private void Start()
     {
         carWeigth = rigid.mass * 9.8f;
@@ -54,14 +56,29 @@ public class PlayerControl2 : MonoBehaviour
         targetRPM = 100 * 16.6667f / (2 * Mathf.PI * kart.axleInfos[1].leftWheel.radius);
 
         // 안정성 위해 무게중심 밑으로 설정
-        rigid.centerOfMass += 0.2f * Vector3.down;// - 0.3f * Vector3.forward;
-        centerMass = rigid.centerOfMass;
+        //rigid.centerOfMass += 0.2f * Vector3.down; ;
+        // xtx
+        Vector3 center = Vector3.zero;
+        foreach(AxleInfo a in kart.axleInfos)
+        {
+            center += a.leftWheel.transform.localPosition;
+            center += a.rightWheel.transform.localPosition;
+        }
+        center *= 0.25f;
+        rigid.centerOfMass = center + 0.1f * Vector3.down;
+        c.transform.localPosition = rigid.centerOfMass ;
     }
 
     private void Update()
     {
         UpdateSpeed();
-        //Debug.Log(Vector3.Angle(transform.forward, rigid.velocity.normalized));
+        Debug.Log("각도 : " + Vector3.Angle(transform.forward, rigid.velocity.normalized));
+        if (kart.axleInfos[0].leftWheel.GetGroundHit(out hit))
+        {
+            float sidewaysSlip = hit.forwardSlip;
+            Debug.Log("밀림 : " + sidewaysSlip);
+        }
+        Debug.Log(kart.axleInfos[1].leftWheel.rpm);
     }
 
     private void FixedUpdate()
@@ -101,7 +118,7 @@ public class PlayerControl2 : MonoBehaviour
 
     private void Move()
     {
-        float rpm = (kart.axleInfos[1].leftWheel.rpm + kart.axleInfos[1].rightWheel.rpm) * 0.5f;
+        float rpm = (kart.axleInfos[0].leftWheel.rpm + kart.axleInfos[0].rightWheel.rpm) * 0.5f;
         float targetTorque;
         // 바퀴 굴림
         if (Mathf.Abs(rpm) < targetRPM && KPH < 100)
@@ -166,13 +183,13 @@ public class PlayerControl2 : MonoBehaviour
     {
         // 공기역학
         float force;
+        // force = (0.5f * airDensity * carFrontalArea * dragCoefficient * rigid.velocity.sqrMagnitude) / tireContactArea;
         force = rigid.mass * (-1 + KPH / 30);
         if (force < 0)
         {
             force = 0;
         }
 
-        //float force = (0.5f * airDensity * carFrontalArea * dragCoefficient * rigid.velocity.sqrMagnitude) / tireContactArea;
         rigid.AddForce(-transform.up * force);
         temp = kart.initForwardTireSideFric;
         temp.extremumSlip *= (1 + force / rigid.mass);
