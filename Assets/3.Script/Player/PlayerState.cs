@@ -9,7 +9,7 @@ public abstract class PlayerState
     protected int direction;
     protected Quaternion rotate = Quaternion.Euler(0, 20, 0);
     public abstract void HandleDirection();
-    public virtual void Move(PlayerControl player)
+    public virtual void Move(PlayerControl2 player)
     {
         // 속도 계산
         //if (Mathf.Abs(targetSpeed) < player.MaxSpeed)
@@ -59,7 +59,7 @@ public class NormalMoveState : PlayerState
         throw new System.NotImplementedException();
     }
 
-    public override void Move(PlayerControl player)
+    public override void Move(PlayerControl2 player)
     {
         throw new System.NotImplementedException();
     }
@@ -72,7 +72,7 @@ public class CantMoveState : PlayerState
         throw new System.NotImplementedException();
     }
 
-    public override void Move(PlayerControl player)
+    public override void Move(PlayerControl2 player)
     {
         throw new System.NotImplementedException();
     }
@@ -85,7 +85,7 @@ public class ReverseMoveState : PlayerState
         throw new System.NotImplementedException();
     }
 
-    public override void Move(PlayerControl player)
+    public override void Move(PlayerControl2 player)
     {
         throw new System.NotImplementedException();
     }
