@@ -43,6 +43,7 @@ public class Kart : MonoBehaviour
 
     public WheelFrictionCurve initForwardTireForwardFric;
     public WheelFrictionCurve initForwardTireSideFric;
+    public WheelFrictionCurve initRearTireForwardFric;
     public WheelFrictionCurve initRearTireSideFric;
     public WheelFrictionCurve driftRearTireForwardFric;
     public WheelFrictionCurve driftRearTireSideFric;
@@ -83,6 +84,7 @@ public class Kart : MonoBehaviour
         // ÈÙ ¸¶Âû·Â
         initForwardTireSideFric = wheels_Col[0].sidewaysFriction;
         initForwardTireForwardFric = wheels_Col[0].forwardFriction;
+        initRearTireForwardFric = wheels_Col[3].forwardFriction;
         initRearTireSideFric = wheels_Col[3].sidewaysFriction;
         driftRearTireForwardFric = wheels_Col[3].forwardFriction;
         driftRearTireForwardFric.stiffness = driftFriction;
@@ -92,7 +94,7 @@ public class Kart : MonoBehaviour
 
     private void SetAxelInfo()
     {
-        axleInfos.Add(new AxleInfo(wheels_Col[0], wheels_Col[1], false, true));
+        axleInfos.Add(new AxleInfo(wheels_Col[0], wheels_Col[1], true, true));
         axleInfos.Add(new AxleInfo(wheels_Col[2], wheels_Col[3], true, false));
     }
 }

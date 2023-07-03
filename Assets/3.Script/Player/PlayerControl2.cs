@@ -71,10 +71,11 @@ public class PlayerControl2 : MonoBehaviour
     {
         UpdateSpeed();
         WheelPos();
-        //if (kart.axleInfos[0].leftWheel.GetGroundHit(out hit))
-        //{
-        //    float sidewaysSlip = hit.forwardSlip;
-        //}
+        if (kart.axleInfos[1].leftWheel.GetGroundHit(out hit))
+        {
+            Debug.Log("앞 : " + hit.forwardSlip);
+            Debug.Log("뒤 : " + hit.sidewaysSlip);
+        }
     }
 
     private void FixedUpdate()
@@ -91,16 +92,16 @@ public class PlayerControl2 : MonoBehaviour
         // 뒷바퀴의 측면 마찰력을 줄여서 드리프트 구현
         if (input.drift)
         {
-            kart.axleInfos[1].leftWheel.forwardFriction = kart.driftRearTireForwardFric;
+            //kart.axleInfos[1].leftWheel.forwardFriction = kart.driftRearTireForwardFric;
             kart.axleInfos[1].leftWheel.sidewaysFriction = kart.driftRearTireSideFric;
-            kart.axleInfos[1].rightWheel.forwardFriction = kart.driftRearTireForwardFric;
+            //kart.axleInfos[1].rightWheel.forwardFriction = kart.driftRearTireForwardFric;
             kart.axleInfos[1].rightWheel.sidewaysFriction = kart.driftRearTireSideFric;
         }
         else
         {
-            kart.axleInfos[1].leftWheel.forwardFriction = kart.initForwardTireForwardFric;
+            //kart.axleInfos[1].leftWheel.forwardFriction = kart.initRearTireForwardFric;
             kart.axleInfos[1].leftWheel.sidewaysFriction = kart.initRearTireSideFric;
-            kart.axleInfos[1].rightWheel.forwardFriction = kart.initForwardTireForwardFric;
+            //kart.axleInfos[1].rightWheel.forwardFriction = kart.initRearTireForwardFric;
             kart.axleInfos[1].rightWheel.sidewaysFriction = kart.initRearTireSideFric;
         }
     }
@@ -178,7 +179,8 @@ public class PlayerControl2 : MonoBehaviour
         {
             // 속도가 빠를수록 핸들이 빠르게 돌아옴
             //float returnSpeedFactor = KPH / 10;
-            float returnSpeedFactor = Mathf.Clamp(KPH / 10, 1f, 10f);
+            //float returnSpeedFactor = Mathf.Clamp(KPH / 10, 1f, 10f);
+            float returnSpeedFactor = Mathf.Clamp(kart.maxSpeed / KPH, 1f, 10f);
 
             kart.axleInfos[0].leftWheel.steerAngle = Mathf.Lerp(kart.axleInfos[0].leftWheel.steerAngle, 0, Time.deltaTime * returnSpeedFactor);
             kart.axleInfos[0].rightWheel.steerAngle = Mathf.Lerp(kart.axleInfos[0].rightWheel.steerAngle, 0, Time.deltaTime * returnSpeedFactor);
