@@ -12847,7 +12847,6 @@ MonoBehaviour:
   radius: 60
   input: {fileID: 0}
   speed_txt: {fileID: 1736193723}
-  c: {fileID: 0}
 --- !u!65 &1302425637
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -32915,7 +32914,6 @@ MonoBehaviour:
   radius: 60
   input: {fileID: 0}
   speed_txt: {fileID: 1736193723}
-  c: {fileID: 447145095}
 --- !u!4 &3734202834803968936
 Transform:
   m_ObjectHideFlags: 0
@@ -32957,16 +32955,16 @@ WheelCollider:
   m_WheelDampingRate: 0.25
   m_ForwardFriction:
     m_ExtremumSlip: 0.001
-    m_ExtremumValue: 0.001
+    m_ExtremumValue: 1
     m_AsymptoteSlip: 0.4
-    m_AsymptoteValue: 0.001
+    m_AsymptoteValue: 1
     m_Stiffness: 1
   m_SidewaysFriction:
     m_ExtremumSlip: 0.2
     m_ExtremumValue: 1
-    m_AsymptoteSlip: 0.8
-    m_AsymptoteValue: 5
-    m_Stiffness: 0.8
+    m_AsymptoteSlip: 1
+    m_AsymptoteValue: 1
+    m_Stiffness: 1
   m_Enabled: 1
 --- !u!4 &3734202834933152398
 Transform:
@@ -33018,16 +33016,16 @@ WheelCollider:
   m_WheelDampingRate: 0.25
   m_ForwardFriction:
     m_ExtremumSlip: 0.001
-    m_ExtremumValue: 0.001
+    m_ExtremumValue: 1
     m_AsymptoteSlip: 0.4
-    m_AsymptoteValue: 0.001
+    m_AsymptoteValue: 1
     m_Stiffness: 1
   m_SidewaysFriction:
     m_ExtremumSlip: 0.2
     m_ExtremumValue: 1
-    m_AsymptoteSlip: 0.8
-    m_AsymptoteValue: 5
-    m_Stiffness: 0.8
+    m_AsymptoteSlip: 1
+    m_AsymptoteValue: 1
+    m_Stiffness: 1
   m_Enabled: 1
 --- !u!4 &3734202835952504993
 Transform:

@@ -92,7 +92,7 @@ public class Kart : MonoBehaviour
 
     private void SetAxelInfo()
     {
-        axleInfos.Add(new AxleInfo(wheels_Col[0], wheels_Col[1], true, true));
-        axleInfos.Add(new AxleInfo(wheels_Col[2], wheels_Col[3], false, false));
+        axleInfos.Add(new AxleInfo(wheels_Col[0], wheels_Col[1], false, true));
+        axleInfos.Add(new AxleInfo(wheels_Col[2], wheels_Col[3], true, false));
     }
 }
