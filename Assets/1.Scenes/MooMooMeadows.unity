@@ -21181,7 +21181,7 @@ WheelCollider:
   m_SidewaysFriction:
     m_ExtremumSlip: 0.001
     m_ExtremumValue: 1
-    m_AsymptoteSlip: 0.5
+    m_AsymptoteSlip: 0.3
     m_AsymptoteValue: 2
     m_Stiffness: 1
   m_Enabled: 1
@@ -21228,7 +21228,7 @@ WheelCollider:
   m_SidewaysFriction:
     m_ExtremumSlip: 0.001
     m_ExtremumValue: 1
-    m_AsymptoteSlip: 0.5
+    m_AsymptoteSlip: 0.3
     m_AsymptoteValue: 2
     m_Stiffness: 1
   m_Enabled: 1
@@ -21313,7 +21313,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   kart: {fileID: 62672247823347477}
-  radius: 60
+  radius: 7
   input: {fileID: 0}
   speed_txt: {fileID: 1687625659}
 --- !u!114 &3678356375329906435
