@@ -25,7 +25,7 @@ public class Kart : MonoBehaviour
     [SerializeField]
     public float torque = 400.0f;
     [SerializeField]
-    public float maxSpeed = 10f;
+    public float maxSpeed = 150f;
     [SerializeField]
     public float accel = 100f;
     [SerializeField]
@@ -37,7 +37,7 @@ public class Kart : MonoBehaviour
     [HideInInspector]
     public GameObject[] wheels_Mesh;
     [HideInInspector]
-    public WheelCollider[] wheels_Col;
+    private WheelCollider[] wheels_Col;
     [HideInInspector]
     public GameObject[] wheels_Col_Obj;
 

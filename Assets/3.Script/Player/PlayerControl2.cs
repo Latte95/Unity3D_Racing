@@ -57,7 +57,7 @@ public class PlayerControl2 : MonoBehaviour
         // 안정성 위해 무게중심 밑으로 설정
         Vector3 center = Vector3.zero;
         int tireNum = 0;
-        foreach(AxleInfo a in kart.axleInfos)
+        foreach (AxleInfo a in kart.axleInfos)
         {
             center += a.leftWheel.transform.localPosition;
             center += a.rightWheel.transform.localPosition;
@@ -70,13 +70,11 @@ public class PlayerControl2 : MonoBehaviour
     private void Update()
     {
         UpdateSpeed();
-        Debug.Log("각도 : " + Vector3.Angle(transform.forward, rigid.velocity.normalized));
-        if (kart.axleInfos[0].leftWheel.GetGroundHit(out hit))
-        {
-            float sidewaysSlip = hit.forwardSlip;
-            Debug.Log("밀림 : " + sidewaysSlip);
-        }
-        Debug.Log(kart.axleInfos[1].leftWheel.rpm);
+        WheelPos();
+        //if (kart.axleInfos[0].leftWheel.GetGroundHit(out hit))
+        //{
+        //    float sidewaysSlip = hit.forwardSlip;
+        //}
     }
 
     private void FixedUpdate()
@@ -126,7 +124,7 @@ public class PlayerControl2 : MonoBehaviour
 
         // 토크 계산 (모터 힘)
         // 100km/h 이전까지는 빠르게 가속
-        if (Mathf.Abs(rpmAvg) < targetRPM && KPH < 100)
+        if (Mathf.Abs(rpmAvg) < targetRPM && KPH < kart.maxSpeed * 0.8f)
         {
             targetTorque = kart.torque * input.move.y * 0.5f * (1 + (1 - Mathf.Abs(rpmAvg / targetRPM)) * kart.accel);
         }
@@ -171,7 +169,7 @@ public class PlayerControl2 : MonoBehaviour
         if (input.move.x != 0)
         {
             // 속도가 빠를수록 핸들이 천천히 꺾임
-            float rotationSpeedFactor = Mathf.Clamp(kart.maxSpeed / KPH, 1f, 10f);
+            float rotationSpeedFactor = Mathf.Clamp(kart.maxSpeed / KPH, 1f, 5f);
 
             kart.axleInfos[0].leftWheel.steerAngle = Mathf.Lerp(kart.axleInfos[0].leftWheel.steerAngle, kart.steerRotate * input.move.x, Time.deltaTime * rotationSpeedFactor);
             kart.axleInfos[0].rightWheel.steerAngle = Mathf.Lerp(kart.axleInfos[0].rightWheel.steerAngle, kart.steerRotate * input.move.x, Time.deltaTime * rotationSpeedFactor);
@@ -230,4 +228,24 @@ public class PlayerControl2 : MonoBehaviour
         speed_txt.text = KPH.ToString("F1");
     }
     #endregion
+
+    /// <summary>
+    /// 바퀴 이미지를 휠 콜라이더 위치랑 동기화 시키는 메소드
+    /// </summary>
+    private void WheelPos()
+    {
+        Vector3 wheelPosition;
+        Quaternion wheelRotation;
+        int length = kart.axleInfos.Count;
+
+        for (int i = 0; i < length; i++)
+        {
+            kart.axleInfos[i].leftWheel.GetWorldPose(out wheelPosition, out wheelRotation);
+            kart.wheels_Mesh[i * 2].transform.position = wheelPosition;
+            kart.wheels_Mesh[i * 2].transform.rotation = wheelRotation;
+            kart.axleInfos[i].rightWheel.GetWorldPose(out wheelPosition, out wheelRotation);
+            kart.wheels_Mesh[i * 2 + 1].transform.position = wheelPosition;
+            kart.wheels_Mesh[i * 2 + 1].transform.rotation = wheelRotation;
+        }
+    }
 }
