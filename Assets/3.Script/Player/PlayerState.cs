@@ -9,7 +9,7 @@ public abstract class PlayerState
     protected int direction;
     protected Quaternion rotate = Quaternion.Euler(0, 20, 0);
 
-    public abstract void Curve();
+    public abstract float Curve();
     /// <summary>
     /// 타이어의 마찰을 통해 이동 가능 여부 설정
     /// </summary>
@@ -31,9 +31,9 @@ public abstract class PlayerState
 
 public class NormalState : PlayerState
 {
-    public override void Curve()
+    public override float Curve()
     {
-        throw new System.NotImplementedException();
+        return 1;
     }
 }
 
@@ -41,9 +41,9 @@ public class CantMoveState : PlayerState
 {
     WheelFrictionCurve friction = new WheelFrictionCurve();
 
-    public override void Curve()
+    public override float Curve()
     {
-        throw new System.NotImplementedException();
+        return 1;
     }
 
     public override void SetFriction(PlayerControl player)
@@ -63,8 +63,8 @@ public class CantMoveState : PlayerState
 
 public class ReverseState : PlayerState
 {
-    public override void Curve()
+    public override float Curve()
     {
-        throw new System.NotImplementedException();
+        return -1;
     }
 }

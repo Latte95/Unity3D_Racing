@@ -84,7 +84,7 @@ public class PlayerControl : MonoBehaviour
         rigid.centerOfMass = center + 0.1f * Vector3.down + 0.3f * Vector3.forward;
 
         SetState(cantMoveState);
-        StartCoroutine(CountDown_co());
+        StartCoroutine(CountDown_co(3));
     }
 
     private void Update()
@@ -192,8 +192,8 @@ public class PlayerControl : MonoBehaviour
             // 속도가 빠를수록 핸들이 천천히 꺾임
             float rotationSpeedFactor = Mathf.Clamp(kart.maxSpeed / KPH, 1f, 5f);
 
-            kart.axleInfos[0].leftWheel.steerAngle = Mathf.Lerp(kart.axleInfos[0].leftWheel.steerAngle, Mathf.Rad2Deg * Mathf.Atan(kart.wheelBase / (radius + kart.vehicleWidth * 0.5f * input.move.x)) * kart.steerRotate * input.move.x, Time.deltaTime * rotationSpeedFactor);
-            kart.axleInfos[0].rightWheel.steerAngle = Mathf.Lerp(kart.axleInfos[0].rightWheel.steerAngle, Mathf.Rad2Deg * Mathf.Atan(kart.wheelBase / (radius - kart.vehicleWidth * 0.5f * input.move.x)) * kart.steerRotate * input.move.x, Time.deltaTime * rotationSpeedFactor);
+            kart.axleInfos[0].leftWheel.steerAngle = Mathf.Lerp(kart.axleInfos[0].leftWheel.steerAngle, currentState.Curve() * Mathf.Rad2Deg * Mathf.Atan(kart.wheelBase / (radius + kart.vehicleWidth * 0.5f * input.move.x)) * kart.steerRotate * input.move.x, Time.deltaTime * rotationSpeedFactor);
+            kart.axleInfos[0].rightWheel.steerAngle = Mathf.Lerp(kart.axleInfos[0].rightWheel.steerAngle, currentState.Curve() * Mathf.Rad2Deg * Mathf.Atan(kart.wheelBase / (radius - kart.vehicleWidth * 0.5f * input.move.x)) * kart.steerRotate * input.move.x, Time.deltaTime * rotationSpeedFactor);
         }
         else
         {
@@ -271,7 +271,7 @@ public class PlayerControl : MonoBehaviour
 
     #region 애니메이션
     /// <summary>
-    /// 플레이어 캐릭터 애니메이션
+    /// 플레이어 캐릭터 애니메이션 설정
     /// </summary>
     private void SetAnimation()
     {
@@ -312,7 +312,6 @@ public class PlayerControl : MonoBehaviour
         }
     }
     #endregion 애니메이션
-
     private void SetState(PlayerState state)
     {
         currentState = state;
@@ -320,18 +319,26 @@ public class PlayerControl : MonoBehaviour
     }
 
     /// <summary>
-    /// 첫 시작시 3초 카운트다운 이후 이동 가능
+    /// 첫 시작시 카운트다운 이후 이동 가능
     /// </summary>
+    /// <param name="time">카운트다운 시간</param>
     /// <returns></returns>
     private IEnumerator CountDown_co(float time)
     {
+        float preTime = time - 1 ;
+        if(preTime<0)
+        {
+            preTime = 0;
+        }
+
         // 카운트다운이 끝나기 전에 미리 Freeze를 통한 이동제한 해제
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(preTime);
         rigid.constraints = RigidbodyConstraints.None;
 
         // 카운트 다운이 끝나면 이동 가능한 상태로 전환
-        yield return new WaitForSeconds(time - 1);
-        SetState(nomalState);
+        yield return new WaitForSeconds(time - preTime);
+        //SetState(nomalState);
+        SetState(reverseState);
     }
 
     private void Init()
