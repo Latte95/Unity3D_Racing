@@ -81,7 +81,7 @@ public class PlayerControl : MonoBehaviour
             tireNum++;
         }
         center /= tireNum;
-        rigid.centerOfMass = center + 0.1f * Vector3.down + 0.3f * Vector3.forward;
+        rigid.centerOfMass = center + 0.1f * Vector3.down;// + 0.3f * Vector3.forward;
 
         SetState(cantMoveState);
         StartCoroutine(CountDown_co(3));
@@ -103,10 +103,11 @@ public class PlayerControl : MonoBehaviour
     }
 
     #region 이동
+    float drift = 1;
     private void Drift()
     {
         // 뒷바퀴의 측면 마찰력을 줄여서 드리프트 구현
-        if (input.drift && KPH > 100)
+        if (input.drift && KPH > 40)
         {
             kart.axleInfos[1].leftWheel.sidewaysFriction = kart.driftRearTireSideFric;
             kart.axleInfos[1].rightWheel.sidewaysFriction = kart.driftRearTireSideFric;
@@ -115,6 +116,14 @@ public class PlayerControl : MonoBehaviour
         {
             kart.axleInfos[1].leftWheel.sidewaysFriction = kart.initRearTireSideFric;
             kart.axleInfos[1].rightWheel.sidewaysFriction = kart.initRearTireSideFric;
+        }
+        if(input.drift)
+        {
+            drift = 3.5f;
+        }
+        else
+        {
+            drift = 1;
         }
     }
 
@@ -163,6 +172,7 @@ public class PlayerControl : MonoBehaviour
                     a.leftWheel.motorTorque = targetTorque;
                     a.rightWheel.motorTorque = targetTorque;
                 }
+                // 후진은 모터 약하게
                 else
                 {
                     a.leftWheel.motorTorque = targetTorque * 0.3f;
@@ -191,9 +201,8 @@ public class PlayerControl : MonoBehaviour
         {
             // 속도가 빠를수록 핸들이 천천히 꺾임
             float rotationSpeedFactor = Mathf.Clamp(kart.maxSpeed / KPH, 1f, 5f);
-
-            kart.axleInfos[0].leftWheel.steerAngle = Mathf.Lerp(kart.axleInfos[0].leftWheel.steerAngle, currentState.Curve() * Mathf.Rad2Deg * Mathf.Atan(kart.wheelBase / (radius + kart.vehicleWidth * 0.5f * input.move.x)) * kart.steerRotate * input.move.x, Time.deltaTime * rotationSpeedFactor);
-            kart.axleInfos[0].rightWheel.steerAngle = Mathf.Lerp(kart.axleInfos[0].rightWheel.steerAngle, currentState.Curve() * Mathf.Rad2Deg * Mathf.Atan(kart.wheelBase / (radius - kart.vehicleWidth * 0.5f * input.move.x)) * kart.steerRotate * input.move.x, Time.deltaTime * rotationSpeedFactor);
+            kart.axleInfos[0].leftWheel.steerAngle = Mathf.Lerp(kart.axleInfos[0].leftWheel.steerAngle, drift * currentState.Curve() * Mathf.Rad2Deg * Mathf.Atan(kart.wheelBase / (radius + kart.vehicleWidth * 0.5f * input.move.x)) * kart.steerRotate * input.move.x, Time.deltaTime * rotationSpeedFactor);
+            kart.axleInfos[0].rightWheel.steerAngle = Mathf.Lerp(kart.axleInfos[0].rightWheel.steerAngle, drift * currentState.Curve() * Mathf.Rad2Deg * Mathf.Atan(kart.wheelBase / (radius - kart.vehicleWidth * 0.5f * input.move.x)) * kart.steerRotate * input.move.x, Time.deltaTime * rotationSpeedFactor);
         }
         else
         {
@@ -204,6 +213,7 @@ public class PlayerControl : MonoBehaviour
             kart.axleInfos[0].leftWheel.steerAngle = Mathf.Lerp(kart.axleInfos[0].leftWheel.steerAngle, 0, Time.deltaTime * returnSpeedFactor);
             kart.axleInfos[0].rightWheel.steerAngle = Mathf.Lerp(kart.axleInfos[0].rightWheel.steerAngle, 0, Time.deltaTime * returnSpeedFactor);
         }
+        curveBlend = (kart.axleInfos[0].leftWheel.steerAngle + kart.axleInfos[0].rightWheel.steerAngle) * 0.5f;
     }
     #endregion 이동
 
@@ -247,7 +257,6 @@ public class PlayerControl : MonoBehaviour
         }
         speed_txt.text = KPH.ToString("F1");
     }
-    #endregion
 
     /// <summary>
     /// 바퀴 이미지를 휠 콜라이더 위치랑 동기화 시키는 메소드
@@ -268,32 +277,27 @@ public class PlayerControl : MonoBehaviour
             kart.wheels_Mesh[i * 2 + 1].transform.rotation = wheelRotation;
         }
     }
+    #endregion
+
+    private void SetState(PlayerState state)
+    {
+        currentState = state;
+        currentState.SetFriction(this);
+    }
 
     #region 애니메이션
     /// <summary>
     /// 플레이어 캐릭터 애니메이션 설정
     /// </summary>
+    float curveBlend;
     private void SetAnimation()
     {
         // 커브
-        if (!(input.move.y < 0))
+        if (input.move.y >= 0)
         {
-            if (input.move.x > 0)
-            {
-                anim.SetBool(TurnRightHash, true);
-                anim.SetBool(TurnLeftHash, false);
-            }
-            else if (input.move.x < 0)
-            {
-                anim.SetBool(TurnRightHash, false);
-                anim.SetBool(TurnLeftHash, true);
-            }
-            else
-            {
-                anim.SetBool(TurnRightHash, false);
-                anim.SetBool(TurnLeftHash, false);
-            }
+            anim.SetFloat("Curve", curveBlend);
         }
+        // 후진 시 기울임 x
         else
         {
             anim.SetBool(TurnRightHash, false);
@@ -301,8 +305,10 @@ public class PlayerControl : MonoBehaviour
         }
 
         // 후진
-        float dotProduct = Vector3.Dot(rigid.velocity.normalized, transform.forward.normalized);    // 이동 방향과 바라보는 방향의 각도가 90도 이상(후진)이면 음수, 이하(전진)면 양수
-        if (input.move.y < 0 && dotProduct < 0 && KPH > 1)
+        // 이동 방향과 바라보는 방향의 각도가 90도 이상(후진)이면 음수, 이하(전진)면 양수
+        float dotProduct = Vector3.Dot(rigid.velocity.normalized, transform.forward.normalized);
+        // 뒤 키를 누르고 있고, 뒤로 이동중일 때 뒤를 쳐다봄
+        if (input.move.y < 0 && dotProduct < 0 && KPH > 5)
         {
             anim.SetBool(ReverseHash, true);
         }
@@ -312,21 +318,26 @@ public class PlayerControl : MonoBehaviour
         }
     }
     #endregion 애니메이션
-    private void SetState(PlayerState state)
-    {
-        currentState = state;
-        currentState.SetFriction(this);
-    }
-
+    #region 시작 전 초기 설정들
     /// <summary>
     /// 첫 시작시 카운트다운 이후 이동 가능
     /// </summary>
     /// <param name="time">카운트다운 시간</param>
     /// <returns></returns>
+    private void Init()
+    {
+        // 게임이 시작하기 전까지는 도로에 떨어지는 이외의 움직임을 제한함
+        rigid.constraints = ~(RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotationX);
+    }
+    /// <summary>
+    /// 카운트 다운이 끝나면 플레이어가 이동 가능하도록 제어하는 코루틴
+    /// </summary>
+    /// <param name="time">카운트다운 시간</param>
+    /// <returns></returns>
     private IEnumerator CountDown_co(float time)
     {
-        float preTime = time - 1 ;
-        if(preTime<0)
+        float preTime = time - 1;
+        if (preTime < 0)
         {
             preTime = 0;
         }
@@ -337,13 +348,7 @@ public class PlayerControl : MonoBehaviour
 
         // 카운트 다운이 끝나면 이동 가능한 상태로 전환
         yield return new WaitForSeconds(time - preTime);
-        //SetState(nomalState);
-        SetState(reverseState);
+        SetState(nomalState);
     }
-
-    private void Init()
-    {
-        // 게임이 시작하기 전까지는 도로에 떨어지는 이외의 움직임을 제한함
-        rigid.constraints = ~(RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotationX);
-    }
+    #endregion 초기 설정
 }
