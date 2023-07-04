@@ -74,27 +74,28 @@ public class Kart : MonoBehaviour
     private void Start()
     {
         // 휠 콜라이더 위치를 바퀴 오브젝트(이미지) 위치로 동기화
-        //for (int i = 0; i < wheels_Mesh.Length; i++)
-        //{
-        //    wheels[i].transform.position = wheels_Mesh[i].transform.position;
-        //}
+        for (int i = 0; i < wheels_Mesh.Length; i++)
+        {
+            wheels_Col_Obj[i].transform.position = wheels_Mesh[i].transform.position;
+        }
         vehicleWidth = Mathf.Abs(wheels_Col_Obj[0].transform.position.magnitude - wheels_Col_Obj[1].transform.position.magnitude);
         wheelBase = Mathf.Abs(wheels_Col_Obj[0].transform.position.magnitude - wheels_Col_Obj[2].transform.position.magnitude);
 
         // 휠 마찰력
-        initForwardTireSideFric = wheels_Col[0].sidewaysFriction;
         initForwardTireForwardFric = wheels_Col[0].forwardFriction;
+        initForwardTireSideFric = wheels_Col[0].sidewaysFriction;
         initRearTireForwardFric = wheels_Col[3].forwardFriction;
         initRearTireSideFric = wheels_Col[3].sidewaysFriction;
         driftRearTireForwardFric = wheels_Col[3].forwardFriction;
-        driftRearTireForwardFric.stiffness = driftFriction;
+        driftRearTireForwardFric.stiffness = initForwardTireForwardFric.stiffness * 2;
         driftRearTireSideFric = wheels_Col[3].sidewaysFriction;
-        driftRearTireSideFric.stiffness = driftFriction;
+        driftRearTireSideFric.stiffness = initRearTireSideFric.stiffness * driftFriction;
+        driftRearTireSideFric.asymptoteValue = initRearTireSideFric.asymptoteValue * driftFriction;
     }
 
     private void SetAxelInfo()
     {
-        axleInfos.Add(new AxleInfo(wheels_Col[0], wheels_Col[1], true, true));
+        axleInfos.Add(new AxleInfo(wheels_Col[0], wheels_Col[1], false, true));
         axleInfos.Add(new AxleInfo(wheels_Col[2], wheels_Col[3], true, false));
     }
 }

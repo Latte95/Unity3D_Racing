@@ -79,45 +79,20 @@ public class PlayerControl2 : MonoBehaviour
         Move();
         Curve();
         DownForce();
-        Test();
     }
 
     #region 이동
-
-    int aaaa = 0;
-    void Test()
-    {
-        //if (kart.axleInfos[1].leftWheel.GetGroundHit(out hit))
-        //{
-        //    Debug.Log("앞 : " + hit.forwardSlip);
-        //    Debug.Log("뒤 : " + hit.sidewaysSlip);
-        //}
-        if (!kart.axleInfos[0].leftWheel.GetGroundHit(out var hit2))
-        {
-            Debug.Log(1);
-        }
-        if (!kart.axleInfos[1].leftWheel.GetGroundHit(out var hit3))
-        {
-            Debug.Log(2);
-        }
-
-    }
-
     private void Drift()
     {
         // 뒷바퀴의 측면 마찰력을 줄여서 드리프트 구현
-        if (input.drift)
+        if (input.drift && KPH > 100)
         {
-            //kart.axleInfos[1].leftWheel.forwardFriction = kart.driftRearTireForwardFric;
             kart.axleInfos[1].leftWheel.sidewaysFriction = kart.driftRearTireSideFric;
-            //kart.axleInfos[1].rightWheel.forwardFriction = kart.driftRearTireForwardFric;
             kart.axleInfos[1].rightWheel.sidewaysFriction = kart.driftRearTireSideFric;
         }
         else
         {
-            //kart.axleInfos[1].leftWheel.forwardFriction = kart.initRearTireForwardFric;
             kart.axleInfos[1].leftWheel.sidewaysFriction = kart.initRearTireSideFric;
-            //kart.axleInfos[1].rightWheel.forwardFriction = kart.initRearTireForwardFric;
             kart.axleInfos[1].rightWheel.sidewaysFriction = kart.initRearTireSideFric;
         }
     }
@@ -140,7 +115,7 @@ public class PlayerControl2 : MonoBehaviour
         rpmAvg /= tireNum;
 
         // 토크 계산 (모터 힘)
-        // 100km/h 이전까지는 빠르게 가속
+        // 일정 속도 이전까지는 빠르게 가속
         if (Mathf.Abs(rpmAvg) < targetRPM && KPH < kart.maxSpeed * 0.8f)
         {
             targetTorque = kart.torque * input.move.y * 0.5f * (1 + (1 - Mathf.Abs(rpmAvg / targetRPM)) * kart.accel);
@@ -150,7 +125,7 @@ public class PlayerControl2 : MonoBehaviour
         {
             targetTorque = 0;
         }
-        // 100~최고속도 구간
+        // 일정 속도~최고속도 구간
         else
         {
             targetTorque = kart.torque * input.move.y * 0.5f;
@@ -190,16 +165,11 @@ public class PlayerControl2 : MonoBehaviour
 
             kart.axleInfos[0].leftWheel.steerAngle = Mathf.Lerp(kart.axleInfos[0].leftWheel.steerAngle, Mathf.Rad2Deg * Mathf.Atan(kart.wheelBase / (radius + kart.vehicleWidth * 0.5f * input.move.x)) * kart.steerRotate * input.move.x, Time.deltaTime * rotationSpeedFactor);
             kart.axleInfos[0].rightWheel.steerAngle = Mathf.Lerp(kart.axleInfos[0].rightWheel.steerAngle, Mathf.Rad2Deg * Mathf.Atan(kart.wheelBase / (radius - kart.vehicleWidth * 0.5f * input.move.x)) * kart.steerRotate * input.move.x, Time.deltaTime * rotationSpeedFactor);
-
-            //kart.axleInfos[0].leftWheel.steerAngle = Mathf.Lerp(kart.axleInfos[0].leftWheel.steerAngle, kart.steerRotate * input.move.x, Time.deltaTime * rotationSpeedFactor);
-            //kart.axleInfos[0].rightWheel.steerAngle = Mathf.Lerp(kart.axleInfos[0].rightWheel.steerAngle, kart.steerRotate * input.move.x, Time.deltaTime * rotationSpeedFactor);
-            Debug.Log(kart.axleInfos[0].rightWheel.steerAngle);
         }
         else
         {
-            // 속도가 빠를수록 핸들이 빠르게 돌아옴
-            //float returnSpeedFactor = KPH / 10;
-            //float returnSpeedFactor = Mathf.Clamp(KPH / 10, 1f, 10f);
+            // 속도가 빠를수록 핸들이 천천히 돌아옴
+            //float returnSpeedFactor = Mathf.Clamp(KPH / 10, 1f, 10f); => 속도 빠를수록 빠르게 돌릴 경우
             float returnSpeedFactor = Mathf.Clamp(kart.maxSpeed / KPH, 1f, 10f);
 
             kart.axleInfos[0].leftWheel.steerAngle = Mathf.Lerp(kart.axleInfos[0].leftWheel.steerAngle, 0, Time.deltaTime * returnSpeedFactor);
@@ -224,9 +194,7 @@ public class PlayerControl2 : MonoBehaviour
             force = 0;
         }
 
-        //rigid.AddForce(-transform.up * force);
-
-        //Vector3 forcePosition = rigid.worldCenterOfMass + offset;
+        // rigid.AddForce(-transform.up * force); => 차량 중심에 힘 가할 경우
         rigid.AddForceAtPosition(-transform.up * force, rigid.worldCenterOfMass + 0.5f * transform.forward);
 
         // 
