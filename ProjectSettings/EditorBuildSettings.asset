@@ -12,7 +12,7 @@ EditorBuildSettings:
     path: Assets/Scenes/WhiteScreen.unity
     guid: 2cec29abe38711a4c815b155405e921b
   - enabled: 1
-    path: Assets/Scenes/MooMooMeadows.unity
+    path: Assets/1.Scenes/MooMooMeadows.unity
     guid: ca649371757997541b74e958de65d097
   - enabled: 1
     path: Assets/Scenes/Toad Harbor.unity
