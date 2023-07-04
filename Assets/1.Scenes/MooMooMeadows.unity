@@ -19687,7 +19687,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1884192364184341446
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22471,7 +22471,7 @@ MonoBehaviour:
   torque: 400
   maxSpeed: 150
   accel: 100
-  steerRotate: 10
+  steerRotate: 45
   wheels_Mesh: []
   wheels_Col_Obj: []
   axleInfos: []
@@ -22959,10 +22959,10 @@ WheelCollider:
     m_Stiffness: 1
   m_SidewaysFriction:
     m_ExtremumSlip: 0.1
-    m_ExtremumValue: 0.7
+    m_ExtremumValue: 1
     m_AsymptoteSlip: 0.1
-    m_AsymptoteValue: 0.6
-    m_Stiffness: 0.8
+    m_AsymptoteValue: 1
+    m_Stiffness: 1
   m_Enabled: 1
 --- !u!1 &3678356374164166699
 GameObject:
@@ -23006,10 +23006,10 @@ WheelCollider:
     m_Stiffness: 1
   m_SidewaysFriction:
     m_ExtremumSlip: 0.1
-    m_ExtremumValue: 0.7
+    m_ExtremumValue: 1
     m_AsymptoteSlip: 0.1
-    m_AsymptoteValue: 0.6
-    m_Stiffness: 0.8
+    m_AsymptoteValue: 1
+    m_Stiffness: 1
   m_Enabled: 1
 --- !u!1 &3678356375183798790
 GameObject:
@@ -23645,7 +23645,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &4067716107003014285
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23659,7 +23659,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   kart: {fileID: 3605613762311539913}
-  radius: 12
+  radius: 48
   input: {fileID: 0}
   anim: {fileID: 8481868304658345213}
   speed_txt: {fileID: 1687625659}

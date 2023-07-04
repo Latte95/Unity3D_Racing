@@ -79,8 +79,11 @@ public class Kart : MonoBehaviour
         {
             wheels_Col_Obj[i].transform.position = wheels_Mesh[i].transform.position;
         }
-        vehicleWidth = Mathf.Abs(wheels_Col_Obj[0].transform.position.magnitude - wheels_Col_Obj[1].transform.position.magnitude);
-        wheelBase = Mathf.Abs(wheels_Col_Obj[0].transform.position.magnitude - wheels_Col_Obj[2].transform.position.magnitude);
+        vehicleWidth = Mathf.Abs((wheels_Col_Obj[0].transform.position - wheels_Col_Obj[1].transform.position).magnitude);
+        wheelBase = Mathf.Abs((wheels_Col_Obj[0].transform.position - wheels_Col_Obj[2].transform.position).magnitude);
+        Debug.Log(vehicleWidth);
+        Debug.Log(wheelBase);
+        
     }
 
     private void SetAxelInfo()
