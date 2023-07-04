@@ -8,58 +8,30 @@ public abstract class PlayerState
     protected float targetSpeed = 0;
     protected int direction;
     protected Quaternion rotate = Quaternion.Euler(0, 20, 0);
-    public abstract void HandleDirection();
-    public virtual void Move(PlayerControl2 player)
+
+    public abstract void Curve();
+    /// <summary>
+    /// 타이어의 마찰을 통해 이동 가능 여부 설정
+    /// </summary>
+    /// <param name="player"></param>
+    public virtual void SetFriction(PlayerControl player)
     {
-        // 속도 계산
-        //if (Mathf.Abs(targetSpeed) < player.MaxSpeed)
-        //{
-        //    targetSpeed += player.Speed * Time.deltaTime * player.input.move.y;
-        //}
-        //if (player.input.move.Equals(Vector2.zero))
-        //{
-        //    targetSpeed = 0;
-        //}
-        //else if (player.isBoost)
-        //{
-        //    targetSpeed *= boostSpeed;
-        //}
+        Kart kart = player.kart;
 
-
-        //float steering = steerRotate * input.move.x;
-        //float halfVehicleWidth = vehicleWidth * 0.5f;
-
-        //foreach (AxleInfo axleInfo in axleInfos)
-        //{
-        //    // 바퀴 회전
-        //    if (axleInfo.steering)
-        //    {
-        //        for (int i = 0; i < 2; i++)
-        //        {
-        //            axleInfo.leftWheel[i].steerAngle = Mathf.Rad2Deg * Mathf.Atan(wheelBase / (radius + halfVehicleWidth * input.move.x)) * steering;
-        //            axleInfo.rightWheel[i].steerAngle = Mathf.Rad2Deg * Mathf.Atan(wheelBase / (radius - halfVehicleWidth * input.move.x)) * steering;
-        //        }
-        //    }
-        //    // 바퀴 굴림
-        //    if (axleInfo.motor)
-        //    {
-        //        axleInfo.leftWheel[0].motorTorque = targetSpeed;
-        //        axleInfo.leftWheel[1].motorTorque = targetSpeed;
-        //        axleInfo.rightWheel[0].motorTorque = targetSpeed;
-        //        axleInfo.rightWheel[1].motorTorque = targetSpeed;
-        //    }
-        //}
+        kart.axleInfos[0].leftWheel.forwardFriction = kart.initForwardTireForwardFric;
+        kart.axleInfos[0].leftWheel.sidewaysFriction = kart.initForwardTireSideFric;
+        kart.axleInfos[0].rightWheel.forwardFriction = kart.initForwardTireForwardFric;
+        kart.axleInfos[0].rightWheel.sidewaysFriction = kart.initForwardTireSideFric;
+        kart.axleInfos[1].leftWheel.forwardFriction = kart.initRearTireForwardFric;
+        kart.axleInfos[1].leftWheel.sidewaysFriction = kart.initRearTireSideFric;
+        kart.axleInfos[1].rightWheel.forwardFriction = kart.initRearTireForwardFric;
+        kart.axleInfos[1].rightWheel.sidewaysFriction = kart.initRearTireSideFric;
     }
 }
 
-public class NormalMoveState : PlayerState
+public class NormalState : PlayerState
 {
-    public override void HandleDirection()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public override void Move(PlayerControl2 player)
+    public override void Curve()
     {
         throw new System.NotImplementedException();
     }
@@ -67,25 +39,31 @@ public class NormalMoveState : PlayerState
 
 public class CantMoveState : PlayerState
 {
-    public override void HandleDirection()
+    WheelFrictionCurve friction = new WheelFrictionCurve();
+
+    public override void Curve()
     {
         throw new System.NotImplementedException();
     }
 
-    public override void Move(PlayerControl2 player)
+    public override void SetFriction(PlayerControl player)
     {
-        throw new System.NotImplementedException();
+        Kart kart = player.kart;
+        friction.stiffness = 0;
+
+        foreach (AxleInfo a in kart.axleInfos)
+        {
+            a.leftWheel.forwardFriction = friction;
+            a.leftWheel.sidewaysFriction = friction;
+            a.rightWheel.forwardFriction = friction;
+            a.rightWheel.sidewaysFriction = friction;
+        }
     }
 }
 
-public class ReverseMoveState : PlayerState
+public class ReverseState : PlayerState
 {
-    public override void HandleDirection()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public override void Move(PlayerControl2 player)
+    public override void Curve()
     {
         throw new System.NotImplementedException();
     }

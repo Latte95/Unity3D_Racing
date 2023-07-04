@@ -15,7 +15,10 @@ public class PlayerControl : MonoBehaviour
     private float targetRPM;
 
     [Header("State")]
-    private PlayerState currentStarategy = new NormalMoveState();
+    private PlayerState currentState = new CantMoveState();
+    private NormalState nomalState = new NormalState();
+    private CantMoveState cantMoveState = new CantMoveState();
+    private ReverseState reverseState = new ReverseState();
     public bool isBoost { get; private set; }
 
     [Header("공기역학 계산")]
@@ -57,6 +60,8 @@ public class PlayerControl : MonoBehaviour
         TryGetComponent(out rigid);
         TryGetComponent(out input);
         kart = transform.GetChild(0).GetComponentInChildren<Kart>();
+
+        Init();
     }
 
     private void Start()
@@ -77,6 +82,9 @@ public class PlayerControl : MonoBehaviour
         }
         center /= tireNum;
         rigid.centerOfMass = center + 0.1f * Vector3.down + 0.3f * Vector3.forward;
+
+        SetState(cantMoveState);
+        StartCoroutine(CountDown_co());
     }
 
     private void Update()
@@ -218,7 +226,8 @@ public class PlayerControl : MonoBehaviour
         // rigid.AddForce(-transform.up * force); => 차량 중심에 힘 가할 경우
         rigid.AddForceAtPosition(-transform.up * force, rigid.worldCenterOfMass + 0.5f * transform.forward);
 
-        // 
+        // 속도가 빠를 수록 회전시 sideSlip이 커짐 => 마찰력 감소
+        // ㄴasymptoteSlip을 속도에 비례하게 변화켜 미끄러짐 방지
         tempFric = kart.initForwardTireSideFric;
         tempFric.extremumSlip *= (1 + force / rigid.mass);
         tempFric.asymptoteSlip *= (1 + force / rigid.mass);
@@ -261,6 +270,9 @@ public class PlayerControl : MonoBehaviour
     }
 
     #region 애니메이션
+    /// <summary>
+    /// 플레이어 캐릭터 애니메이션
+    /// </summary>
     private void SetAnimation()
     {
         // 커브
@@ -300,4 +312,31 @@ public class PlayerControl : MonoBehaviour
         }
     }
     #endregion 애니메이션
+
+    private void SetState(PlayerState state)
+    {
+        currentState = state;
+        currentState.SetFriction(this);
+    }
+
+    /// <summary>
+    /// 첫 시작시 3초 카운트다운 이후 이동 가능
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator CountDown_co(float time)
+    {
+        // 카운트다운이 끝나기 전에 미리 Freeze를 통한 이동제한 해제
+        yield return new WaitForSeconds(1);
+        rigid.constraints = RigidbodyConstraints.None;
+
+        // 카운트 다운이 끝나면 이동 가능한 상태로 전환
+        yield return new WaitForSeconds(time - 1);
+        SetState(nomalState);
+    }
+
+    private void Init()
+    {
+        // 게임이 시작하기 전까지는 도로에 떨어지는 이외의 움직임을 제한함
+        rigid.constraints = ~(RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotationX);
+    }
 }

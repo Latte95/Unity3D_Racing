@@ -69,6 +69,7 @@ public class Kart : MonoBehaviour
 
         TryGetComponent(out anim);
         SetAxelInfo();
+        SaveFriction();
     }
 
     private void Start()
@@ -80,22 +81,27 @@ public class Kart : MonoBehaviour
         }
         vehicleWidth = Mathf.Abs(wheels_Col_Obj[0].transform.position.magnitude - wheels_Col_Obj[1].transform.position.magnitude);
         wheelBase = Mathf.Abs(wheels_Col_Obj[0].transform.position.magnitude - wheels_Col_Obj[2].transform.position.magnitude);
-
-        // ÈÙ ¸¶Âû·Â
-        initForwardTireForwardFric = wheels_Col[0].forwardFriction;
-        initForwardTireSideFric = wheels_Col[0].sidewaysFriction;
-        initRearTireForwardFric = wheels_Col[3].forwardFriction;
-        initRearTireSideFric = wheels_Col[3].sidewaysFriction;
-        driftRearTireForwardFric = wheels_Col[3].forwardFriction;
-        driftRearTireForwardFric.stiffness = initForwardTireForwardFric.stiffness * 2;
-        driftRearTireSideFric = wheels_Col[3].sidewaysFriction;
-        driftRearTireSideFric.stiffness = initRearTireSideFric.stiffness * driftFriction;
-        driftRearTireSideFric.asymptoteValue = initRearTireSideFric.asymptoteValue * driftFriction;
     }
 
     private void SetAxelInfo()
     {
         axleInfos.Add(new AxleInfo(wheels_Col[0], wheels_Col[1], false, true));
         axleInfos.Add(new AxleInfo(wheels_Col[2], wheels_Col[3], true, false));
+    }
+
+    /// <summary>
+    /// ÈÙ ¸¶Âû·Â ÀúÀå
+    /// </summary>
+    private void SaveFriction()
+    {
+        initForwardTireForwardFric = axleInfos[0].leftWheel.forwardFriction;
+        initForwardTireSideFric = axleInfos[0].leftWheel.sidewaysFriction;
+        initRearTireForwardFric = axleInfos[1].leftWheel.forwardFriction;
+        initRearTireSideFric = axleInfos[1].leftWheel.sidewaysFriction;
+        driftRearTireForwardFric = axleInfos[1].leftWheel.forwardFriction;
+        driftRearTireForwardFric.stiffness = initForwardTireForwardFric.stiffness * 2;
+        driftRearTireSideFric = axleInfos[1].leftWheel.sidewaysFriction;
+        driftRearTireSideFric.stiffness = initRearTireSideFric.stiffness * driftFriction;
+        driftRearTireSideFric.asymptoteValue = initRearTireSideFric.asymptoteValue * driftFriction;
     }
 }
