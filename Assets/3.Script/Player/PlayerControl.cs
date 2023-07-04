@@ -81,7 +81,7 @@ public class PlayerControl : MonoBehaviour
             tireNum++;
         }
         center /= tireNum;
-        rigid.centerOfMass = center + 0.1f * Vector3.down;// + 0.3f * Vector3.forward;
+        rigid.centerOfMass = center + 0.1f * Vector3.down + 0.3f * Vector3.forward;
 
         SetState(cantMoveState);
         StartCoroutine(CountDown_co(3));
@@ -103,7 +103,6 @@ public class PlayerControl : MonoBehaviour
     }
 
     #region 이동
-    float drift = 1;
     private void Drift()
     {
         // 뒷바퀴의 측면 마찰력을 줄여서 드리프트 구현
@@ -116,14 +115,6 @@ public class PlayerControl : MonoBehaviour
         {
             kart.axleInfos[1].leftWheel.sidewaysFriction = kart.initRearTireSideFric;
             kart.axleInfos[1].rightWheel.sidewaysFriction = kart.initRearTireSideFric;
-        }
-        if(input.drift)
-        {
-            drift = 3.5f;
-        }
-        else
-        {
-            drift = 1;
         }
     }
 
@@ -201,8 +192,18 @@ public class PlayerControl : MonoBehaviour
         {
             // 속도가 빠를수록 핸들이 천천히 꺾임
             float rotationSpeedFactor = Mathf.Clamp(kart.maxSpeed / KPH, 1f, 5f);
-            kart.axleInfos[0].leftWheel.steerAngle = Mathf.Lerp(kart.axleInfos[0].leftWheel.steerAngle, drift * currentState.Curve() * Mathf.Rad2Deg * Mathf.Atan(kart.wheelBase / (radius + kart.vehicleWidth * 0.5f * input.move.x)) * kart.steerRotate * input.move.x, Time.deltaTime * rotationSpeedFactor);
-            kart.axleInfos[0].rightWheel.steerAngle = Mathf.Lerp(kart.axleInfos[0].rightWheel.steerAngle, drift * currentState.Curve() * Mathf.Rad2Deg * Mathf.Atan(kart.wheelBase / (radius - kart.vehicleWidth * 0.5f * input.move.x)) * kart.steerRotate * input.move.x, Time.deltaTime * rotationSpeedFactor);
+            float steerAngle = currentState.Curve() * Mathf.Rad2Deg * Mathf.Atan(kart.wheelBase / (radius + kart.vehicleWidth * 0.5f * input.move.x)) * kart.steerRotate * input.move.x;
+            if (input.drift)
+            {
+                steerAngle = Mathf.Clamp(steerAngle, -45, 45);
+            }
+            else
+            {
+                steerAngle = Mathf.Clamp(steerAngle, -kart.steerRotate, kart.steerRotate);
+            }
+
+            kart.axleInfos[0].leftWheel.steerAngle = Mathf.Lerp(kart.axleInfos[0].leftWheel.steerAngle, steerAngle, Time.deltaTime * rotationSpeedFactor);
+            kart.axleInfos[0].rightWheel.steerAngle = Mathf.Lerp(kart.axleInfos[0].rightWheel.steerAngle, steerAngle, Time.deltaTime * rotationSpeedFactor);
         }
         else
         {
