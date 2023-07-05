@@ -61,11 +61,11 @@ public class PlayerControl : MonoBehaviour
         TryGetComponent(out input);
         kart = transform.GetChild(0).GetComponentInChildren<Kart>();
 
-        Init();
     }
 
     private void Start()
     {
+        Init();
         carWeigth = rigid.mass * 9.8f;
         tireContactArea = carWeigth / tirePressure;
 

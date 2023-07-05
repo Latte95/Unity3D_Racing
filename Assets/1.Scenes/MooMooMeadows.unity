@@ -15303,7 +15303,7 @@ CapsuleCollider:
   m_GameObject: {fileID: 8481868304658345215}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 0.35
   m_Height: 1.14
   m_Direction: 1
@@ -15398,7 +15398,7 @@ CapsuleCollider:
   m_GameObject: {fileID: 62672246837627438}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 0.5000001
   m_Height: 2
   m_Direction: 1
@@ -15600,7 +15600,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1020126783201762975}
-  m_RootOrder: 6
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 13.177, y: 0, z: 0}
 --- !u!136 &62672247823347476
 CapsuleCollider:
@@ -15611,7 +15611,7 @@ CapsuleCollider:
   m_GameObject: {fileID: 3605613762311539912}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 0.2
   m_Height: 2
   m_Direction: 2
@@ -17237,7 +17237,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &993618448406767001
 Transform:
   m_ObjectHideFlags: 0
@@ -17263,8 +17263,6 @@ Transform:
   m_LocalPosition: {x: -313.1994, y: 81.617645, z: -21.034485}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 6763452189190128736}
-  - {fileID: 8481868304658345214}
   - {fileID: 3678356373754599835}
   - {fileID: 3678356373719835045}
   - {fileID: 3678356374164166696}
@@ -18372,7 +18370,7 @@ GameObject:
   - component: {fileID: 1884192362537471324}
   m_Layer: 0
   m_Name: FLWheel
-  m_TagString: Untagged
+  m_TagString: WheelCollider
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -18385,11 +18383,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1884192362537471326}
   m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: -0.73406833, y: 0.37041485, z: 1.2452362}
+  m_LocalPosition: {x: -0.73406833, y: 0.37041485, z: 0.76}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1884192364184049637}
-  m_RootOrder: 7
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1884192362574280032
 GameObject:
@@ -18403,7 +18401,7 @@ GameObject:
   - component: {fileID: 1884192362574280038}
   m_Layer: 0
   m_Name: FRWheel
-  m_TagString: Untagged
+  m_TagString: WheelCollider
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -18416,11 +18414,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1884192362574280032}
   m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: 0.71188843, y: 0.37041485, z: 1.2441208}
+  m_LocalPosition: {x: 0.71188843, y: 0.37041485, z: 0.759}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1884192364184049637}
-  m_RootOrder: 8
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!146 &1884192362574280038
 WheelCollider:
@@ -18590,6 +18588,7 @@ MonoBehaviour:
   brakeMaterial: {fileID: 2100000, guid: 68ac01daaeafc134cabb5724f90dfc20, type: 2}
   brakingColor: {r: 1, g: 0, b: 0, a: 1}
   brakeColorIntensity: 2
+  input: {fileID: 0}
   c: {fileID: 0}
 --- !u!54 &1884192362717009206
 Rigidbody:
@@ -18732,7 +18731,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1884192364184049637}
-  m_RootOrder: 14
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1884192362999982652
 Transform:
@@ -18746,7 +18745,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1884192364184049637}
-  m_RootOrder: 12
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1884192362999982654
 GameObject:
@@ -18869,11 +18868,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1884192363186375919}
   m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: -0.73406833, y: 0.37041485, z: -1.2545841}
+  m_LocalPosition: {x: -0.73406833, y: 0.37041485, z: -1.035}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1884192364184049637}
-  m_RootOrder: 9
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!146 &1884192363186375917
 WheelCollider:
@@ -18900,10 +18899,10 @@ WheelCollider:
     m_Stiffness: 1
   m_SidewaysFriction:
     m_ExtremumSlip: 0.1
-    m_ExtremumValue: 0.7
+    m_ExtremumValue: 1
     m_AsymptoteSlip: 0.1
-    m_AsymptoteValue: 0.6
-    m_Stiffness: 0.8
+    m_AsymptoteValue: 1
+    m_Stiffness: 1
   m_Enabled: 1
 --- !u!1 &1884192363186375919
 GameObject:
@@ -18917,7 +18916,7 @@ GameObject:
   - component: {fileID: 1884192363186375917}
   m_Layer: 0
   m_Name: RlWheel
-  m_TagString: Untagged
+  m_TagString: WheelCollider
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -18934,7 +18933,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1884192364184049637}
-  m_RootOrder: 11
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1884192363394259718
 GameObject:
@@ -19174,7 +19173,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1884192364184049637}
-  m_RootOrder: 13
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &1884192364174997509
 Animator:
@@ -19527,7 +19526,7 @@ Transform:
   m_LocalScale: {x: 38.819885, y: 38.819885, z: 38.819885}
   m_Children: []
   m_Father: {fileID: 1884192364184049637}
-  m_RootOrder: 2
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1884192364184049635
 Transform:
@@ -19541,7 +19540,7 @@ Transform:
   m_LocalScale: {x: 14.572223, y: 14.572223, z: 14.572223}
   m_Children: []
   m_Father: {fileID: 1884192364184049637}
-  m_RootOrder: 3
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1884192364184049637
 Transform:
@@ -19554,6 +19553,8 @@ Transform:
   m_LocalPosition: {x: -313.1994, y: 81.617645, z: -21.034485}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 8481868304658345214}
+  - {fileID: 6763452189190128736}
   - {fileID: 8275728629268960840}
   - {fileID: 1884192364184049639}
   - {fileID: 1884192364184049633}
@@ -19584,7 +19585,7 @@ Transform:
   m_LocalScale: {x: 10.997243, y: 3.8182943, z: 10.997243}
   m_Children: []
   m_Father: {fileID: 1884192364184049637}
-  m_RootOrder: 1
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1884192364184049641
 Transform:
@@ -19598,7 +19599,7 @@ Transform:
   m_LocalScale: {x: 14.572223, y: 14.572223, z: 14.572223}
   m_Children: []
   m_Father: {fileID: 1884192364184049637}
-  m_RootOrder: 6
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1884192364184049645
 Transform:
@@ -19612,7 +19613,7 @@ Transform:
   m_LocalScale: {x: 14.572223, y: 14.572223, z: 14.572223}
   m_Children: []
   m_Father: {fileID: 1884192364184049637}
-  m_RootOrder: 4
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1884192364184049647
 Transform:
@@ -19626,7 +19627,7 @@ Transform:
   m_LocalScale: {x: 14.572223, y: 14.572223, z: 14.572223}
   m_Children: []
   m_Father: {fileID: 1884192364184049637}
-  m_RootOrder: 5
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1884192364184341441
 GameObject:
@@ -19645,7 +19646,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1884192364184341443
 GameObject:
   m_ObjectHideFlags: 0
@@ -19681,13 +19682,14 @@ GameObject:
   - component: {fileID: 1884192364184341446}
   - component: {fileID: 1884192364184341450}
   - component: {fileID: 1884192364184341451}
+  - component: {fileID: 1884192364184341452}
   m_Layer: 0
   m_Name: Car3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1884192364184341446
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19736,7 +19738,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1884192364184341448
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19815,6 +19817,23 @@ MonoBehaviour:
   w2: {fileID: 1884192362574280038}
   w3: {fileID: 1884192363186375917}
   w4: {fileID: 1884192364314797760}
+--- !u!114 &1884192364184341452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1884192364184341445}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2d01ab241bed7e4e933d588f33740f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  kart: {fileID: 0}
+  radius: 60
+  input: {fileID: 0}
+  anim: {fileID: 0}
+  speed_txt: {fileID: 0}
 --- !u!1 &1884192364184341453
 GameObject:
   m_ObjectHideFlags: 0
@@ -19876,10 +19895,10 @@ WheelCollider:
     m_Stiffness: 1
   m_SidewaysFriction:
     m_ExtremumSlip: 0.1
-    m_ExtremumValue: 0.7
+    m_ExtremumValue: 1
     m_AsymptoteSlip: 0.1
-    m_AsymptoteValue: 0.6
-    m_Stiffness: 0.8
+    m_AsymptoteValue: 1
+    m_Stiffness: 1
   m_Enabled: 1
 --- !u!1 &1884192364314797762
 GameObject:
@@ -19893,7 +19912,7 @@ GameObject:
   - component: {fileID: 1884192364314797760}
   m_Layer: 0
   m_Name: RRWheel
-  m_TagString: Untagged
+  m_TagString: WheelCollider
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -19906,11 +19925,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1884192364314797762}
   m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: 0.71188843, y: 0.37041485, z: -1.2545841}
+  m_LocalPosition: {x: 0.71188843, y: 0.37041485, z: -1.035}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1884192364184049637}
-  m_RootOrder: 10
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1897923525903493115
 GameObject:
@@ -22857,7 +22876,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1020126783201762975}
-  m_RootOrder: 3
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!146 &3678356373754599832
 WheelCollider:
@@ -22918,7 +22937,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1020126783201762975}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &3678356374164166696
 Transform:
@@ -22932,7 +22951,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1020126783201762975}
-  m_RootOrder: 4
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!146 &3678356374164166697
 WheelCollider:
@@ -23040,7 +23059,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1020126783201762975}
-  m_RootOrder: 5
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3678356375329906432
 MonoBehaviour:
@@ -23645,7 +23664,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &4067716107003014285
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25713,7 +25732,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5868177263445909547
 Transform:
   m_ObjectHideFlags: 0
@@ -26471,7 +26490,7 @@ CapsuleCollider:
   m_GameObject: {fileID: 6636458553953101380}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 0.5000001
   m_Height: 2
   m_Direction: 1
@@ -26703,15 +26722,16 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3605613762311539912}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.38100433, z: 0}
+  m_LocalRotation: {x: -0.000060886017, y: -0.00000009534492, z: -0.00000013612093,
+    w: 1}
+  m_LocalPosition: {x: 0, y: 0.38100433, z: -0.000045776367}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 436564710673122665}
   - {fileID: 949247264554640884}
   - {fileID: 3381342324628789337}
-  m_Father: {fileID: 1020126783201762975}
-  m_RootOrder: 0
+  m_Father: {fileID: 1884192364184049637}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &6817493553700832215
 Transform:
@@ -28250,7 +28270,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1884192364184049637}
-  m_RootOrder: 0
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 10.994, y: 0, z: 0}
 --- !u!114 &8275728629268960841
 MonoBehaviour:
@@ -28682,8 +28702,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8481868304658345215}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.3809967, z: 0}
+  m_LocalRotation: {x: -0.000060886017, y: -0.00000009534492, z: -0.00000013612093,
+    w: 1}
+  m_LocalPosition: {x: 0, y: 0.3809967, z: -0.000045776367}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 3640664702037153041}
@@ -28699,8 +28720,8 @@ Transform:
   - {fileID: 1179398257463506889}
   - {fileID: 5099469111799053654}
   - {fileID: 8820931970434684594}
-  m_Father: {fileID: 1020126783201762975}
-  m_RootOrder: 1
+  m_Father: {fileID: 1884192364184049637}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8481868304658345215
 GameObject:

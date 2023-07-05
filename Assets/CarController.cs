@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using TMPro;
 public enum GearState
 {
@@ -60,9 +61,12 @@ public class CarController : MonoBehaviour
     public Color brakingColor;
     public float brakeColorIntensity;
 
+
+    public PlayerInput input;
     // Start is called before the first frame update
     void Start()
     {
+        TryGetComponent(out input);
         playerRB = gameObject.GetComponent<Rigidbody>();
         InitiateParticles();
         playerRB.centerOfMass += 0.1f * Vector3.down;
@@ -121,7 +125,8 @@ public class CarController : MonoBehaviour
 
     void CheckInput()
     {
-        gasInput = Input.GetAxis("Vertical");
+        //gasInput = Input.GetAxis("Vertical");
+        gasInput = input.move.y;
         if (gasPedal.isPressed)
         {
             gasInput += gasPedal.dampenPress;
@@ -135,7 +140,7 @@ public class CarController : MonoBehaviour
             StartCoroutine(GetComponent<EngineAudio>().StartEngine());
             gearState = GearState.Running;
         }
-        steeringInput = Input.GetAxis("Horizontal");
+        steeringInput = input.move.x;
         if (rightButton.isPressed)
         {
             steeringInput += rightButton.dampenPress;
@@ -227,9 +232,10 @@ public class CarController : MonoBehaviour
         colliders.RLWheel.motorTorque = currentTorque * gasInput;
         if(colliders.RRWheel.GetGroundHit(out var hit))
         {
-            Debug.Log("slip : " + hit.forwardSlip);
-            Debug.Log("rpm : " + (colliders.RLWheel.rpm + colliders.RRWheel.rpm)*0.5f);
-            Debug.Log("토크 : " + colliders.RLWheel.motorTorque);
+            //Debug.Log(gasInput);
+            //Debug.Log("slip : " + hit.forwardSlip);
+            //Debug.Log("rpm : " + (colliders.RLWheel.rpm + colliders.RRWheel.rpm)*0.5f);
+            //Debug.Log("토크 : " + colliders.RLWheel.motorTorque);
             
         }
     }
