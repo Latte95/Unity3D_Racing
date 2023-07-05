@@ -195,21 +195,23 @@ public class PlayerControl : MonoBehaviour
             float steerAngle = currentState.Curve() * Mathf.Rad2Deg * Mathf.Atan(kart.wheelBase / (radius + kart.vehicleWidth * 0.5f * input.move.x)) * kart.steerRotate * input.move.x;
             if (input.drift)
             {
-                steerAngle = Mathf.Clamp(steerAngle, -45, 45);
+                steerAngle = input.move.x * 45f;
+                kart.axleInfos[0].leftWheel.steerAngle = steerAngle;
+                kart.axleInfos[0].rightWheel.steerAngle = steerAngle;
             }
             else
             {
                 steerAngle = Mathf.Clamp(steerAngle, -kart.steerRotate, kart.steerRotate);
+                kart.axleInfos[0].leftWheel.steerAngle = Mathf.Lerp(kart.axleInfos[0].leftWheel.steerAngle, steerAngle, Time.deltaTime * rotationSpeedFactor);
+                kart.axleInfos[0].rightWheel.steerAngle = Mathf.Lerp(kart.axleInfos[0].rightWheel.steerAngle, steerAngle, Time.deltaTime * rotationSpeedFactor);
             }
 
-            kart.axleInfos[0].leftWheel.steerAngle = Mathf.Lerp(kart.axleInfos[0].leftWheel.steerAngle, steerAngle, Time.deltaTime * rotationSpeedFactor);
-            kart.axleInfos[0].rightWheel.steerAngle = Mathf.Lerp(kart.axleInfos[0].rightWheel.steerAngle, steerAngle, Time.deltaTime * rotationSpeedFactor);
         }
         else
         {
             // 속도가 빠를수록 핸들이 천천히 돌아옴
-            //float returnSpeedFactor = Mathf.Clamp(KPH / 10, 1f, 10f); => 속도 빠를수록 빠르게 돌릴 경우
-            float returnSpeedFactor = Mathf.Clamp(kart.maxSpeed / KPH, 1f, 10f);
+            float returnSpeedFactor = Mathf.Clamp(KPH / 10, 1f, 10f); //=> 속도 빠를수록 빠르게 돌아올 경우
+            //float returnSpeedFactor = Mathf.Clamp(kart.maxSpeed / KPH, 1f, 10f);
 
             kart.axleInfos[0].leftWheel.steerAngle = Mathf.Lerp(kart.axleInfos[0].leftWheel.steerAngle, 0, Time.deltaTime * returnSpeedFactor);
             kart.axleInfos[0].rightWheel.steerAngle = Mathf.Lerp(kart.axleInfos[0].rightWheel.steerAngle, 0, Time.deltaTime * returnSpeedFactor);
