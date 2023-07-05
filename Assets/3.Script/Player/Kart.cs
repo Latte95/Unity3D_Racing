@@ -74,11 +74,6 @@ public class Kart : MonoBehaviour
 
     private void Start()
     {
-        // 휠 콜라이더 위치를 바퀴 오브젝트(이미지) 위치로 동기화
-        for (int i = 0; i < wheels_Mesh.Length; i++)
-        {
-            wheels_Col_Obj[i].transform.position = wheels_Mesh[i].transform.position;
-        }
         vehicleWidth = Mathf.Abs((wheels_Col_Obj[0].transform.position - wheels_Col_Obj[1].transform.position).magnitude);
         wheelBase = Mathf.Abs((wheels_Col_Obj[0].transform.position - wheels_Col_Obj[2].transform.position).magnitude);
     }
