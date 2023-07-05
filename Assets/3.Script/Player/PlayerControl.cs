@@ -84,7 +84,7 @@ public class PlayerControl : MonoBehaviour
         rigid.centerOfMass = center + 0.1f * Vector3.down;// + 0.3f * Vector3.forward;
 
         SetState(cantMoveState);
-        StartCoroutine(CountDown_co(3));
+        StartCoroutine(CountDown_co(1));
     }
 
     private void Update()
@@ -209,8 +209,8 @@ public class PlayerControl : MonoBehaviour
         else
         {
             // 속도가 빠를수록 핸들이 천천히 돌아옴
-            //float returnSpeedFactor = Mathf.Clamp(KPH / 10, 1f, 10f); => 속도 빠를수록 빠르게 돌릴 경우
-            float returnSpeedFactor = Mathf.Clamp(kart.maxSpeed / KPH, 1f, 10f);
+            float returnSpeedFactor = 10; //Mathf.Clamp(KPH / 10, 1f, 10f);   // => 속도 빠를수록 빠르게 돌릴 경우
+            //float returnSpeedFactor = Mathf.Clamp(kart.maxSpeed / KPH, 1f, 10f);
 
             kart.axleInfos[0].leftWheel.steerAngle = Mathf.Lerp(kart.axleInfos[0].leftWheel.steerAngle, 0, Time.deltaTime * returnSpeedFactor);
             kart.axleInfos[0].rightWheel.steerAngle = Mathf.Lerp(kart.axleInfos[0].rightWheel.steerAngle, 0, Time.deltaTime * returnSpeedFactor);
