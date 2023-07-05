@@ -61,11 +61,17 @@ public class CarController : MonoBehaviour
     public Color brakingColor;
     public float brakeColorIntensity;
 
+    public WheelFrictionCurve a;
+    public WheelFrictionCurve b;
 
     public PlayerInput input;
     // Start is called before the first frame update
     void Start()
     {
+        a = colliders.RLWheel.sidewaysFriction;
+        b = a;
+        b.stiffness = 0.8f;
+
         TryGetComponent(out input);
         playerRB = gameObject.GetComponent<Rigidbody>();
         InitiateParticles();
@@ -79,7 +85,6 @@ public class CarController : MonoBehaviour
         center *= 0.25f;
         playerRB.centerOfMass = center + 0.1f * Vector3.down;
     }
-    public GameObject c;
 
     void InitiateParticles()
     {
@@ -110,6 +115,16 @@ public class CarController : MonoBehaviour
 
     void Update()
     {
+        if (input.drift)
+        {
+            colliders.RLWheel.sidewaysFriction = b;
+            colliders.RRWheel.sidewaysFriction = b;
+        }
+        else
+        {
+            colliders.RLWheel.sidewaysFriction = a;
+            colliders.RRWheel.sidewaysFriction = a;
+        }
         rpmNeedle.rotation = Quaternion.Euler(0, 0, Mathf.Lerp(minNeedleRotation, maxNeedleRotation, RPM / (redLine*1.1f)));
         rpmText.text = RPM.ToString("0,000")+"rpm";
         gearText.text = (gearState==GearState.Neutral)?"N":(currentGear + 1).ToString();
