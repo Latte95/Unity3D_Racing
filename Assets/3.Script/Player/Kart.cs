@@ -108,12 +108,19 @@ public class Kart : MonoBehaviour
     /// </summary>
     private void SaveFriction()
     {
+        // ¾Õ¹ÙÄû
+        // ÀÏ¹Ý
         initForwardTireForwardFric = axleInfos[0].leftWheel.forwardFriction;
         initForwardTireSideFric = axleInfos[0].leftWheel.sidewaysFriction;
+
+        // µÞ¹ÙÄû
+        // ÀÏ¹Ý
         initRearTireForwardFric = axleInfos[1].leftWheel.forwardFriction;
         initRearTireSideFric = axleInfos[1].leftWheel.sidewaysFriction;
+        // µå¸®ÇÁÆ®
         driftRearTireForwardFric = axleInfos[1].leftWheel.forwardFriction;
         driftRearTireForwardFric.stiffness = initForwardTireForwardFric.stiffness * 2;
+
         driftRearTireSideFric = axleInfos[1].leftWheel.sidewaysFriction;
         driftRearTireSideFric.stiffness = driftFriction;
         driftRearTireSideFric.asymptoteValue = initRearTireSideFric.asymptoteValue * driftFriction;

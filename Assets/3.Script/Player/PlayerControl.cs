@@ -10,7 +10,7 @@ public class PlayerControl : MonoBehaviour
     private float KPH;
 
     [Header("Status")]
-    [Tooltip("차량의 회전 반지름")] 
+    [Tooltip("차량의 회전 반지름")]
     public float radius = 60;
     private float driftAngle = 1;
 
@@ -75,31 +75,55 @@ public class PlayerControl : MonoBehaviour
 
     private void Update()
     {
-            UpdateSpeed();
-            WheelPos();
-            SetAnimation();
+        UpdateSpeed();
+        WheelPos();
+        SetAnimation();
     }
 
     private void FixedUpdate()
     {
-            Drift();
-            Move();
-            Curve();
-            DownForce();
+        Drift();
+        Move();
+        Curve();
+        DownForce();
     }
 
     #region 이동
+    private float stiffnessTransition = 0f;
     private void Drift()
     {
         kart.axleInfos[1].leftWheel.GetGroundHit(out WheelHit hit);
         // 뒷바퀴의 측면 마찰력을 줄여서 드리프트 구현
-        if (input.drift && KPH > 40 && Mathf.Abs(hit.sidewaysSlip) < 0.5f)
+        if (input.drift && KPH > 40)
         {
-            kart.axleInfos[1].leftWheel.sidewaysFriction = kart.driftRearTireSideFric;
-            kart.axleInfos[1].rightWheel.sidewaysFriction = kart.driftRearTireSideFric;
+            if (Mathf.Abs(hit.sidewaysSlip) < 0.5f)
+            {
+                stiffnessTransition = 0f;
+
+                kart.axleInfos[1].leftWheel.sidewaysFriction = kart.driftRearTireSideFric;
+                kart.axleInfos[1].rightWheel.sidewaysFriction = kart.driftRearTireSideFric;
+            }
+            else
+            {
+                stiffnessTransition += Time.deltaTime * 2f;
+
+                WheelFrictionCurve newFrictionCurve = kart.axleInfos[1].leftWheel.sidewaysFriction;
+                newFrictionCurve.asymptoteValue = Mathf.Lerp(kart.driftRearTireSideFric.asymptoteValue, kart.initRearTireSideFric.asymptoteValue, stiffnessTransition);
+                newFrictionCurve.stiffness = Mathf.Lerp(kart.driftRearTireSideFric.stiffness, kart.initRearTireSideFric.stiffness, stiffnessTransition);
+
+                kart.axleInfos[1].leftWheel.sidewaysFriction = newFrictionCurve;
+                kart.axleInfos[1].rightWheel.sidewaysFriction = newFrictionCurve;
+
+                if (input.move.y > 0 && !currentState.Equals(cantMoveState))
+                {
+                    rigid.AddForce(-kart.accelForce * kart.wheels_Col_Obj[0].transform.up, ForceMode.Impulse);
+                }
+            }
         }
         else
         {
+            stiffnessTransition = 0f;
+
             kart.axleInfos[1].leftWheel.sidewaysFriction = kart.initRearTireSideFric;
             kart.axleInfos[1].rightWheel.sidewaysFriction = kart.initRearTireSideFric;
         }
@@ -135,7 +159,7 @@ public class PlayerControl : MonoBehaviour
         if (KPH < kart.maxSpeed * kart.accelSpeedRatio)
         {
             targetTorque = kart.torque * input.move.y;
-            if (input.move.y > 0)
+            if (input.move.y > 0 && !currentState.Equals(cantMoveState))
             {
                 rigid.AddForce(-kart.accelForce * kart.wheels_Col_Obj[0].transform.up, ForceMode.Impulse);
             }
@@ -191,10 +215,19 @@ public class PlayerControl : MonoBehaviour
         {
             // 속도가 빠를수록 핸들이 천천히 꺾임
             float rotationSpeedFactor = Mathf.Clamp(kart.maxSpeed / KPH, 1f, 5f);
-            float steerAngle = driftAngle * currentState.Curve() * Mathf.Rad2Deg * Mathf.Atan(kart.wheelBase / (radius + kart.vehicleWidth * 0.5f * input.move.x)) * kart.steerRotate * input.move.x;
+            float steerAngle = currentState.Curve() * Mathf.Rad2Deg * Mathf.Atan(kart.wheelBase / (radius + kart.vehicleWidth * 0.5f * input.move.x)) * kart.steerRotate * input.move.x;
+
             steerAngle = Mathf.Clamp(steerAngle, -kart.steerRotate, kart.handleRotate);
-            kart.axleInfos[0].leftWheel.steerAngle = Mathf.Lerp(kart.axleInfos[0].leftWheel.steerAngle, steerAngle, Time.deltaTime * rotationSpeedFactor);
-            kart.axleInfos[0].rightWheel.steerAngle = Mathf.Lerp(kart.axleInfos[0].rightWheel.steerAngle, steerAngle, Time.deltaTime * rotationSpeedFactor);
+            if (input.drift)
+            {
+                kart.axleInfos[0].leftWheel.steerAngle = kart.steerRotate * input.move.x;
+                kart.axleInfos[0].rightWheel.steerAngle = kart.steerRotate * input.move.x;
+            }
+            else
+            {
+                kart.axleInfos[0].leftWheel.steerAngle = Mathf.Lerp(kart.axleInfos[0].leftWheel.steerAngle, steerAngle, Time.deltaTime * rotationSpeedFactor);
+                kart.axleInfos[0].rightWheel.steerAngle = Mathf.Lerp(kart.axleInfos[0].rightWheel.steerAngle, steerAngle, Time.deltaTime * rotationSpeedFactor);
+            }
         }
         else
         {
@@ -314,6 +347,7 @@ public class PlayerControl : MonoBehaviour
     #region 시작 전 초기 설정들
     private void Init()
     {
+        // 카트 생성
         GameObject kartPrefab = Resources.Load<GameObject>("Kart/" + GameManager.Instance.kartName);
         if (kartPrefab != null)
         {
@@ -322,6 +356,7 @@ public class PlayerControl : MonoBehaviour
             kartInstance.transform.SetSiblingIndex(0);
             kartInstance.TryGetComponent(out kart);
         }
+        // 캐릭터 생성
         GameObject characterPrefab = Resources.Load<GameObject>("Character/" + GameManager.Instance.charName);
         if (characterPrefab != null)
         {
@@ -348,7 +383,6 @@ public class PlayerControl : MonoBehaviour
         foreach (GameObject go in kart.wheels_Col_Obj)
         {
             center += go.transform.localPosition;
-            Debug.Log($"{gameObject.name} 속도 : {go.transform.localPosition}");
             tireNum++;
         }
         center /= tireNum;
