@@ -21,25 +21,40 @@ public class AxleInfo
 
 public class Kart : MonoBehaviour
 {
+    [Space]
     [Header("Status")]
     [SerializeField]
+    [Tooltip("바퀴 돌리는 엔진 힘")]
+    [Range(400,1600)]
     public float torque = 400.0f;
-    [SerializeField]
+    [Tooltip("차량 최대 속도")]
     public float maxSpeed = 150f;
-    [SerializeField]
+    [Min(1)]
+    [Tooltip("속력이 낮을 때 더 빠르게 가속하기 위한 힘")]
     public float accel = 100f;
-    [SerializeField]
     public readonly float boostSpeed = 1.3f;
-    [SerializeField]
-    public float steerRotate = 10.0f;
+    [Tooltip("차량 최대 회전 각도")]
+    public float steerRotate = 45.0f;
+    [Tooltip("차량 회전 가속도")]
+    public float handleRotate = 45.0f;
 
+    [Space]
     [Header("Tires")]
-    [HideInInspector]
+    [Space(20)]
+    [Tooltip("드리프트시 후면 타이어 마찰력 계수")]
+    [Range(0, 1)]
+    public float driftFriction = 0.75f;
+    [Tooltip("바퀴 메쉬 오브젝트")]
     public GameObject[] wheels_Mesh;
-    [HideInInspector]
     private WheelCollider[] wheels_Col;
-    [HideInInspector]
+    [Tooltip("휠콜라이더 오브젝트")]
     public GameObject[] wheels_Col_Obj;
+
+    public List<AxleInfo> axleInfos;
+    public float vehicleWidth { get; private set; }
+    public float wheelBase { get; private set; }
+
+
 
     public WheelFrictionCurve initForwardTireForwardFric;
     public WheelFrictionCurve initForwardTireSideFric;
@@ -48,18 +63,12 @@ public class Kart : MonoBehaviour
     public WheelFrictionCurve driftRearTireForwardFric;
     public WheelFrictionCurve driftRearTireSideFric;
 
-    public List<AxleInfo> axleInfos;
-    public float vehicleWidth { get; private set; }
-    public float wheelBase { get; private set; }
-    public float driftFriction = 0.75f;
 
     [Header("Components")]
     private Animator anim;
 
     private void Awake()
     {
-        wheels_Mesh = GameObject.FindGameObjectsWithTag("WheelMesh");
-        wheels_Col_Obj = GameObject.FindGameObjectsWithTag("WheelCollider");
         int lenth = wheels_Col_Obj.Length;
         wheels_Col = new WheelCollider[lenth];
         for (int i = 0; i < lenth; i++)
@@ -68,8 +77,10 @@ public class Kart : MonoBehaviour
         }
 
         TryGetComponent(out anim);
+
         SetAxelInfo();
         SaveFriction();
+        SetWheelColliderPosition();
     }
 
     private void Start()
@@ -96,7 +107,31 @@ public class Kart : MonoBehaviour
         driftRearTireForwardFric = axleInfos[1].leftWheel.forwardFriction;
         driftRearTireForwardFric.stiffness = initForwardTireForwardFric.stiffness * 2;
         driftRearTireSideFric = axleInfos[1].leftWheel.sidewaysFriction;
-        driftRearTireSideFric.stiffness = initRearTireSideFric.stiffness * driftFriction;
+        driftRearTireSideFric.stiffness = driftFriction;
         driftRearTireSideFric.asymptoteValue = initRearTireSideFric.asymptoteValue * driftFriction;
     }
+
+    /// <summary>
+    /// 휠 콜라이더 위치를 바퀴 이미지 오브젝트 위치로 동기화
+    /// </summary>
+    private void SetWheelColliderPosition()
+    {
+        for (int i = 0; i < wheels_Mesh.Length; i++)
+        {
+            wheels_Col_Obj[i].transform.position = wheels_Mesh[i].transform.position;
+        }
+    }
+
+
+
+
+    #region 인스펙터
+    private void OnValidate()
+    {
+        torque = Mathf.Round(torque / 10) * 10;
+        maxSpeed = Mathf.Round(maxSpeed);
+        maxSpeed = Mathf.Clamp(maxSpeed, 100f, 250f);
+        steerRotate = Mathf.Clamp(steerRotate, 0f, 60f);
+    }
+    #endregion 인스펙터
 }

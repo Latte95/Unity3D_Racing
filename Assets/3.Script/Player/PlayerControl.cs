@@ -5,14 +5,14 @@ using UnityEngine.UI;
 
 public class PlayerControl : MonoBehaviour
 {
-    [Header("Player")]
+    [Header("Kart")]
     public Kart kart;
     private float KPH;
 
     [Header("Status")]
-    // 차량의 회전 반지름
+    [Tooltip("차량의 회전 반지름")] 
     public float radius = 60;
-    private float targetRPM;
+    private float driftAngle = 1;
 
     [Header("State")]
     private PlayerState currentState = new CantMoveState();
@@ -60,31 +60,28 @@ public class PlayerControl : MonoBehaviour
         TryGetComponent(out rigid);
         TryGetComponent(out input);
         kart = transform.GetChild(0).GetComponentInChildren<Kart>();
-
-        Init();
     }
 
     private void Start()
     {
+        Init();
         carWeigth = rigid.mass * 9.8f;
         tireContactArea = carWeigth / tirePressure;
-
-        targetRPM = 100 * 16.6667f / (2 * Mathf.PI * kart.axleInfos[1].leftWheel.radius);
 
         // 안정성 위해 무게중심 밑으로 설정
         Vector3 center = Vector3.zero;
         int tireNum = 0;
-        foreach (AxleInfo a in kart.axleInfos)
+        foreach (GameObject go in kart.wheels_Col_Obj)
         {
-            center += a.leftWheel.transform.localPosition;
-            center += a.rightWheel.transform.localPosition;
+            center += go.transform.localPosition;
+            Debug.Log($"{gameObject.name} 속도 : {go.transform.localPosition}");
             tireNum++;
         }
         center /= tireNum;
-        rigid.centerOfMass = center + 0.1f * Vector3.down + 0.3f * Vector3.forward;
+        rigid.centerOfMass = center + 0.1f * Vector3.down- 0.1f * Vector3.forward;
 
         SetState(cantMoveState);
-        StartCoroutine(CountDown_co(3));
+        StartCoroutine(CountDown_co(1));
     }
 
     private void Update()
@@ -105,8 +102,9 @@ public class PlayerControl : MonoBehaviour
     #region 이동
     private void Drift()
     {
+        kart.axleInfos[1].leftWheel.GetGroundHit(out WheelHit hit);
         // 뒷바퀴의 측면 마찰력을 줄여서 드리프트 구현
-        if (input.drift && KPH > 40)
+        if (input.drift && KPH > 40 && Mathf.Abs(hit.sidewaysSlip) < 0.5f)
         {
             kart.axleInfos[1].leftWheel.sidewaysFriction = kart.driftRearTireSideFric;
             kart.axleInfos[1].rightWheel.sidewaysFriction = kart.driftRearTireSideFric;
@@ -115,6 +113,14 @@ public class PlayerControl : MonoBehaviour
         {
             kart.axleInfos[1].leftWheel.sidewaysFriction = kart.initRearTireSideFric;
             kart.axleInfos[1].rightWheel.sidewaysFriction = kart.initRearTireSideFric;
+        }
+        if (input.drift)
+        {
+            driftAngle = 1.5f;
+        }
+        else
+        {
+            driftAngle = 1;
         }
     }
 
@@ -137,9 +143,10 @@ public class PlayerControl : MonoBehaviour
 
         // 토크 계산 (모터 힘)
         // 일정 속도 이전까지는 빠르게 가속
-        if (Mathf.Abs(rpmAvg) < targetRPM && KPH < kart.maxSpeed * 0.8f)
+        //if (Mathf.Abs(rpmAvg) < targetRPM && KPH < kart.maxSpeed * 0.8f)
+        if (KPH < kart.maxSpeed * 0.8f)
         {
-            targetTorque = kart.torque * input.move.y * 0.5f * (1 + (1 - Mathf.Abs(rpmAvg / targetRPM)) * kart.accel);
+            targetTorque = kart.torque * input.move.y * 0.5f * (1 + (1 - KPH / kart.maxSpeed) * kart.accel);
         }
         // 최고 속도 넘어가면 가속x
         else if (KPH > kart.maxSpeed)
@@ -149,7 +156,7 @@ public class PlayerControl : MonoBehaviour
         // 일정 속도~최고속도 구간
         else
         {
-            targetTorque = kart.torque * input.move.y * 0.5f;
+            targetTorque = kart.torque * input.move.y;
         }
 
         // 바퀴 굴림
@@ -171,7 +178,7 @@ public class PlayerControl : MonoBehaviour
                 }
 
                 // 반대 방향을 누른 순간 모터를 멈춰 바퀴가 바로 반대로 돌아가도록함
-                if (rpmAvg * input.move.y < 0)
+                if (rpmAvg * input.move.y < 0 || KPH > kart.maxSpeed)
                 {
                     a.leftWheel.brakeTorque += kart.torque;
                     a.rightWheel.brakeTorque += kart.torque;
@@ -192,25 +199,15 @@ public class PlayerControl : MonoBehaviour
         {
             // 속도가 빠를수록 핸들이 천천히 꺾임
             float rotationSpeedFactor = Mathf.Clamp(kart.maxSpeed / KPH, 1f, 5f);
-            float steerAngle = currentState.Curve() * Mathf.Rad2Deg * Mathf.Atan(kart.wheelBase / (radius + kart.vehicleWidth * 0.5f * input.move.x)) * kart.steerRotate * input.move.x;
-            if (input.drift)
-            {
-                steerAngle = input.move.x * 45f;
-                kart.axleInfos[0].leftWheel.steerAngle = steerAngle;
-                kart.axleInfos[0].rightWheel.steerAngle = steerAngle;
-            }
-            else
-            {
-                steerAngle = Mathf.Clamp(steerAngle, -kart.steerRotate, kart.steerRotate);
-                kart.axleInfos[0].leftWheel.steerAngle = Mathf.Lerp(kart.axleInfos[0].leftWheel.steerAngle, steerAngle, Time.deltaTime * rotationSpeedFactor);
-                kart.axleInfos[0].rightWheel.steerAngle = Mathf.Lerp(kart.axleInfos[0].rightWheel.steerAngle, steerAngle, Time.deltaTime * rotationSpeedFactor);
-            }
-
+            float steerAngle = driftAngle * currentState.Curve() * Mathf.Rad2Deg * Mathf.Atan(kart.wheelBase / (radius + kart.vehicleWidth * 0.5f * input.move.x)) * kart.steerRotate * input.move.x;
+            steerAngle = Mathf.Clamp(steerAngle, -kart.steerRotate, kart.handleRotate);
+            kart.axleInfos[0].leftWheel.steerAngle = Mathf.Lerp(kart.axleInfos[0].leftWheel.steerAngle, steerAngle, Time.deltaTime * rotationSpeedFactor);
+            kart.axleInfos[0].rightWheel.steerAngle = Mathf.Lerp(kart.axleInfos[0].rightWheel.steerAngle, steerAngle, Time.deltaTime * rotationSpeedFactor);
         }
         else
         {
             // 속도가 빠를수록 핸들이 천천히 돌아옴
-            float returnSpeedFactor = Mathf.Clamp(KPH / 10, 1f, 10f); //=> 속도 빠를수록 빠르게 돌아올 경우
+            float returnSpeedFactor = 10; //Mathf.Clamp(KPH / 10, 1f, 10f);   // => 속도 빠를수록 빠르게 돌릴 경우
             //float returnSpeedFactor = Mathf.Clamp(kart.maxSpeed / KPH, 1f, 10f);
 
             kart.axleInfos[0].leftWheel.steerAngle = Mathf.Lerp(kart.axleInfos[0].leftWheel.steerAngle, 0, Time.deltaTime * returnSpeedFactor);
