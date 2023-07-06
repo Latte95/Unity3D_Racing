@@ -4,15 +4,30 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    #region ΩÃ±€≈Ê
+    public static GameManager Instance { get; private set; }
 
-    // Update is called once per frame
-    void Update()
+    private void Awake()
     {
-        
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+        Test();
+    }
+    #endregion ΩÃ±€≈Ê
+
+    public string charName { get; private set; }
+    public string kartName { get; private set; }
+
+    private void Test()
+    {
+        charName = "MairoModel";
+        kartName = "MarioKart";
     }
 }

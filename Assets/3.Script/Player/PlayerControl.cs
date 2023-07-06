@@ -59,7 +59,6 @@ public class PlayerControl : MonoBehaviour
     {
         TryGetComponent(out rigid);
         TryGetComponent(out input);
-        kart = transform.GetChild(0).GetComponentInChildren<Kart>();
     }
 
     private void Start()
@@ -68,17 +67,7 @@ public class PlayerControl : MonoBehaviour
         carWeigth = rigid.mass * 9.8f;
         tireContactArea = carWeigth / tirePressure;
 
-        // 안정성 위해 무게중심 밑으로 설정
-        Vector3 center = Vector3.zero;
-        int tireNum = 0;
-        foreach (GameObject go in kart.wheels_Col_Obj)
-        {
-            center += go.transform.localPosition;
-            Debug.Log($"{gameObject.name} 속도 : {go.transform.localPosition}");
-            tireNum++;
-        }
-        center /= tireNum;
-        rigid.centerOfMass = center + 0.1f * Vector3.down- 0.1f * Vector3.forward;
+        StartCoroutine(SetKart_co());
 
         SetState(cantMoveState);
         StartCoroutine(CountDown_co(1));
@@ -86,17 +75,17 @@ public class PlayerControl : MonoBehaviour
 
     private void Update()
     {
-        UpdateSpeed();
-        WheelPos();
-        SetAnimation();
+            UpdateSpeed();
+            WheelPos();
+            SetAnimation();
     }
 
     private void FixedUpdate()
     {
-        Drift();
-        Move();
-        Curve();
-        DownForce();
+            Drift();
+            Move();
+            Curve();
+            DownForce();
     }
 
     #region 이동
@@ -143,10 +132,13 @@ public class PlayerControl : MonoBehaviour
 
         // 토크 계산 (모터 힘)
         // 일정 속도 이전까지는 빠르게 가속
-        //if (Mathf.Abs(rpmAvg) < targetRPM && KPH < kart.maxSpeed * 0.8f)
-        if (KPH < kart.maxSpeed * 0.8f)
+        if (KPH < kart.maxSpeed * kart.accelSpeedRatio)
         {
-            targetTorque = kart.torque * input.move.y * 0.5f * (1 + (1 - KPH / kart.maxSpeed) * kart.accel);
+            targetTorque = kart.torque * input.move.y;
+            if (input.move.y > 0)
+            {
+                rigid.AddForce(-kart.accelForce * kart.wheels_Col_Obj[0].transform.up, ForceMode.Impulse);
+            }
         }
         // 최고 속도 넘어가면 가속x
         else if (KPH > kart.maxSpeed)
@@ -318,17 +310,51 @@ public class PlayerControl : MonoBehaviour
         }
     }
     #endregion 애니메이션
+
     #region 시작 전 초기 설정들
-    /// <summary>
-    /// 첫 시작시 카운트다운 이후 이동 가능
-    /// </summary>
-    /// <param name="time">카운트다운 시간</param>
-    /// <returns></returns>
     private void Init()
     {
+        GameObject kartPrefab = Resources.Load<GameObject>("Kart/" + GameManager.Instance.kartName);
+        if (kartPrefab != null)
+        {
+            GameObject kartInstance = Instantiate(kartPrefab, transform);
+            kartInstance.name = GameManager.Instance.kartName;
+            kartInstance.transform.SetSiblingIndex(0);
+            kartInstance.TryGetComponent(out kart);
+        }
+        GameObject characterPrefab = Resources.Load<GameObject>("Character/" + GameManager.Instance.charName);
+        if (characterPrefab != null)
+        {
+            GameObject characterInstance = Instantiate(characterPrefab, transform);
+            characterInstance.name = GameManager.Instance.charName;
+            characterInstance.transform.SetSiblingIndex(1);
+            characterInstance.TryGetComponent(out anim);
+        }
+
         // 게임이 시작하기 전까지는 도로에 떨어지는 이외의 움직임을 제한함
         rigid.constraints = ~(RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotationX);
     }
+
+    /// <summary>
+    /// kart 오브젝트가 생성되는 것을 기다린 뒤 kart 할당
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator SetKart_co()
+    {
+        Vector3 center = Vector3.zero;
+        int tireNum = 0;
+        yield return new WaitUntil(() => transform.GetChild(0).TryGetComponent(out kart));
+
+        foreach (GameObject go in kart.wheels_Col_Obj)
+        {
+            center += go.transform.localPosition;
+            Debug.Log($"{gameObject.name} 속도 : {go.transform.localPosition}");
+            tireNum++;
+        }
+        center /= tireNum;
+        rigid.centerOfMass = center + 0.1f * Vector3.down - 0.1f * Vector3.forward;
+    }
+
     /// <summary>
     /// 카운트 다운이 끝나면 플레이어가 이동 가능하도록 제어하는 코루틴
     /// </summary>

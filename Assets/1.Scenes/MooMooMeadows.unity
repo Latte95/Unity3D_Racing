@@ -3149,7 +3149,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 353044291}
-  m_LocalRotation: {x: 7.530599e-17, y: 0.9963991, z: -0.08478701, w: 4.4089097e-16}
+  m_LocalRotation: {x: -6.3171246e-10, y: 0.9963991, z: -0.084787, w: -0.0000000074237523}
   m_LocalPosition: {x: -313.1994, y: 103.44, z: -14.034479}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -6808,7 +6808,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 809909426}
-  m_LocalRotation: {x: 7.530599e-17, y: 0.9963991, z: -0.08478701, w: 4.4089097e-16}
+  m_LocalRotation: {x: -6.3171246e-10, y: 0.9963991, z: -0.084787, w: -0.0000000074237523}
   m_LocalPosition: {x: -313.1994, y: 103.44, z: -14.034479}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -7728,6 +7728,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a5606fd740239843bbcc392208d03b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  charName: 
+  kartName: 
 --- !u!4 &979302398
 Transform:
   m_ObjectHideFlags: 0
@@ -15573,8 +15575,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8039970409099073110}
-  m_LocalRotation: {x: -0.000061044644, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.3810011, z: 0}
+  m_LocalRotation: {x: -0.000061397914, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 6599178264113242103}
@@ -24715,7 +24717,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2895716328156984929}
   m_LocalRotation: {x: -0.000061044644, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.381, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 8006342002007084943}
@@ -31034,7 +31036,7 @@ BoxCollider:
   m_GameObject: {fileID: 7343522572029064722}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1.7901204, y: 0.70024467, z: 3.6861877}
   m_Center: {x: -0.058280826, y: 0.7880249, z: -0.2147841}
@@ -31388,6 +31390,7 @@ GameObject:
   - component: {fileID: 19873736237932286}
   - component: {fileID: 6720682307857905035}
   - component: {fileID: 6720682307857905034}
+  - component: {fileID: 8039970409099073111}
   m_Layer: 0
   m_Name: Kart
   m_TagString: Untagged
@@ -31395,6 +31398,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!65 &8039970409099073111
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8039970409099073110}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.89506, y: 0.4, z: 1.42}
+  m_Center: {x: 0, y: 0.09, z: -0.06}
 --- !u!4 &8051784327624933449
 Transform:
   m_ObjectHideFlags: 0

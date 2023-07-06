@@ -843,7 +843,7 @@ GameObject:
   - component: {fileID: 6391813670973031473}
   - component: {fileID: 6391813670973031472}
   m_Layer: 0
-  m_Name: Kart
+  m_Name: MarioKart
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

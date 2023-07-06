@@ -29,9 +29,11 @@ public class Kart : MonoBehaviour
     public float torque = 400.0f;
     [Tooltip("차량 최대 속도")]
     public float maxSpeed = 150f;
+    [Tooltip("최고속도에서 해당 수치만큼 곱한 속도까지 빠르게 가속")]
+    public float accelSpeedRatio = 0.8f;
     [Min(1)]
-    [Tooltip("속력이 낮을 때 더 빠르게 가속하기 위한 힘")]
-    public float accel = 100f;
+    [Tooltip("빠르게 가속하기 위한 힘")]
+    public float accelForce = 100f;
     public readonly float boostSpeed = 1.3f;
     [Tooltip("차량 최대 회전 각도")]
     public float steerRotate = 45.0f;
@@ -69,6 +71,12 @@ public class Kart : MonoBehaviour
 
     private void Awake()
     {
+        wheels_Col_Obj = new GameObject[4];
+        wheels_Col_Obj[0] = transform.parent.Find("FLWheel").gameObject;
+        wheels_Col_Obj[1] = transform.parent.Find("FRWheel").gameObject;
+        wheels_Col_Obj[2] = transform.parent.Find("RLWheel").gameObject;
+        wheels_Col_Obj[3] = transform.parent.Find("RRWheel").gameObject;
+
         int lenth = wheels_Col_Obj.Length;
         wheels_Col = new WheelCollider[lenth];
         for (int i = 0; i < lenth; i++)
@@ -132,6 +140,7 @@ public class Kart : MonoBehaviour
         maxSpeed = Mathf.Round(maxSpeed);
         maxSpeed = Mathf.Clamp(maxSpeed, 100f, 250f);
         steerRotate = Mathf.Clamp(steerRotate, 0f, 60f);
+        accelSpeedRatio = Mathf.Clamp(accelSpeedRatio, 0f, 1f);
     }
     #endregion 인스펙터
 }
