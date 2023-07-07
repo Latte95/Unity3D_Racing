@@ -54,6 +54,7 @@ public class PlayerControl : MonoBehaviour
     private readonly int JumpTrick1Hash = Animator.StringToHash("JumpTrick1");
     private readonly int JumpTrick2Hash = Animator.StringToHash("JumpTrick2");
 
+    private GameManager gameManager;
 
     private void Awake()
     {
@@ -280,7 +281,7 @@ public class PlayerControl : MonoBehaviour
         {
             KPH = 0f;
         }
-        speed_txt.text = KPH.ToString("F1");
+        speed_txt.text = ((int)KPH).ToString();
     }
 
     /// <summary>
@@ -302,7 +303,7 @@ public class PlayerControl : MonoBehaviour
             kart.wheels_Mesh[i * 2 + 1].transform.rotation = wheelRotation;
         }
     }
-    #endregion
+    #endregion 계산
 
     private void SetState(PlayerState state)
     {
@@ -347,27 +348,30 @@ public class PlayerControl : MonoBehaviour
     #region 시작 전 초기 설정들
     private void Init()
     {
+        gameManager = GameManager.Instance;
+
         // 카트 생성
-        GameObject kartPrefab = Resources.Load<GameObject>("Kart/" + GameManager.Instance.kartName);
+        GameObject kartPrefab = Resources.Load<GameObject>("Kart/" + gameManager.kartName);
         if (kartPrefab != null)
         {
             GameObject kartInstance = Instantiate(kartPrefab, transform);
-            kartInstance.name = GameManager.Instance.kartName;
+            kartInstance.name = gameManager.kartName;
             kartInstance.transform.SetSiblingIndex(0);
             kartInstance.TryGetComponent(out kart);
         }
         // 캐릭터 생성
-        GameObject characterPrefab = Resources.Load<GameObject>("Character/" + GameManager.Instance.charName);
+        GameObject characterPrefab = Resources.Load<GameObject>("Character/" + gameManager.charName);
         if (characterPrefab != null)
         {
             GameObject characterInstance = Instantiate(characterPrefab, transform);
-            characterInstance.name = GameManager.Instance.charName;
+            characterInstance.name = gameManager.charName;
             characterInstance.transform.SetSiblingIndex(1);
             characterInstance.TryGetComponent(out anim);
         }
 
         // 게임이 시작하기 전까지는 도로에 떨어지는 이외의 움직임을 제한함
         rigid.constraints = ~(RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotationX);
+
     }
 
     /// <summary>
@@ -408,6 +412,7 @@ public class PlayerControl : MonoBehaviour
 
         // 카운트 다운이 끝나면 이동 가능한 상태로 전환
         yield return new WaitForSeconds(time - preTime);
+        gameManager.isStart = true;
         SetState(nomalState);
     }
     #endregion 초기 설정

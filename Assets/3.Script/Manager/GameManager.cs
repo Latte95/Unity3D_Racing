@@ -24,6 +24,7 @@ public class GameManager : MonoBehaviour
 
     public string charName { get; private set; }
     public string kartName { get; private set; }
+    public bool isStart = false;
 
     private void Test()
     {
