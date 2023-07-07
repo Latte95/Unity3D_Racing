@@ -61,6 +61,7 @@ public class PlayerControl : MonoBehaviour
     private readonly int JumpTrick1Hash = Animator.StringToHash("JumpTrick1");
     private readonly int JumpTrick2Hash = Animator.StringToHash("JumpTrick2");
 
+    public Transform currentPosition;
 
     private void Awake()
     {
@@ -85,6 +86,7 @@ public class PlayerControl : MonoBehaviour
         UpdateSpeed();
         WheelPos();
         SetAnimation();
+        ResetPositon();
     }
 
     private void FixedUpdate()
@@ -249,6 +251,34 @@ public class PlayerControl : MonoBehaviour
         }
         curveBlend = (LFTire.steerAngle + RFTire.steerAngle) * 0.5f;
     }
+
+    private void ResetPositon()
+    {
+        bool canReset = currentPosition != null && input.resetPosition && !currentState.Equals(cantMoveState);
+        if (canReset)
+        {
+            Quaternion rotation = Quaternion.Euler(currentPosition.rotation.eulerAngles.x, currentPosition.rotation.eulerAngles.y + 180, currentPosition.rotation.eulerAngles.z);
+            transform.SetPositionAndRotation(currentPosition.position, rotation);
+            SetState(cantMoveState);
+            rigid.velocity = Vector3.zero;
+            LFTire.brakeTorque = 5000;
+            RFTire.brakeTorque = 5000;
+            LRTire.brakeTorque = 5000;
+            RRTire.brakeTorque = 5000;
+            rigid.constraints = RigidbodyConstraints.FreezePositionX| RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotationY;
+            StartCoroutine(ReMove_co());
+        }
+    }
+    private IEnumerator ReMove_co()
+    {
+        yield return new WaitUntil(() => LRTire.GetGroundHit(out WheelHit hit));
+        LFTire.brakeTorque = 0;
+        RFTire.brakeTorque = 0;
+        LRTire.brakeTorque = 0;
+        RRTire.brakeTorque = 0;
+        rigid.constraints = RigidbodyConstraints.None;
+        SetState(nomalState);
+    }
     #endregion 이동
 
     #region 계산
@@ -309,6 +339,14 @@ public class PlayerControl : MonoBehaviour
             kart.axleInfos[i].rightWheel.GetWorldPose(out wheelPosition, out wheelRotation);
             kart.wheels_Mesh[i * 2 + 1].transform.position = wheelPosition;
             kart.wheels_Mesh[i * 2 + 1].transform.rotation = wheelRotation;
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Path"))
+        {
+            currentPosition = other.gameObject.transform;
         }
     }
     #endregion 계산

@@ -10,6 +10,7 @@ public class PlayerInput : MonoBehaviour
     public bool drift;
     public bool useItem;
     public bool changeItem;
+    public bool resetPosition;
 
     [Header("Mouse Cursor Settings")]
     public bool cursorLocked = true;
@@ -28,12 +29,17 @@ public class PlayerInput : MonoBehaviour
 
     public void OnUseItem()
     {
-        
+
     }
 
     public void OnChangeItem()
     {
-        
+
+    }
+
+    public void OnResetPosition(InputValue value)
+    {
+        resetPosition = value.isPressed;
     }
 #endif
 }

@@ -9,6 +9,12 @@ TagManager:
   - Fense
   - WheelMesh
   - WheelCollider
+  - Coin
+  - GliderPanel
+  - fence
+  - TrickCollider
+  - Dirt
+  - Path
   layers:
   - Default
   - TransparentFX
