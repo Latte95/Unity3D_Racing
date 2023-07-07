@@ -5665,6 +5665,7 @@ GameObject:
   - component: {fileID: 622821805}
   - component: {fileID: 622821807}
   - component: {fileID: 622821806}
+  - component: {fileID: 622821808}
   m_Layer: 5
   m_Name: Time
   m_TagString: Untagged
@@ -5732,6 +5733,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 622821804}
   m_CullTransparentMesh: 1
+--- !u!114 &622821808
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 622821804}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8f50165b01707349a9cbae2007a71f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lapPlusTime_txt: {fileID: 1918748818}
+  currnetTime_txt: {fileID: 1158621}
+  bestTime_txt: {fileID: 1097935568}
 --- !u!4 &633327599 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: c09b20565a7988241b00b77f77d6551a,
@@ -10264,7 +10280,6 @@ GameObject:
   - component: {fileID: 1159175321}
   - component: {fileID: 1159175320}
   - component: {fileID: 1159175319}
-  - component: {fileID: 1159175323}
   m_Layer: 5
   m_Name: CommonUI
   m_TagString: Untagged
@@ -10354,22 +10369,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &1159175323
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1159175318}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 975074bcfedaac7489925100b2694eb2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currnetLap_txt: {fileID: 1007670786}
-  lapPlusTime_txt: {fileID: 1918748818}
-  currnetTime_txt: {fileID: 1158621}
-  bestTime_txt: {fileID: 1097935568}
 --- !u!1001 &1163996608
 PrefabInstance:
   m_ObjectHideFlags: 0
