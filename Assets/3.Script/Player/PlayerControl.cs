@@ -363,7 +363,7 @@ public class PlayerControl : MonoBehaviour
         if (kartPrefab != null)
         {
             GameObject kartInstance = Instantiate(kartPrefab, transform);
-            kartInstance.name = gameManager.kartName;
+            kartInstance.name = "Kart";
             kartInstance.transform.SetSiblingIndex(0);
             kartInstance.TryGetComponent(out kart);
         }

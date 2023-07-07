@@ -2,6 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum ECharacter
+{
+    Mario,
+    Luigi,
+}
 public class GameManager : MonoBehaviour
 {
     #region ΩÃ±€≈Ê
@@ -28,7 +33,7 @@ public class GameManager : MonoBehaviour
 
     private void Test()
     {
-        charName = "MairoModel";
-        kartName = "MarioKart";
+        charName = ECharacter.Mario.ToString();
+        kartName = ECharacter.Mario.ToString();
     }
 }
