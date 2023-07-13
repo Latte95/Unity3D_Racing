@@ -34,15 +34,20 @@ public interface IItemBehavior
 
 public class BananaBehavior : IItemBehavior
 {
-    public GameObject bananaPrefab;
-
     public void UseItem(CharacterControl user)
     {
-        user.banana.SetActive(true);
-
+        GameObject item = ItemManager.Instance.MakeItem(EItem.Banana);
+        item.SetActive(true);
         Vector3 position = user.transform.position + user.transform.up - 3 * user.transform.forward;
-        Quaternion rotation = user.transform.rotation * user.banana.transform.rotation;
-        user.banana.transform.SetPositionAndRotation(position, rotation);
+        Quaternion rotation = user.transform.rotation * item.transform.rotation;
+        item.transform.SetPositionAndRotation(position, rotation);
+
+
+        //user.banana.SetActive(true);
+
+        //Vector3 position = user.transform.position + user.transform.up - 3 * user.transform.forward;
+        //Quaternion rotation = user.transform.rotation * user.banana.transform.rotation;
+        //user.banana.transform.SetPositionAndRotation(position, rotation);
     }
 }
 
@@ -57,35 +62,39 @@ public class GoldMushroomBehavior : IItemBehavior
 
 public class GreenShellBehavior : IItemBehavior
 {
-    //public GameObject ;
-
     public void UseItem(CharacterControl user)
     {
-
+        GameObject item = ItemManager.Instance.MakeItem(EItem.GreenShell);
+        item.SetActive(true);
+        Vector3 position = user.transform.position + user.transform.up - 3 * user.transform.forward;
+        Quaternion rotation = user.transform.rotation * item.transform.rotation;
+        item.transform.SetPositionAndRotation(position, rotation);
     }
 }
 public class RedShellBehavior : IItemBehavior
 {
-    //public GameObject ;
-
     public void UseItem(CharacterControl user)
     {
-
+        GameObject item = ItemManager.Instance.MakeItem(EItem.RedShell);
+        item.SetActive(true);
+        Vector3 position = user.transform.position + user.transform.up - 3 * user.transform.forward;
+        Quaternion rotation = user.transform.rotation * item.transform.rotation;
+        item.transform.SetPositionAndRotation(position, rotation);
     }
 }
 public class BlueShellBehavior : IItemBehavior
 {
-    //public GameObject ;
-
     public void UseItem(CharacterControl user)
     {
-
+        GameObject item = ItemManager.Instance.MakeItem(EItem.BlueShell);
+        item.SetActive(true);
+        Vector3 position = user.transform.position + user.transform.up - 3 * user.transform.forward;
+        Quaternion rotation = user.transform.rotation * item.transform.rotation;
+        item.transform.SetPositionAndRotation(position, rotation);
     }
 }
 public class StarBehavior : IItemBehavior
 {
-    //public GameObject ;
-
     public void UseItem(CharacterControl user)
     {
 

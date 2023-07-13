@@ -21,32 +21,32 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Ground
   - Water
   - UI
   - 
-  - 
-  - PostProcessing
-  - PlayerCollider
   - Player
-  - GliderPath
-  - Path
-  - Shell
-  - OrbitingItems
-  - Surroundings
-  - Banana
-  - DIRECTIONAL LIGHT
-  - JumpPanel
-  - Fence
-  - PlayerBody
-  - Checkpoints
-  - Opponent
-  - PanelsAndTriggers
-  - TrailingItems
-  - ShellPlatforms
-  - Trolley
-  - PlayerClothes
-  - Tire
+  - AI
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - Item
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
   - 
   - 
   - 
