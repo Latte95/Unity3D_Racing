@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerControl : MonoBehaviour
+public class PlayerControl : CharacterControl
 {
     [Header("Kart")]
     public Kart kart;
@@ -12,7 +12,8 @@ public class PlayerControl : MonoBehaviour
     [Header("Status")]
     [Tooltip("차량의 회전 반지름")]
     public float radius = 60;
-    private float driftAngle = 1;
+    [Tooltip("마찰력 변화율")]
+    private float stiffnessTransition = 0f;
 
     [Header("State")]
     private PlayerState currentState = new CantMoveState();
@@ -34,10 +35,16 @@ public class PlayerControl : MonoBehaviour
     [Header("Components")]
     public PlayerInput input;
     [SerializeField]
+    [Tooltip("캐릭터 모델 애니메이터")]
     private Animator anim;
-    Rigidbody rigid;
+    [HideInInspector]
+    public Rigidbody rigid;
     [SerializeField]
+    [Tooltip("속도 표시 텍스트 UI")]
     private Text speed_txt;
+
+    //[HideInInspector]
+    public Inventory inven;
 
     // 캐싱
     private GameManager gameManager;
@@ -61,12 +68,15 @@ public class PlayerControl : MonoBehaviour
     private readonly int JumpTrick1Hash = Animator.StringToHash("JumpTrick1");
     private readonly int JumpTrick2Hash = Animator.StringToHash("JumpTrick2");
 
-    public Transform currentPosition;
+    public Transform currentCheckPoint;
 
     private void Awake()
     {
         TryGetComponent(out rigid);
         TryGetComponent(out input);
+        TryGetComponent(out inven);
+
+        boost_wait = new WaitUntil(() => boostTime > 0);
     }
 
     private void Start()
@@ -87,6 +97,7 @@ public class PlayerControl : MonoBehaviour
         WheelPos();
         SetAnimation();
         ResetPositon();
+        UseItem();
     }
 
     private void FixedUpdate()
@@ -95,10 +106,20 @@ public class PlayerControl : MonoBehaviour
         Move();
         Curve();
         DownForce();
+        AirBorne();
+    }
+
+    private void UseItem()
+    {
+        if (input.useItem && inven.items != null)
+        {
+            input.useItem = false;
+            inven.items[0].behavior.UseItem(this);
+            inven.RemoveItem();
+        }
     }
 
     #region 이동
-    private float stiffnessTransition = 0f;
     private void Drift()
     {
         LRTire.GetGroundHit(out WheelHit hit);
@@ -115,7 +136,7 @@ public class PlayerControl : MonoBehaviour
             }
             else
             {
-                stiffnessTransition += Time.deltaTime * 2f;
+                stiffnessTransition += Time.deltaTime * 0.3f;
 
                 WheelFrictionCurve newFrictionCurve = LRTire.sidewaysFriction;
                 newFrictionCurve.asymptoteValue = Mathf.Lerp(kart.driftRearTireSideFric.asymptoteValue, kart.initRearTireSideFric.asymptoteValue, stiffnessTransition);
@@ -127,7 +148,9 @@ public class PlayerControl : MonoBehaviour
                 bool isMovingForward = input.move.y > 0 && !currentState.Equals(cantMoveState);
                 if (isMovingForward)
                 {
-                    rigid.AddForce(-kart.accelForce * kart.wheels_Col_Obj[0].transform.up, ForceMode.Impulse);
+                    Quaternion rotation = Quaternion.Euler(0, LFTire.steerAngle, 0);
+                    Vector3 direction = rotation * -LFTire.transform.up;
+                    rigid.AddForce(kart.accelForce * 3 * direction, ForceMode.Impulse);
                 }
             }
         }
@@ -137,14 +160,6 @@ public class PlayerControl : MonoBehaviour
 
             LRTire.sidewaysFriction = kart.initRearTireSideFric;
             RRTire.sidewaysFriction = kart.initRearTireSideFric;
-        }
-        if (input.drift)
-        {
-            driftAngle = 1.5f;
-        }
-        else
-        {
-            driftAngle = 1;
         }
     }
 
@@ -228,7 +243,7 @@ public class PlayerControl : MonoBehaviour
             float rotationSpeedFactor = Mathf.Clamp(kart.maxSpeed / KPH, 1f, 5f);
             float steerAngle = currentState.Curve() * Mathf.Rad2Deg * Mathf.Atan(kart.wheelBase / (radius + kart.vehicleWidth * 0.5f * input.move.x)) * kart.steerRotate * input.move.x;
 
-            steerAngle = Mathf.Clamp(steerAngle, -kart.steerRotate, kart.handleRotate);
+            steerAngle = Mathf.Clamp(steerAngle, -kart.steerRotate, kart.handleAccel);
             if (input.drift)
             {
                 LFTire.steerAngle = kart.steerRotate * input.move.x;
@@ -254,18 +269,19 @@ public class PlayerControl : MonoBehaviour
 
     private void ResetPositon()
     {
-        bool canReset = currentPosition != null && input.resetPosition && !currentState.Equals(cantMoveState);
+        bool canReset = currentCheckPoint != null && input.resetPosition && !currentState.Equals(cantMoveState);
         if (canReset)
         {
-            Quaternion rotation = Quaternion.Euler(currentPosition.rotation.eulerAngles.x, currentPosition.rotation.eulerAngles.y + 180, currentPosition.rotation.eulerAngles.z);
-            transform.SetPositionAndRotation(currentPosition.position, rotation);
-            SetState(cantMoveState);
+            Quaternion rotation = Quaternion.Euler(currentCheckPoint.rotation.eulerAngles.x, currentCheckPoint.rotation.eulerAngles.y + 180, currentCheckPoint.rotation.eulerAngles.z);
+            transform.SetPositionAndRotation(currentCheckPoint.position, rotation);
+            //SetState(cantMoveState);
             rigid.velocity = Vector3.zero;
+            rigid.angularVelocity = Vector3.zero;
             LFTire.brakeTorque = 5000;
             RFTire.brakeTorque = 5000;
             LRTire.brakeTorque = 5000;
             RRTire.brakeTorque = 5000;
-            rigid.constraints = RigidbodyConstraints.FreezePositionX| RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotationY;
+            rigid.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotationY;
             StartCoroutine(ReMove_co());
         }
     }
@@ -277,7 +293,7 @@ public class PlayerControl : MonoBehaviour
         LRTire.brakeTorque = 0;
         RRTire.brakeTorque = 0;
         rigid.constraints = RigidbodyConstraints.None;
-        SetState(nomalState);
+        //SetState(nomalState);
     }
     #endregion 이동
 
@@ -302,11 +318,11 @@ public class PlayerControl : MonoBehaviour
 
         // 속도가 빠를 수록 회전시 sideSlip이 커짐 => 마찰력 감소
         // ㄴasymptoteSlip을 속도에 비례하게 변화켜 미끄러짐 방지
-        tempFric = kart.initForwardTireSideFric;
-        tempFric.extremumSlip *= (1 + force / rigid.mass);
-        tempFric.asymptoteSlip *= (1 + force / rigid.mass);
-        LFTire.sidewaysFriction = tempFric;
-        RFTire.sidewaysFriction = tempFric;
+        //tempFric = kart.initForwardTireSideFric;
+        //tempFric.extremumSlip *= (1 + force / rigid.mass);
+        //tempFric.asymptoteSlip *= (1 + force / rigid.mass);
+        //LFTire.sidewaysFriction = tempFric;
+        //RFTire.sidewaysFriction = tempFric;
     }
 
     /// <summary>
@@ -334,19 +350,32 @@ public class PlayerControl : MonoBehaviour
         for (int i = 0; i < length; i++)
         {
             kart.axleInfos[i].leftWheel.GetWorldPose(out wheelPosition, out wheelRotation);
-            kart.wheels_Mesh[i * 2].transform.position = wheelPosition;
-            kart.wheels_Mesh[i * 2].transform.rotation = wheelRotation;
+            kart.wheels_Mesh[i * 2].transform.SetPositionAndRotation(wheelPosition, wheelRotation);
             kart.axleInfos[i].rightWheel.GetWorldPose(out wheelPosition, out wheelRotation);
-            kart.wheels_Mesh[i * 2 + 1].transform.position = wheelPosition;
-            kart.wheels_Mesh[i * 2 + 1].transform.rotation = wheelRotation;
+            kart.wheels_Mesh[i * 2 + 1].transform.SetPositionAndRotation(wheelPosition, wheelRotation);
+        }
+    }
+
+    /// <summary>
+    /// 공중에서 착지하기 전에 DownForce에 의해 앞으로 고꾸라지는 것 방지하는 메소드
+    /// </summary>
+    private void AirBorne()
+    {
+        if(!LRTire.isGrounded && !RRTire.isGrounded)
+        {
+            if(transform.rotation.x>0)
+            {
+                rigid.angularVelocity = new Vector3(0, rigid.angularVelocity.y, rigid.angularVelocity.z);
+            }
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
+        // 리셋 위치 저장
         if (other.CompareTag("Path"))
         {
-            currentPosition = other.gameObject.transform;
+            currentCheckPoint = other.gameObject.transform;
         }
     }
     #endregion 계산
@@ -465,6 +494,29 @@ public class PlayerControl : MonoBehaviour
         yield return new WaitForSeconds(time - preTime);
         gameManager.isStart = true;
         SetState(nomalState);
+        StartCoroutine(Boost_co());
     }
     #endregion 초기 설정
+
+    public override void HandleItem(Item item)
+    {
+        inven.AddItem(item);
+    }
+
+    public override IEnumerator Boost_co()
+    {
+        while (true)
+        {
+            yield return boost_wait;
+            boostTime -= Time.deltaTime;
+            if (boostTime < 0)
+            {
+                boostTime = 0;
+            }
+
+            Quaternion rotation = Quaternion.Euler(0, LFTire.steerAngle, 0);
+            Vector3 direction = rotation * -LFTire.transform.up;
+            rigid.AddForce(kart.boostForce * direction, ForceMode.Impulse);
+        }
+    }
 }

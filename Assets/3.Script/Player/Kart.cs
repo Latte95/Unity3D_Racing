@@ -23,29 +23,26 @@ public class Kart : MonoBehaviour
 {
     [Space]
     [Header("Status")]
-    [SerializeField]
-    [Tooltip("바퀴 돌리는 엔진 힘")]
-    [Range(400,1600)]
+    [SerializeField][Range(400,1600)][Tooltip("바퀴 돌리는 엔진 힘")]
     public float torque = 400.0f;
     [Tooltip("차량 최대 속도")]
     public float maxSpeed = 150f;
+    [Tooltip("차량 부스터 속도")]
+    public float boostForce = 100;
     [Tooltip("최고속도에서 해당 수치만큼 곱한 속도까지 빠르게 가속")]
     public float accelSpeedRatio = 0.8f;
-    [Min(1)]
-    [Tooltip("빠르게 가속하기 위한 힘")]
+    [Min(1)][Tooltip("빠르게 가속하기 위한 힘")]
     public float accelForce = 100f;
-    public readonly float boostSpeed = 1.3f;
     [Tooltip("차량 최대 회전 각도")]
     public float steerRotate = 45.0f;
     [Tooltip("차량 회전 가속도")]
-    public float handleRotate = 45.0f;
+    public float handleAccel = 45.0f;
 
     [Space]
     [Header("Tires")]
     [Space(20)]
     [Tooltip("드리프트시 후면 타이어 마찰력 계수")]
-    [Range(0, 1)]
-    public float driftFriction = 0.75f;
+    private float driftFriction = 0.85f;
     [Tooltip("바퀴 메쉬 오브젝트")]
     public GameObject[] wheels_Mesh;
     private WheelCollider[] wheels_Col;
@@ -56,8 +53,6 @@ public class Kart : MonoBehaviour
     public float vehicleWidth { get; private set; }
     public float wheelBase { get; private set; }
 
-
-
     public WheelFrictionCurve initForwardTireForwardFric;
     public WheelFrictionCurve initForwardTireSideFric;
     public WheelFrictionCurve initRearTireForwardFric;
@@ -66,15 +61,12 @@ public class Kart : MonoBehaviour
     public WheelFrictionCurve driftRearTireSideFric;
 
 
-    [Header("Components")]
-    private Animator anim;
-
     private void Awake()
     {
         wheels_Col_Obj = new GameObject[4];
-        wheels_Col_Obj[0] = transform.parent.Find("FLWheel").gameObject;
-        wheels_Col_Obj[1] = transform.parent.Find("FRWheel").gameObject;
-        wheels_Col_Obj[2] = transform.parent.Find("RLWheel").gameObject;
+        wheels_Col_Obj[0] = transform.parent.Find("LFWheel").gameObject;
+        wheels_Col_Obj[1] = transform.parent.Find("RFWheel").gameObject;
+        wheels_Col_Obj[2] = transform.parent.Find("LRWheel").gameObject;
         wheels_Col_Obj[3] = transform.parent.Find("RRWheel").gameObject;
 
         int lenth = wheels_Col_Obj.Length;
@@ -83,8 +75,6 @@ public class Kart : MonoBehaviour
         {
             wheels_Col[i] = wheels_Col_Obj[i].GetComponent<WheelCollider>();
         }
-
-        TryGetComponent(out anim);
 
         SetAxelInfo();
         SaveFriction();

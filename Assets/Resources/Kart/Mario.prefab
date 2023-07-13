@@ -880,10 +880,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   torque: 800
   maxSpeed: 150
-  accel: 100
+  boostForce: 100
+  accelSpeedRatio: 0.8
+  accelForce: 100
   steerRotate: 45
   handleRotate: 45
-  driftFriction: 0.75
   wheels_Mesh:
   - {fileID: 6391813672145663479}
   - {fileID: 6391813671257230740}

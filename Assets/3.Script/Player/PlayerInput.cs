@@ -27,9 +27,9 @@ public class PlayerInput : MonoBehaviour
         drift = value.isPressed;
     }
 
-    public void OnUseItem()
+    public void OnUseItem(InputValue value)
     {
-
+        useItem = value.isPressed;
     }
 
     public void OnChangeItem()
