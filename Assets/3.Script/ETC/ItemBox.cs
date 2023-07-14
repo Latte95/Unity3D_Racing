@@ -40,8 +40,8 @@ public class ItemBox : MonoBehaviour
         {
             Deactivate();
 
-            int random = Random.Range(0, (int)EItem.Count);
-            //int random = (int)EItem.Banana;
+            //int random = Random.Range(0, (int)EItem.Count);
+            int random = (int)EItem.GoldMushroom;
             IItemBehavior behavior = GetBehaviorForItem((EItem)random);
             Item newItem = new Item((EItem)random, behavior);
             character.HandleItem(newItem);

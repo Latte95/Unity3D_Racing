@@ -27,8 +27,10 @@ public class Kart : MonoBehaviour
     public float torque = 400.0f;
     [Tooltip("차량 최대 속도")]
     public float maxSpeed = 150f;
-    [Tooltip("차량 부스터 속도")]
-    public float boostForce = 100;
+    [Tooltip("차량 부스터 최대 속도")]
+    public float boostSpeed = 180f;
+    [Tooltip("차량 부스터 힘")]
+    public float boostForce = 1.05f;
     [Tooltip("최고속도에서 해당 수치만큼 곱한 속도까지 빠르게 가속")]
     public float accelSpeedRatio = 0.8f;
     [Min(1)][Tooltip("빠르게 가속하기 위한 힘")]

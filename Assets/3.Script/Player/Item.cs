@@ -41,13 +41,6 @@ public class BananaBehavior : IItemBehavior
         Vector3 position = user.transform.position + user.transform.up - 3 * user.transform.forward;
         Quaternion rotation = user.transform.rotation * item.transform.rotation;
         item.transform.SetPositionAndRotation(position, rotation);
-
-
-        //user.banana.SetActive(true);
-
-        //Vector3 position = user.transform.position + user.transform.up - 3 * user.transform.forward;
-        //Quaternion rotation = user.transform.rotation * user.banana.transform.rotation;
-        //user.banana.transform.SetPositionAndRotation(position, rotation);
     }
 }
 

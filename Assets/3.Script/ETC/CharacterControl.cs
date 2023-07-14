@@ -23,6 +23,8 @@ public abstract class CharacterControl : MonoBehaviour
 
     [HideInInspector]
     public float boostTime = 0f;
+    // 현재 속도 (km/h)
+    protected float KPH;
     protected WaitUntil boost_wait;
 
     protected void Awake()
@@ -31,6 +33,26 @@ public abstract class CharacterControl : MonoBehaviour
 
         boost_wait = new WaitUntil(() => boostTime > 0);
         StartCoroutine(SetKart_co());
+    }
+    protected void Update()
+    {
+        CalculateKPH();
+    }
+    protected void FixedUpdate()
+    {
+        if(boostTime>0 && kart.boostSpeed > KPH)
+        {
+            Vector3 boostSpeed = new Vector3(kart.boostForce * rigid.velocity.x, rigid.velocity.y, kart.boostForce * rigid.velocity.z);
+            rigid.velocity = boostSpeed;
+        }
+    }
+    protected void CalculateKPH()
+    {
+        KPH = rigid.velocity.magnitude * 3.6f;
+        if (KPH < 0.9f)
+        {
+            KPH = 0f;
+        }
     }
 
     public abstract void HandleItem(Item item);
@@ -72,7 +94,7 @@ public abstract class CharacterControl : MonoBehaviour
         yield return new WaitUntil(() => transform.GetChild(0).TryGetComponent(out kart));
 
         Init();
-        StartCoroutine(Boost_co());
+        //StartCoroutine(Boost_co());
         foreach (GameObject go in kart.wheels_Col_Obj)
         {
             center += go.transform.localPosition;

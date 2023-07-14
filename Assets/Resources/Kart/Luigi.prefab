@@ -880,7 +880,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   torque: 800
   maxSpeed: 150
-  boostForce: 10
+  boostSpeed: 180
+  boostForce: 1.05
   accelSpeedRatio: 0.8
   accelForce: 10
   steerRotate: 45

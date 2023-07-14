@@ -10,8 +10,6 @@ public class PlayerControl : CharacterControl
     public float radius = 60;
     [Tooltip("마찰력 변화율")]
     private float stiffnessTransition = 0f;
-    // 현재 속도 (km/h)
-    private float KPH;
 
     [Header("State")]
     private PlayerState currentState = new CantMoveState();
@@ -78,8 +76,9 @@ public class PlayerControl : CharacterControl
         StartCoroutine(CountDown_co(1));
     }
 
-    private void Update()
+    private new void Update()
     {
+        base.Update();
         UpdateSpeed();
         WheelPos();
         SetAnimation();
@@ -87,13 +86,21 @@ public class PlayerControl : CharacterControl
         UseItem();
     }
 
-    private void FixedUpdate()
+    private new void FixedUpdate()
     {
         Drift();
         Move();
         Curve();
         DownForce();
         AirBorne();
+        if (input.move.y > 0)
+        {
+            base.FixedUpdate();
+        }
+        else if (boostTime > 0)
+        {
+            boostTime = 0;
+        }
     }
 
     private void UseItem()
@@ -317,11 +324,6 @@ public class PlayerControl : CharacterControl
     /// </summary>
     private void UpdateSpeed()
     {
-        KPH = rigid.velocity.magnitude * 3.6f;
-        if (KPH < 0.9f)
-        {
-            KPH = 0f;
-        }
         speed_txt.text = ((int)KPH).ToString();
     }
 
