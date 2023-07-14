@@ -11,15 +11,16 @@ public abstract class CharacterControl : MonoBehaviour
     public GameObject blueShell;
 
     public Kart kart;
-    protected WheelCollider LFTire;
-    protected WheelCollider RFTire;
-    protected WheelCollider LRTire;
-    protected WheelCollider RRTire;
+    public WheelCollider LFTire;
+    public WheelCollider RFTire;
+    public WheelCollider LRTire;
+    public WheelCollider RRTire;
 
     [Header("컴포넌트")]
-    protected Rigidbody rigid;
+    [HideInInspector]
+    public Rigidbody rigid;
     [SerializeField][Tooltip("캐릭터 모델 애니메이터")]
-    protected Animator anim;
+    protected Animator charAnim;
 
     [HideInInspector]
     public float boostTime = 0f;
@@ -78,9 +79,13 @@ public abstract class CharacterControl : MonoBehaviour
     protected void Init()
     {
         LFTire = kart.axleInfos[0].leftWheel;
+        LFTire.transform.SetParent(kart.transform);
         RFTire = kart.axleInfos[0].rightWheel;
+        RFTire.transform.SetParent(kart.transform);
         LRTire = kart.axleInfos[1].leftWheel;
+        LRTire.transform.SetParent(kart.transform);
         RRTire = kart.axleInfos[1].rightWheel;
+        RRTire.transform.SetParent(kart.transform);
     }
 
     /// <summary>

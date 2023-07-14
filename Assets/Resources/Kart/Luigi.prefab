@@ -842,6 +842,7 @@ GameObject:
   - component: {fileID: 138206453828990300}
   - component: {fileID: 6694937248844586537}
   - component: {fileID: 6694937248844586536}
+  - component: {fileID: 5566425019623598104}
   m_Layer: 0
   m_Name: Luigi
   m_TagString: Untagged
@@ -911,3 +912,22 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 2
   m_Center: {x: 0, y: 0.09, z: 0}
+--- !u!95 &5566425019623598104
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7943838994196233716}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 142a74d42c6e9f84d85db1936e215f5d, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

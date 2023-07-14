@@ -55,6 +55,9 @@ public class Kart : MonoBehaviour
     public float vehicleWidth { get; private set; }
     public float wheelBase { get; private set; }
 
+    [HideInInspector]
+    public Animator anim;
+
     public WheelFrictionCurve initForwardTireForwardFric;
     public WheelFrictionCurve initForwardTireSideFric;
     public WheelFrictionCurve initRearTireForwardFric;
@@ -62,9 +65,14 @@ public class Kart : MonoBehaviour
     public WheelFrictionCurve driftRearTireForwardFric;
     public WheelFrictionCurve driftRearTireSideFric;
 
+    // 애니메이션 캐싱
+    public readonly int BananaHitHash = Animator.StringToHash("BananaHit");
+    public readonly int ShellHitHash = Animator.StringToHash("ShellHit");
 
     private void Awake()
     {
+        TryGetComponent(out anim);
+
         wheels_Col_Obj = new GameObject[4];
         wheels_Col_Obj[0] = transform.parent.Find("LFWheel").gameObject;
         wheels_Col_Obj[1] = transform.parent.Find("RFWheel").gameObject;

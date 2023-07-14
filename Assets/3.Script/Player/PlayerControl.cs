@@ -105,11 +105,14 @@ public class PlayerControl : CharacterControl
 
     private void UseItem()
     {
-        if (input.useItem && inven.items != null)
+        if (input.useItem)
         {
             input.useItem = false;
-            inven.items[0].behavior.UseItem(this);
-            inven.RemoveItem();
+            if (inven.items.Count > 0)
+            {
+                inven.items[0].behavior.UseItem(this);
+                inven.RemoveItem();
+            }
         }
     }
 
@@ -385,13 +388,13 @@ public class PlayerControl : CharacterControl
         // 커브
         if (input.move.y >= 0)
         {
-            anim.SetFloat("Curve", curveBlend);
+            charAnim.SetFloat("Curve", curveBlend);
         }
         // 후진 시 기울임 x
         else
         {
-            anim.SetBool(TurnRightHash, false);
-            anim.SetBool(TurnLeftHash, false);
+            charAnim.SetBool(TurnRightHash, false);
+            charAnim.SetBool(TurnLeftHash, false);
         }
 
         // 후진
@@ -400,11 +403,11 @@ public class PlayerControl : CharacterControl
         // 뒤 키를 누르고 있고, 뒤로 이동중일 때 뒤를 쳐다봄
         if (input.move.y < 0 && dotProduct < 0 && KPH > 5)
         {
-            anim.SetBool(ReverseHash, true);
+            charAnim.SetBool(ReverseHash, true);
         }
         else
         {
-            anim.SetBool(ReverseHash, false);
+            charAnim.SetBool(ReverseHash, false);
         }
     }
     #endregion 애니메이션
@@ -414,26 +417,26 @@ public class PlayerControl : CharacterControl
     {
         gameManager = GameManager.Instance;
 
-        // 카트 생성
         GameObject kartPrefab = Resources.Load<GameObject>("Kart/" + gameManager.kartName);
         if (kartPrefab != null)
         {
+            // 카트 생성
             GameObject kartInstance = Instantiate(kartPrefab, transform);
             kartInstance.name = "Kart";
             kartInstance.transform.SetSiblingIndex(0);
             kartInstance.TryGetComponent(out kart);
+
+            // 캐릭터 생성
+            GameObject characterPrefab = Resources.Load<GameObject>("Character/" + gameManager.charName);
+            if (characterPrefab != null)
+            {
+                GameObject characterInstance = Instantiate(characterPrefab, kartInstance.transform);
+                characterInstance.name = gameManager.charName;
+                characterInstance.transform.SetSiblingIndex(1);
+                characterInstance.TryGetComponent(out charAnim);
+            }
         }
         base.Init();
-
-        // 캐릭터 생성
-        GameObject characterPrefab = Resources.Load<GameObject>("Character/" + gameManager.charName);
-        if (characterPrefab != null)
-        {
-            GameObject characterInstance = Instantiate(characterPrefab, transform);
-            characterInstance.name = gameManager.charName;
-            characterInstance.transform.SetSiblingIndex(1);
-            characterInstance.TryGetComponent(out anim);
-        }
 
         // 게임이 시작하기 전까지는 도로에 떨어지는 이외의 움직임을 제한함
         rigid.constraints = ~(RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotationX);

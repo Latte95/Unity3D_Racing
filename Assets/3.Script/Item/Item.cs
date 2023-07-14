@@ -37,10 +37,12 @@ public class BananaBehavior : IItemBehavior
     public void UseItem(CharacterControl user)
     {
         GameObject item = ItemManager.Instance.MakeItem(EItem.Banana);
-        item.SetActive(true);
         Vector3 position = user.transform.position + user.transform.up - 3 * user.transform.forward;
-        Quaternion rotation = user.transform.rotation * item.transform.rotation;
+        Vector3 eulerRotation = new Vector3(-user.transform.rotation.eulerAngles.x, user.transform.rotation.eulerAngles.y + 180, -user.transform.rotation.eulerAngles.z);
+        Quaternion rotation = Quaternion.Euler(eulerRotation);
+
         item.transform.SetPositionAndRotation(position, rotation);
+        item.SetActive(true);
     }
 }
 
@@ -52,16 +54,15 @@ public class GoldMushroomBehavior : IItemBehavior
     }
 }
 
-
 public class GreenShellBehavior : IItemBehavior
 {
     public void UseItem(CharacterControl user)
     {
         GameObject item = ItemManager.Instance.MakeItem(EItem.GreenShell);
-        item.SetActive(true);
-        Vector3 position = user.transform.position + user.transform.up - 3 * user.transform.forward;
-        Quaternion rotation = user.transform.rotation * item.transform.rotation;
+        Vector3 position = user.transform.position + user.transform.up + 3 * user.transform.forward;
+        Quaternion rotation = user.transform.rotation;
         item.transform.SetPositionAndRotation(position, rotation);
+        item.SetActive(true);
     }
 }
 public class RedShellBehavior : IItemBehavior
@@ -70,8 +71,8 @@ public class RedShellBehavior : IItemBehavior
     {
         GameObject item = ItemManager.Instance.MakeItem(EItem.RedShell);
         item.SetActive(true);
-        Vector3 position = user.transform.position + user.transform.up - 3 * user.transform.forward;
-        Quaternion rotation = user.transform.rotation * item.transform.rotation;
+        Vector3 position = user.transform.position + user.transform.up + 3 * user.transform.forward;
+        Quaternion rotation = user.transform.rotation;
         item.transform.SetPositionAndRotation(position, rotation);
     }
 }
