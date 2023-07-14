@@ -41,12 +41,11 @@ public class Kart : MonoBehaviour
     public float handleAccel = 45.0f;
 
     [Space]
-    [Header("Tires")]
-    [Space(20)]
-    [Tooltip("드리프트시 후면 타이어 마찰력 계수")]
-    private float driftFriction = 0.85f;
+    [Header("Tires")][Space(10)]
     [Tooltip("바퀴 메쉬 오브젝트")]
     public GameObject[] wheels_Mesh;
+    [Tooltip("드리프트시 후면 타이어 마찰력 계수")]
+    private float driftFriction = 0.85f;
     private WheelCollider[] wheels_Col;
     [Tooltip("휠콜라이더 오브젝트")]
     public GameObject[] wheels_Col_Obj;
@@ -54,6 +53,9 @@ public class Kart : MonoBehaviour
     public List<AxleInfo> axleInfos;
     public float vehicleWidth { get; private set; }
     public float wheelBase { get; private set; }
+
+    [Header("파티클")][Space(10)]
+    public ParticleSystem[] boostPar;
 
     [HideInInspector]
     public Animator anim;

@@ -93,14 +93,11 @@ public class PlayerControl : CharacterControl
         Curve();
         DownForce();
         AirBorne();
-        if (input.move.y > 0)
-        {
-            base.FixedUpdate();
-        }
-        else if (boostTime > 0)
+        if (input.move.y <= 0 && boostTime > 0)
         {
             boostTime = 0;
         }
+        base.FixedUpdate();
     }
 
     private void UseItem()

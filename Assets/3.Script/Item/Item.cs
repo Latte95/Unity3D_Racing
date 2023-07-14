@@ -50,7 +50,7 @@ public class GoldMushroomBehavior : IItemBehavior
 {
     public void UseItem(CharacterControl user)
     {
-        user.boostTime = 3;
+        user.boostTime = 4;
     }
 }
 

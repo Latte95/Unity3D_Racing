@@ -22,7 +22,7 @@ public abstract class CharacterControl : MonoBehaviour
     [SerializeField][Tooltip("캐릭터 모델 애니메이터")]
     protected Animator charAnim;
 
-    [HideInInspector]
+    //[HideInInspector]
     public float boostTime = 0f;
     // 현재 속도 (km/h)
     protected float KPH;
@@ -41,10 +41,30 @@ public abstract class CharacterControl : MonoBehaviour
     }
     protected void FixedUpdate()
     {
-        if(boostTime>0 && kart.boostSpeed > KPH)
+        if (boostTime > 0)
         {
-            Vector3 boostSpeed = new Vector3(kart.boostForce * rigid.velocity.x, rigid.velocity.y, kart.boostForce * rigid.velocity.z);
-            rigid.velocity = boostSpeed;
+            if (kart.boostSpeed > KPH)
+            {
+                Vector3 boostSpeed = new Vector3(kart.boostForce * rigid.velocity.x, rigid.velocity.y, kart.boostForce * rigid.velocity.z);
+                rigid.velocity = boostSpeed;
+            }
+            foreach (ParticleSystem p in kart.boostPar)
+            {
+                if (!p.isPlaying)
+                {
+                    p.Play();
+                }
+            }
+        }
+        else
+        {
+            foreach (ParticleSystem p in kart.boostPar)
+            {
+                if (p.isPlaying)
+                {
+                    p.Stop();
+                }
+            }
         }
     }
     protected void CalculateKPH()
@@ -99,7 +119,6 @@ public abstract class CharacterControl : MonoBehaviour
         yield return new WaitUntil(() => transform.GetChild(0).TryGetComponent(out kart));
 
         Init();
-        //StartCoroutine(Boost_co());
         foreach (GameObject go in kart.wheels_Col_Obj)
         {
             center += go.transform.localPosition;
