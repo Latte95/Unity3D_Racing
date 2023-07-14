@@ -5,15 +5,13 @@ using UnityEngine.UI;
 
 public class PlayerControl : CharacterControl
 {
-    [Header("Kart")]
-    public Kart kart;
-    private float KPH;
-
     [Header("Status")]
     [Tooltip("차량의 회전 반지름")]
     public float radius = 60;
     [Tooltip("마찰력 변화율")]
     private float stiffnessTransition = 0f;
+    // 현재 속도 (km/h)
+    private float KPH;
 
     [Header("State")]
     private PlayerState currentState = new CantMoveState();
@@ -35,11 +33,6 @@ public class PlayerControl : CharacterControl
     [Header("Components")]
     public PlayerInput input;
     [SerializeField]
-    [Tooltip("캐릭터 모델 애니메이터")]
-    private Animator anim;
-    [HideInInspector]
-    public Rigidbody rigid;
-    [SerializeField]
     [Tooltip("속도 표시 텍스트 UI")]
     private Text speed_txt;
 
@@ -48,10 +41,6 @@ public class PlayerControl : CharacterControl
 
     // 캐싱
     private GameManager gameManager;
-    private WheelCollider LFTire;
-    private WheelCollider RFTire;
-    private WheelCollider LRTire;
-    private WheelCollider RRTire;
 
     // 애니메이션 캐싱
     private readonly int TurnLeftHash = Animator.StringToHash("TurnLeft");
@@ -70,22 +59,20 @@ public class PlayerControl : CharacterControl
 
     public Transform currentCheckPoint;
 
-    private void Awake()
+    private new void Awake()
     {
-        TryGetComponent(out rigid);
+        base.Awake();
         TryGetComponent(out input);
         TryGetComponent(out inven);
-
-        boost_wait = new WaitUntil(() => boostTime > 0);
+        Init();
     }
 
     private void Start()
     {
-        Init();
         carWeigth = rigid.mass * 9.8f;
         tireContactArea = carWeigth / tirePressure;
 
-        StartCoroutine(SetKart_co());
+        //StartCoroutine(SetKart_co());
 
         SetState(cantMoveState);
         StartCoroutine(CountDown_co(1));
@@ -421,7 +408,7 @@ public class PlayerControl : CharacterControl
     #endregion 애니메이션
 
     #region 시작 전 초기 설정들
-    private void Init()
+    private new void Init()
     {
         gameManager = GameManager.Instance;
 
@@ -434,10 +421,7 @@ public class PlayerControl : CharacterControl
             kartInstance.transform.SetSiblingIndex(0);
             kartInstance.TryGetComponent(out kart);
         }
-        LFTire = kart.axleInfos[0].leftWheel;
-        RFTire = kart.axleInfos[0].rightWheel;
-        LRTire = kart.axleInfos[1].leftWheel;
-        RRTire = kart.axleInfos[1].rightWheel;
+        base.Init();
 
         // 캐릭터 생성
         GameObject characterPrefab = Resources.Load<GameObject>("Character/" + gameManager.charName);
@@ -451,26 +435,6 @@ public class PlayerControl : CharacterControl
 
         // 게임이 시작하기 전까지는 도로에 떨어지는 이외의 움직임을 제한함
         rigid.constraints = ~(RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotationX);
-
-    }
-
-    /// <summary>
-    /// kart 오브젝트가 생성되는 것을 기다린 뒤 kart 할당
-    /// </summary>
-    /// <returns></returns>
-    private IEnumerator SetKart_co()
-    {
-        Vector3 center = Vector3.zero;
-        int tireNum = 0;
-        yield return new WaitUntil(() => transform.GetChild(0).TryGetComponent(out kart));
-
-        foreach (GameObject go in kart.wheels_Col_Obj)
-        {
-            center += go.transform.localPosition;
-            tireNum++;
-        }
-        center /= tireNum;
-        rigid.centerOfMass = center + 0.1f * Vector3.down - 0.1f * Vector3.forward;
     }
 
     /// <summary>
@@ -501,22 +465,5 @@ public class PlayerControl : CharacterControl
     public override void HandleItem(Item item)
     {
         inven.AddItem(item);
-    }
-
-    public override IEnumerator Boost_co()
-    {
-        while (true)
-        {
-            yield return boost_wait;
-            boostTime -= Time.deltaTime;
-            if (boostTime < 0)
-            {
-                boostTime = 0;
-            }
-
-            Quaternion rotation = Quaternion.Euler(0, LFTire.steerAngle, 0);
-            Vector3 direction = rotation * -LFTire.transform.up;
-            rigid.AddForce(kart.boostForce * direction, ForceMode.Impulse);
-        }
     }
 }

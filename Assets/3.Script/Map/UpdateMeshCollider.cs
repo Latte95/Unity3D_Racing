@@ -5,12 +5,12 @@ using UnityEngine;
 public class UpdateMeshCollider : MonoBehaviour
 {
     private SkinnedMeshRenderer meshRenderer;
-    private MeshCollider collider;
+    private MeshCollider meshCollider;
 
     void Start()
     {
         meshRenderer = GetComponent<SkinnedMeshRenderer>();
-        collider = GetComponent<MeshCollider>();
+        meshCollider = GetComponent<MeshCollider>();
     }
 
     private void FixedUpdate()
@@ -22,7 +22,7 @@ public class UpdateMeshCollider : MonoBehaviour
     {
         Mesh colliderMesh = new Mesh();
         meshRenderer.BakeMesh(colliderMesh);
-        collider.sharedMesh = null;
-        collider.sharedMesh = colliderMesh;
+        meshCollider.sharedMesh = null;
+        meshCollider.sharedMesh = colliderMesh;
     }
 }

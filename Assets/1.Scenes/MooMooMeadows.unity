@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 0.123
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 924710239}
-  m_IndirectSpecularColor: {r: 0.022570118, g: 0.012085803, b: 0.011063013, a: 0.123}
+  m_IndirectSpecularColor: {r: 0.022573344, g: 0.012092404, b: 0.011068978, a: 0.123}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -17381,14 +17381,9 @@ MonoBehaviour:
   greenShell: {fileID: 1735066841391017723}
   redShell: {fileID: 7012572007147172540}
   blueShell: {fileID: 1173353667012431889}
-  boostTime: 0
   kart: {fileID: 7006113553024712351}
   anim: {fileID: 6121197345235933680}
-  rigid: {fileID: 0}
-  LFTire: {fileID: 785226722}
-  RFTire: {fileID: 1848004661}
-  LRTire: {fileID: 875130719}
-  RRTire: {fileID: 2064795886}
+  boostTime: 0
 --- !u!1 &1695162970
 GameObject:
   m_ObjectHideFlags: 0
@@ -18318,7 +18313,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1822534880}
   m_LocalRotation: {x: -0, y: -0.4088591, z: -0, w: 0.91259754}
-  m_LocalPosition: {x: 42.87497, y: 5.936825, z: -145.95357}
+  m_LocalPosition: {x: 23.5, y: -7.4, z: -144.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 727283726}
@@ -25713,12 +25708,11 @@ MonoBehaviour:
   greenShell: {fileID: 0}
   redShell: {fileID: 0}
   blueShell: {fileID: 0}
-  boostTime: 0
   kart: {fileID: 0}
+  anim: {fileID: 0}
+  boostTime: 0
   radius: 180
   input: {fileID: 0}
-  anim: {fileID: 0}
-  rigid: {fileID: 0}
   speed_txt: {fileID: 1907800445}
   inven: {fileID: 0}
   currentCheckPoint: {fileID: 0}
