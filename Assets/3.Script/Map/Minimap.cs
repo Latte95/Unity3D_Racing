@@ -9,6 +9,8 @@ public class Minimap : MonoBehaviour
     public RectTransform minimapEnd;
     public Transform normalStart;
     public Transform normalEnd;
+
+    public Transform minimap;
     public Image icon;
 
     private float normalDistance;
@@ -18,6 +20,7 @@ public class Minimap : MonoBehaviour
     {
         normalDistance = Vector3.Distance(normalEnd.position, normalStart.position);
         minimapDistance = Vector3.Distance(minimapEnd.position, minimapStart.position);
+        icon.transform.SetParent(minimap);
     }
     private void Update()
     {
@@ -26,9 +29,7 @@ public class Minimap : MonoBehaviour
 
         Vector3 minimapPosition = new Vector3(
             proportionX * minimapDistance,
-            proportionY * minimapDistance,
-            0
-        );
+            proportionY * minimapDistance, 0);
 
         icon.rectTransform.anchoredPosition = minimapPosition;
     }

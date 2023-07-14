@@ -460,7 +460,6 @@ public class PlayerControl : CharacterControl
         yield return new WaitForSeconds(time - preTime);
         gameManager.isStart = true;
         SetState(nomalState);
-        StartCoroutine(Boost_co());
     }
     #endregion 초기 설정
 

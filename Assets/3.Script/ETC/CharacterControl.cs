@@ -28,6 +28,8 @@ public abstract class CharacterControl : MonoBehaviour
     protected float KPH;
     protected WaitUntil boost_wait;
 
+    public abstract void HandleItem(Item item);
+
     protected void Awake()
     {
         TryGetComponent(out rigid);
@@ -48,6 +50,7 @@ public abstract class CharacterControl : MonoBehaviour
                 Vector3 boostSpeed = new Vector3(kart.boostForce * rigid.velocity.x, rigid.velocity.y, kart.boostForce * rigid.velocity.z);
                 rigid.velocity = boostSpeed;
             }
+            boostTime -= Time.deltaTime;
             foreach (ParticleSystem p in kart.boostPar)
             {
                 if (!p.isPlaying)
@@ -67,32 +70,7 @@ public abstract class CharacterControl : MonoBehaviour
             }
         }
     }
-    protected void CalculateKPH()
-    {
-        KPH = rigid.velocity.magnitude * 3.6f;
-        if (KPH < 0.9f)
-        {
-            KPH = 0f;
-        }
-    }
-
-    public abstract void HandleItem(Item item);
-    public IEnumerator Boost_co()
-    {
-        while (true)
-        {
-            yield return boost_wait;
-            boostTime -= Time.deltaTime;
-            if (boostTime < 0)
-            {
-                boostTime = 0;
-            }
-
-            Quaternion rotation = Quaternion.Euler(0, LFTire.steerAngle, 0);
-            Vector3 direction = rotation * -LFTire.transform.up;
-            rigid.AddForce(kart.boostForce * direction, ForceMode.Impulse);
-        }
-    }
+        
     /// <summary>
     /// ÈÙ ÄÝ¶óÀÌ´õ Ä³½Ì
     /// </summary>
@@ -106,6 +84,15 @@ public abstract class CharacterControl : MonoBehaviour
         LRTire.transform.SetParent(kart.transform);
         RRTire = kart.axleInfos[1].rightWheel;
         RRTire.transform.SetParent(kart.transform);
+    }
+
+    protected void CalculateKPH()
+    {
+        KPH = rigid.velocity.magnitude * 3.6f;
+        if (KPH < 0.9f)
+        {
+            KPH = 0f;
+        }
     }
 
     /// <summary>
