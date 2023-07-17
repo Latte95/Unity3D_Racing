@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System;
 
 public enum ECharacter
 {
@@ -22,7 +23,7 @@ public class Character
             // pathCheck가 하나라도 false면 false
             foreach (bool pc in pathCheck)
             {
-                if(!pc)
+                if (!pc)
                 {
                     return false;
                 }
@@ -75,11 +76,22 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private Character[] characters;
 
+    public Animator countAnim;
+
     private void Start()
     {
+        Init();
         SetTotalLap();
         SetPath();
         SetChar();
+
+        StartCoroutine(CountDown_co(5));
+    }
+
+    private void Init()
+    {
+        GameObject countObject = GameObject.FindGameObjectWithTag("Count");
+        countObject.TryGetComponent(out countAnim);
     }
 
     private void SetChar()
@@ -150,7 +162,7 @@ public class GameManager : MonoBehaviour
                 {
                     // pathCheck 초기화
                     int length = paths.Length;
-                    for (int j = 0; j < length;j++)
+                    for (int j = 0; j < length; j++)
                     {
                         characters[i].pathCheck[j] = false;
                     }
@@ -171,6 +183,53 @@ public class GameManager : MonoBehaviour
                 break;
             }
         }
+    }
+
+    /// <summary>
+    /// 카운트 다운이 끝나면 플레이어가 이동 가능하도록 제어하는 코루틴
+    /// </summary>
+    /// <param name="time">카운트다운 시간</param>
+    /// <returns></returns>
+    private IEnumerator CountDown_co(float time)
+    {
+        int min = 3;
+        if(time < min)
+        {
+            time = min;
+        }
+
+        float preTime = time - min;
+        if (preTime < 0)
+        {
+            preTime = 0;
+        }
+
+
+        // 카운트 다운 시작
+        yield return new WaitForSeconds(preTime);
+        countAnim.SetTrigger("Timer");
+
+        // 카운트다운이 끝나기 전에 미리 Freeze를 통한 이동제한 해제
+        yield return new WaitForSeconds(time - preTime -1);
+        for (int i = 0; i < characters.Length; i++)
+        {
+            CharacterControl cc = characters[i].character.GetComponent<CharacterControl>();
+
+            cc.rigid.constraints = RigidbodyConstraints.None;
+        }
+
+        // 카운트 다운이 끝나면 이동 가능한 상태로 전환
+        yield return new WaitForSeconds(1);
+        isPlay = true;
+        for (int i = 0; i < characters.Length; i++)
+        {
+            if (characters[i].character.CompareTag("Player"))
+            {
+                PlayerControl pc = characters[i].character.GetComponent<PlayerControl>();
+                pc.SetState(pc.nomalState);
+            }
+        }
+        
     }
 
     private void Test()

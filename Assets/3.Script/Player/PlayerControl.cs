@@ -13,7 +13,7 @@ public class PlayerControl : CharacterControl
 
     [Header("State")]
     private PlayerState currentState = new CantMoveState();
-    private NormalState nomalState = new NormalState();
+    public NormalState nomalState = new NormalState();
     private CantMoveState cantMoveState = new CantMoveState();
     private ReverseState reverseState = new ReverseState();
     public bool isBoost { get; private set; }
@@ -74,10 +74,7 @@ public class PlayerControl : CharacterControl
         carWeigth = rigid.mass * 9.8f;
         tireContactArea = carWeigth / tirePressure;
 
-        //StartCoroutine(SetKart_co());
-
         SetState(cantMoveState);
-        StartCoroutine(CountDown_co(1));
     }
 
     private new void Update()
@@ -385,7 +382,7 @@ public class PlayerControl : CharacterControl
     }
     #endregion 계산
 
-    private void SetState(PlayerState state)
+    public void SetState(PlayerState state)
     {
         currentState = state;
         currentState.SetFriction(this);
@@ -453,29 +450,6 @@ public class PlayerControl : CharacterControl
 
         // 게임이 시작하기 전까지는 도로에 떨어지는 이외의 움직임을 제한함
         rigid.constraints = ~(RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotationX);
-    }
-
-    /// <summary>
-    /// 카운트 다운이 끝나면 플레이어가 이동 가능하도록 제어하는 코루틴
-    /// </summary>
-    /// <param name="time">카운트다운 시간</param>
-    /// <returns></returns>
-    private IEnumerator CountDown_co(float time)
-    {
-        float preTime = time - 1;
-        if (preTime < 0)
-        {
-            preTime = 0;
-        }
-
-        // 카운트다운이 끝나기 전에 미리 Freeze를 통한 이동제한 해제
-        yield return new WaitForSeconds(preTime);
-        rigid.constraints = RigidbodyConstraints.None;
-
-        // 카운트 다운이 끝나면 이동 가능한 상태로 전환
-        yield return new WaitForSeconds(time - preTime);
-        gameManager.isPlay = true;
-        SetState(nomalState);
     }
     #endregion 초기 설정
 
