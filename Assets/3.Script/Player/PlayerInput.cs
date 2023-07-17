@@ -20,6 +20,23 @@ public class PlayerInput : MonoBehaviour
     public void OnMove(InputValue value)
     {
         move = value.Get<Vector2>();
+        if (move.x > 0)
+        {
+            move.x = 1;
+        }
+        else if (move.x < 0)
+        {
+            move.x = -1;
+        }
+
+        if (move.y > 0)
+        {
+            move.y = 1;
+        }
+        else if (move.y < 0)
+        {
+            move.y = -1;
+        }
     }
 
     public void OnDrift(InputValue value)
