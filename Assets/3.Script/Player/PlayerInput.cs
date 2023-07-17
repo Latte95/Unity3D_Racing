@@ -20,13 +20,17 @@ public class PlayerInput : MonoBehaviour
     public void OnMove(InputValue value)
     {
         move = value.Get<Vector2>();
-        if (move.x > 0)
+        if (move.x > 0.3f)
         {
             move.x = 1;
         }
-        else if (move.x < 0)
+        else if (move.x < -0.3f)
         {
             move.x = -1;
+        }
+        else
+        {
+            move.x = 0;
         }
 
         if (move.y > 0)
