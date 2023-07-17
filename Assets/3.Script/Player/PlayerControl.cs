@@ -49,17 +49,9 @@ public class PlayerControl : CharacterControl
     // 애니메이션 캐싱
     private readonly int TurnLeftHash = Animator.StringToHash("TurnLeft");
     private readonly int TurnRightHash = Animator.StringToHash("TurnRight");
-    private readonly int HasItemHash = Animator.StringToHash("HasItem");
-    private readonly int HitBySomethingHash = Animator.StringToHash("HitBySomething");
     private readonly int ThrowForwardHash = Animator.StringToHash("ThrowForward");
     private readonly int ThrowBackwardHash = Animator.StringToHash("ThrowBackward");
-    private readonly int HitItemHash = Animator.StringToHash("HitItem");
-    private readonly int FirstPlaceHash = Animator.StringToHash("FirstPlace");
-    private readonly int HurtHash = Animator.StringToHash("Hurt");
-    private readonly int ReverseHash = Animator.StringToHash("Reverse");
-    private readonly int LoseAnimHash = Animator.StringToHash("LoseAnim");
-    private readonly int JumpTrick1Hash = Animator.StringToHash("JumpTrick1");
-    private readonly int JumpTrick2Hash = Animator.StringToHash("JumpTrick2");
+    private readonly int CurveHash = Animator.StringToHash("Curve");
 
     private new void Awake()
     {
@@ -398,7 +390,7 @@ public class PlayerControl : CharacterControl
         // 커브
         if (input.move.y >= 0)
         {
-            charAnim.SetFloat("Curve", curveBlend);
+            charAnim.SetFloat(CurveHash, curveBlend);
         }
         // 후진 시 기울임 x
         else
@@ -410,15 +402,7 @@ public class PlayerControl : CharacterControl
         // 후진
         // 이동 방향과 바라보는 방향의 각도가 90도 이상(후진)이면 음수, 이하(전진)면 양수
         float dotProduct = Vector3.Dot(rigid.velocity.normalized, transform.forward.normalized);
-        // 뒤 키를 누르고 있고, 뒤로 이동중일 때 뒤를 쳐다봄
-        if (input.move.y < 0 && dotProduct < 0 && KPH > 5)
-        {
-            charAnim.SetBool(ReverseHash, true);
-        }
-        else
-        {
-            charAnim.SetBool(ReverseHash, false);
-        }
+        //test 후면 카메라?
     }
     #endregion 애니메이션
 

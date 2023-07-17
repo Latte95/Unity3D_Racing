@@ -18,6 +18,7 @@ TagManager:
   - ItemBox
   - AI
   - Count
+  - Lap
   layers:
   - Default
   - TransparentFX

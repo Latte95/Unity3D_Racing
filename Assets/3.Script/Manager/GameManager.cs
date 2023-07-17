@@ -5,12 +5,6 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System;
 
-public enum ECharacter
-{
-    Mario,
-    Luigi,
-}
-
 [System.Serializable]
 public class Character
 {
@@ -60,8 +54,9 @@ public class GameManager : MonoBehaviour
     }
     #endregion 싱글톤
 
-    public string charName { get; private set; }
-    public string kartName { get; private set; }
+    public string charName { get; set; }
+    public string kartName { get; set; }
+    public bool isTitle = false;
     public bool isPlay = false;
 
     public int totalLap;
@@ -81,17 +76,34 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         Init();
-        SetTotalLap();
-        SetPath();
-        SetChar();
+        //SetTotalLap();
+        //if (!isTitle)
+        //{
+        //    Init();
+        //    SetPath();
+        //    SetChar();
 
-        StartCoroutine(CountDown_co(5));
+        //    StartCoroutine(CountDown_co(5));
+        //}
     }
 
-    private void Init()
+    public void Init()
     {
-        GameObject countObject = GameObject.FindGameObjectWithTag("Count");
-        countObject.TryGetComponent(out countAnim);
+        SetTotalLap();
+        if (!isTitle)
+        {
+            GameObject countObject = GameObject.FindGameObjectWithTag("Count");
+            countObject.TryGetComponent(out countAnim);
+            GameObject Lap = GameObject.FindGameObjectWithTag("Lap");
+            Lap.TryGetComponent(out currentLap_txt);
+            Lap.transform.GetChild(0).gameObject.TryGetComponent(out totalLap_txt);
+            totalLap_txt.text = "/" + totalLap.ToString();
+
+            SetPath();
+            SetChar();
+
+            StartCoroutine(CountDown_co(5));
+        }
     }
 
     private void SetChar()
@@ -134,15 +146,20 @@ public class GameManager : MonoBehaviour
 
     private void SetTotalLap()
     {
-        if (SceneManager.GetActiveScene().name.Equals("MooMooMeadows"))
+        if (SceneManager.GetActiveScene().name.Equals("Title"))
         {
-            totalLap = 1;
+            isTitle = true;
+            return;
+        }
+        else if (SceneManager.GetActiveScene().name.Equals("MooMooMeadows"))
+        {
+            totalLap = 2;
         }
         else
         {
             totalLap = 1;
         }
-        totalLap_txt.text = "/" + totalLap.ToString();
+        isTitle = false;
     }
 
     /// <summary>
@@ -197,7 +214,7 @@ public class GameManager : MonoBehaviour
     private IEnumerator CountDown_co(float time)
     {
         int min = 3;
-        if(time < min)
+        if (time < min)
         {
             time = min;
         }
@@ -214,7 +231,7 @@ public class GameManager : MonoBehaviour
         countAnim.SetTrigger("Timer");
 
         // 카운트다운이 끝나기 전에 미리 Freeze를 통한 이동제한 해제
-        yield return new WaitForSeconds(time - preTime -1);
+        yield return new WaitForSeconds(time - preTime - 1);
         for (int i = 0; i < characters.Length; i++)
         {
             CharacterControl cc = characters[i].character.GetComponent<CharacterControl>();
@@ -233,7 +250,7 @@ public class GameManager : MonoBehaviour
                 pc.SetState(pc.nomalState);
             }
         }
-        
+
     }
 
     private void Test()

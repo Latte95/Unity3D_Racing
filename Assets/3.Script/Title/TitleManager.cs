@@ -1,14 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class CharacterManager : MonoBehaviour
+public enum ECharacter
 {
-    public enum ECharacter
+    Mario,
+    Luigi,
+    Count
+}
+
+public class TitleManager : MonoBehaviour
+{
+    public enum EMap
     {
-        Mario,
-        Luigi,
+        MooMooMeadows,
+        RainbowRoad,
         Count
     }
 
@@ -21,15 +29,19 @@ public class CharacterManager : MonoBehaviour
     private Text model_txt;
     [SerializeField]
     private Text kart_txt;
+    [SerializeField]
+    private Text map_txt;
 
     int activeModel = 0;
     int activeKart = 0;
+    int activeMap = 0;
 
     private void Start()
     {
-        // 기본 캐릭터 및 카트 설정
+        // 기본 설정
         model_txt.text = ECharacter.Mario.ToString();
         kart_txt.text = ECharacter.Mario.ToString();
+        map_txt.text = EMap.MooMooMeadows.ToString();
 
         foreach (GameObject m in models)
         {
@@ -80,7 +92,7 @@ public class CharacterManager : MonoBehaviour
         }
 
         models[activeModel].SetActive(true);
-        SetCharacter();
+        SetText();
     }
     public void KartChange(bool right)
     {
@@ -113,12 +125,50 @@ public class CharacterManager : MonoBehaviour
         }
 
         karts[activeKart].SetActive(true);
-        SetCharacter();
+        SetText();
+    }
+    public void MapChange(bool right)
+    {
+        if (right)
+        {
+            activeMap++;
+        }
+        else
+        {
+            activeMap--;
+        }
+        if (activeMap >= (int)EMap.Count)
+        {
+            activeMap = 0;
+        }
+        else if (activeMap <= 0)
+        {
+            activeMap = (int)EMap.Count - 1;
+        }
+        map_txt.text = ((EMap)activeMap).ToString();
+
+        SetText();
     }
 
-    private void SetCharacter()
+    private void SetText()
     {
         model_txt.text = models[activeModel].name;
         kart_txt.text = karts[activeKart].name;
+    }
+
+    public void GameStart()
+    {
+        GameManager.Instance.charName = model_txt.text;
+        GameManager.Instance.kartName = kart_txt.text;
+
+        SceneManager.sceneLoaded += OnSceneLoaded;
+
+        SceneManager.LoadScene(map_txt.text);
+    }
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        GameManager.Instance.Init();
+
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 }
