@@ -21,7 +21,7 @@ EditorBuildSettings:
     path: 
     guid: 00000000000000000000000000000000
   - enabled: 0
-    path: Assets/1.Scenes/Rainbow Road.unity
+    path: Assets/1.Scenes/RainbowRoad.unity
     guid: 617e37435e29cf34e90b2d4b026835dd
   - enabled: 0
     path: 

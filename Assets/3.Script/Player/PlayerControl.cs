@@ -45,6 +45,7 @@ public class PlayerControl : CharacterControl
 
     // 캐싱
     private GameManager gameManager;
+    private TimeManager timeManager;
 
     // 애니메이션 캐싱
     private readonly int TurnLeftHash = Animator.StringToHash("TurnLeft");
@@ -58,6 +59,7 @@ public class PlayerControl : CharacterControl
         base.Awake();
         TryGetComponent(out input);
         TryGetComponent(out inven);
+        timeManager = FindObjectOfType<TimeManager>();
         Init();
     }
 
@@ -76,7 +78,10 @@ public class PlayerControl : CharacterControl
         WheelPos();
         SetAnimation();
         ResetPositon();
-        UseItem();
+        if (!gameManager.isMobile)
+        {
+            UseItem();
+        }
     }
 
     private new void FixedUpdate()
@@ -93,15 +98,31 @@ public class PlayerControl : CharacterControl
         base.FixedUpdate();
     }
 
-    private void UseItem()
+    public void UseItem()
     {
-        if (input.useItem)
+        // PC
+        if (!gameManager.isMobile)
         {
-            input.useItem = false;
-            if (inven.items.Count > 0)
+            if (input.useItem)
             {
-                inven.items[0].behavior.UseItem(this);
-                inven.RemoveItem();
+                input.useItem = false;
+                if (inven.items.Count > 0)
+                {
+                    inven.items[0].behavior.UseItem(this);
+                    inven.RemoveItem();
+                }
+            }
+        }
+    }
+    public void UseItem(int index)
+    {
+        // 모바일
+        if (inven.items.Count > index)
+        {
+            if (inven.items[index] != null)
+            {
+                inven.items[index].behavior.UseItem(this);
+                inven.RemoveItem(index);
             }
         }
     }
@@ -246,7 +267,7 @@ public class PlayerControl : CharacterControl
         {
             // 속도가 빠를수록 핸들이 천천히 돌아옴
             float returnSpeedFactor = 10; //Mathf.Clamp(KPH / 10, 1f, 10f);   // => 속도 빠를수록 빠르게 돌릴 경우
-            //float returnSpeedFactor = Mathf.Clamp(kart.maxSpeed / KPH, 1f, 10f);
+                                          //float returnSpeedFactor = Mathf.Clamp(kart.maxSpeed / KPH, 1f, 10f);
 
             LFTire.steerAngle = Mathf.Lerp(LFTire.steerAngle, 0, Time.deltaTime * returnSpeedFactor);
             RFTire.steerAngle = Mathf.Lerp(RFTire.steerAngle, 0, Time.deltaTime * returnSpeedFactor);
@@ -442,8 +463,6 @@ public class PlayerControl : CharacterControl
         inven.AddItem(item);
     }
 
-    [SerializeField]
-    private TimeManager timeManager;
     public override void LapIncrease()
     {
         currentLap_txt.text = currentLapCount.ToString();

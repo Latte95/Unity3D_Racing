@@ -9,7 +9,7 @@ public class Inventory : MonoBehaviour
     private const int ITEM_MAX_NUM = 3;
 
     public event Action<string> OnItemAdded;
-    public event Action OnItemRemoved;
+    public event Action<int> OnItemRemoved;
 
     public void AddItem(Item newItem)
     {
@@ -20,12 +20,12 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    public void RemoveItem()
+    public void RemoveItem(int index = 0)
     {
-        if (items.Count > 0)
+        if (items.Count > index)
         {
-            items.RemoveAt(0);
-            OnItemRemoved?.Invoke();
+            items.RemoveAt(index);
+            OnItemRemoved?.Invoke(index);
         }
     }
 }

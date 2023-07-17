@@ -19,6 +19,8 @@ TagManager:
   - AI
   - Count
   - Lap
+  - PCUI
+  - MobileUI
   layers:
   - Default
   - TransparentFX

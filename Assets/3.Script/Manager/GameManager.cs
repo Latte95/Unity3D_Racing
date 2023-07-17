@@ -54,6 +54,8 @@ public class GameManager : MonoBehaviour
     }
     #endregion ΩÃ±€≈Ê
 
+    [SerializeField]
+    public Character[] characters;
     public string charName { get; set; }
     public string kartName { get; set; }
     public bool isTitle = false;
@@ -61,30 +63,20 @@ public class GameManager : MonoBehaviour
 
     public int totalLap;
     [SerializeField]
-    private Text currentLap_txt;
-    [SerializeField]
     private Text totalLap_txt;
 
     [SerializeField]
     private GameObject[] paths;
 
-    [SerializeField]
-    private Character[] characters;
-
+    public bool isMobile = false;
+    public GameObject pcUI;
+    public GameObject mobileUI;
     public Animator countAnim;
+
 
     private void Start()
     {
         Init();
-        //SetTotalLap();
-        //if (!isTitle)
-        //{
-        //    Init();
-        //    SetPath();
-        //    SetChar();
-
-        //    StartCoroutine(CountDown_co(5));
-        //}
     }
 
     public void Init()
@@ -95,15 +87,32 @@ public class GameManager : MonoBehaviour
             GameObject countObject = GameObject.FindGameObjectWithTag("Count");
             countObject.TryGetComponent(out countAnim);
             GameObject Lap = GameObject.FindGameObjectWithTag("Lap");
-            Lap.TryGetComponent(out currentLap_txt);
             Lap.transform.GetChild(0).gameObject.TryGetComponent(out totalLap_txt);
             totalLap_txt.text = "/" + totalLap.ToString();
 
             SetPath();
             SetChar();
+            SetUI();
 
             StartCoroutine(CountDown_co(5));
         }
+    }
+
+    private void SetUI()
+    {
+        pcUI = GameObject.FindGameObjectWithTag("PCUI");
+        mobileUI = GameObject.FindGameObjectWithTag("MobileUI");
+#if UNITY_STANDALONE
+        pcUI.SetActive(true);
+        mobileUI.SetActive(false);
+        isMobile = false;
+#endif
+        //test
+#if UNITY_ANDROID || UNITY_EDITOR
+        pcUI.SetActive(false);
+        mobileUI.SetActive(true);
+        isMobile = true;
+#endif
     }
 
     private void SetChar()
