@@ -9,6 +9,36 @@ public enum ECharacter
     Mario,
     Luigi,
 }
+
+[System.Serializable]
+public class Character
+{
+    public GameObject character;
+    public bool[] pathCheck;
+    public bool allCheck
+    {
+        get
+        {
+            // pathCheck가 하나라도 false면 false
+            foreach (bool pc in pathCheck)
+            {
+                if(!pc)
+                {
+                    return false;
+                }
+            }
+            // pathCheck가 모두 true라면 true
+            return true;
+        }
+    }
+
+    public Character(GameObject c, bool[] pc)
+    {
+        character = c;
+        pathCheck = pc;
+    }
+}
+
 public class GameManager : MonoBehaviour
 {
     #region 싱글톤
@@ -31,28 +61,106 @@ public class GameManager : MonoBehaviour
 
     public string charName { get; private set; }
     public string kartName { get; private set; }
-    public bool isStart = false;
+    public bool isPlay = false;
 
     public int totalLap;
     [SerializeField]
+    private Text currentLap_txt;
+    [SerializeField]
     private Text totalLap_txt;
+
+    [SerializeField]
+    private GameObject[] paths;
+
+    [SerializeField]
+    private Character[] characters;
 
     private void Start()
     {
         SetTotalLap();
+        SetPath();
+        SetChar();
+    }
+
+    private void SetChar()
+    {
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        GameObject[] ais = GameObject.FindGameObjectsWithTag("AI");
+
+        int totalCharacters = players.Length + ais.Length;
+        characters = new Character[totalCharacters];
+
+        for (int i = 0; i < totalCharacters; i++)
+        {
+            GameObject characterGameObject;
+            if (i < players.Length)
+            {
+                characterGameObject = players[i];
+            }
+            else
+            {
+                characterGameObject = ais[i - players.Length];
+            }
+
+            bool[] pathCheck = new bool[paths.Length];
+            characters[i] = new Character(characterGameObject, pathCheck);
+        }
+    }
+
+    private void SetPath()
+    {
+        GameObject parentObject = GameObject.Find("Path");
+
+        int childCount = parentObject.transform.childCount;
+        paths = new GameObject[childCount];
+
+        for (int i = 0; i < childCount; i++)
+        {
+            paths[i] = parentObject.transform.GetChild(i).gameObject;
+        }
     }
 
     private void SetTotalLap()
     {
-        if(SceneManager.GetActiveScene().name.Equals("MooMooMeadows"))
+        if (SceneManager.GetActiveScene().name.Equals("MooMooMeadows"))
         {
-            totalLap = 2;
+            totalLap = 1;
         }
         else
         {
-            totalLap = 0;
+            totalLap = 1;
         }
         totalLap_txt.text = "/" + totalLap.ToString();
+    }
+
+    public void SetPathCheck(GameObject character, int pathIndex)
+    {
+        for (int i = 0; i < characters.Length; i++)
+        {
+            if (characters[i].character == character)
+            {
+                // 모든 지점을 지나친 뒤 다시 첫 지점(=골인 지점)에 도착했을 경우 Lap수 증가
+                if(pathIndex == 0 && characters[i].allCheck)
+                {
+                    int length = paths.Length;
+                    for (int j = 0; j < length;j++)
+                    {
+                        characters[i].pathCheck[j] = false;
+                    }
+
+                    CharacterControl c = characters[i].character.GetComponent<CharacterControl>();
+                    c.currentLapCount++;
+                    if(c.currentLapCount > totalLap)
+                    {
+                        isPlay = false;
+                    }
+
+                    c.LapIncrease();
+                }
+                characters[i].pathCheck[pathIndex] = true;
+                break;
+            }
+        }
     }
 
     private void Test()

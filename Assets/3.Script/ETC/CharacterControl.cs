@@ -4,31 +4,30 @@ using UnityEngine;
 
 public abstract class CharacterControl : MonoBehaviour
 {
-    [Header("아이템")]
-    public GameObject banana;
-    public GameObject greenShell;
-    public GameObject redShell;
-    public GameObject blueShell;
-
+    [Header("카트")]
     public Kart kart;
     public WheelCollider LFTire;
     public WheelCollider RFTire;
     public WheelCollider LRTire;
     public WheelCollider RRTire;
 
-    [Header("컴포넌트")]
     [HideInInspector]
-    public Rigidbody rigid;
-    [SerializeField][Tooltip("캐릭터 모델 애니메이터")]
-    protected Animator charAnim;
-
-    //[HideInInspector]
+    public int currentLapCount = 1;
+    [HideInInspector]
     public float boostTime = 0f;
     // 현재 속도 (km/h)
     protected float KPH;
     protected WaitUntil boost_wait;
 
+    // 컴포넌트
+    [HideInInspector]
+    public Rigidbody rigid;
+    [Tooltip("캐릭터 모델 애니메이터")]
+    protected Animator charAnim;
+
+
     public abstract void HandleItem(Item item);
+    public abstract void LapIncrease();
 
     protected void Awake()
     {

@@ -28,14 +28,20 @@ public class PlayerControl : CharacterControl
 
     private WheelFrictionCurve tempFric;
 
-    [Header("Components")]
+    [HideInInspector]
     public PlayerInput input;
+
+    [Header("ETC")]
     [SerializeField]
     [Tooltip("속도 표시 텍스트 UI")]
     private Text speed_txt;
+    [SerializeField]
+    [Tooltip("몇 바퀴 째인지 표시 하는 텍스트 UI")]
+    private Text currentLap_txt;
 
-    //[HideInInspector]
+    [HideInInspector]
     public Inventory inven;
+    private Transform currentCheckPoint;
 
     // 캐싱
     private GameManager gameManager;
@@ -54,8 +60,6 @@ public class PlayerControl : CharacterControl
     private readonly int LoseAnimHash = Animator.StringToHash("LoseAnim");
     private readonly int JumpTrick1Hash = Animator.StringToHash("JumpTrick1");
     private readonly int JumpTrick2Hash = Animator.StringToHash("JumpTrick2");
-
-    public Transform currentCheckPoint;
 
     private new void Awake()
     {
@@ -324,7 +328,15 @@ public class PlayerControl : CharacterControl
     /// </summary>
     private void UpdateSpeed()
     {
-        speed_txt.text = ((int)KPH).ToString();
+        if (Mathf.Abs(rigid.velocity.x) > 1 || Mathf.Abs(rigid.velocity.z) > 1)
+        {
+            speed_txt.text = ((int)KPH).ToString();
+        }
+        // 수직으로 떨어지기만 할 때는 속도 0 (첫 시작, 위치 리셋 등등)
+        else
+        {
+            speed_txt.text = "0";
+        }
     }
 
     /// <summary>
@@ -350,9 +362,9 @@ public class PlayerControl : CharacterControl
     /// </summary>
     private void AirBorne()
     {
-        if(!LRTire.isGrounded && !RRTire.isGrounded)
+        if (!LRTire.isGrounded && !RRTire.isGrounded)
         {
-            if(transform.rotation.x>0)
+            if (transform.rotation.x > 0)
             {
                 rigid.angularVelocity = new Vector3(0, rigid.angularVelocity.y, rigid.angularVelocity.z);
             }
@@ -361,10 +373,14 @@ public class PlayerControl : CharacterControl
 
     private void OnTriggerEnter(Collider other)
     {
-        // 리셋 위치 저장
         if (other.CompareTag("Path"))
         {
+            // 리셋 위치 저장
             currentCheckPoint = other.gameObject.transform;
+
+            // 지나간 경로 저장
+            int pathIndex = int.Parse(other.gameObject.name.Replace("Path", "")) - 1;
+            gameManager.SetPathCheck(this.gameObject, pathIndex);
         }
     }
     #endregion 계산
@@ -458,7 +474,7 @@ public class PlayerControl : CharacterControl
 
         // 카운트 다운이 끝나면 이동 가능한 상태로 전환
         yield return new WaitForSeconds(time - preTime);
-        gameManager.isStart = true;
+        gameManager.isPlay = true;
         SetState(nomalState);
     }
     #endregion 초기 설정
@@ -466,5 +482,10 @@ public class PlayerControl : CharacterControl
     public override void HandleItem(Item item)
     {
         inven.AddItem(item);
+    }
+
+    public override void LapIncrease()
+    {
+        currentLap_txt.text = currentLapCount.ToString();
     }
 }

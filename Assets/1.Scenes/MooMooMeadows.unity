@@ -415,7 +415,7 @@ GameObject:
   - component: {fileID: 24477128}
   - component: {fileID: 24477129}
   m_Layer: 0
-  m_Name: Cube (16)
+  m_Name: Path17
   m_TagString: Path
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1899,6 +1899,7 @@ GameObject:
   - component: {fileID: 137873799}
   - component: {fileID: 137873798}
   - component: {fileID: 137873800}
+  - component: {fileID: 137873801}
   m_Layer: 20
   m_Name: Banana
   m_TagString: Untagged
@@ -1962,13 +1963,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 137873794}
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.000091552734, y: 1.0000458, z: 2.9999847}
   m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_Children: []
   m_Father: {fileID: 1315230328}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &137873798
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1996,8 +1997,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 8.632812, y: 7.2597647, z: 7.350586}
-  m_Center: {x: 0.00012207031, y: 0.59667957, z: -1.6801761}
+  m_Size: {x: 7.769531, y: 0.7259765, z: 6.6155276}
+  m_Center: {x: 0.00012207031, y: -2.71, z: -1.6801761}
 --- !u!114 &137873800
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2010,6 +2011,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7d1b044549d62a4bbe69835fbbd2be8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!65 &137873801
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 137873794}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 8.632812, y: 7.2597647, z: 7.350586}
+  m_Center: {x: 0, y: 0.59667957, z: -1.6801761}
 --- !u!1001 &140046721
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2199,7 +2213,7 @@ GameObject:
   - component: {fileID: 147579415}
   - component: {fileID: 147579416}
   m_Layer: 0
-  m_Name: Cube (11)
+  m_Name: Path12
   m_TagString: Path
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2482,7 +2496,7 @@ GameObject:
   - component: {fileID: 182377715}
   - component: {fileID: 182377716}
   m_Layer: 0
-  m_Name: Cube (23)
+  m_Name: Path24
   m_TagString: Path
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2548,10 +2562,10 @@ RectTransform:
   m_Father: {fileID: 1223179894}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 700, y: -200}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 1, y: 0}
 --- !u!114 &186096470
 MonoBehaviour:
@@ -2937,7 +2951,7 @@ GameObject:
   - component: {fileID: 208111020}
   - component: {fileID: 208111021}
   m_Layer: 0
-  m_Name: Cube (29)
+  m_Name: Path30
   m_TagString: Path
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3002,10 +3016,10 @@ RectTransform:
   m_Father: {fileID: 754050266}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 160, y: -150}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &222750763
 MonoBehaviour:
@@ -3078,10 +3092,10 @@ RectTransform:
   m_Father: {fileID: 1223179894}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 565, y: -200}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 1, y: 0}
 --- !u!114 &234841572
 MonoBehaviour:
@@ -3797,7 +3811,7 @@ GameObject:
   - component: {fileID: 306561006}
   - component: {fileID: 306561007}
   m_Layer: 0
-  m_Name: Cube (12)
+  m_Name: Path13
   m_TagString: Path
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3841,7 +3855,7 @@ GameObject:
   - component: {fileID: 316356588}
   - component: {fileID: 316356589}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: Path1
   m_TagString: Path
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4429,7 +4443,7 @@ GameObject:
   - component: {fileID: 414503972}
   - component: {fileID: 414503973}
   m_Layer: 0
-  m_Name: Cube (4)
+  m_Name: Path5
   m_TagString: Path
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5072,7 +5086,7 @@ GameObject:
   - component: {fileID: 473945347}
   - component: {fileID: 473945348}
   m_Layer: 0
-  m_Name: Cube (6)
+  m_Name: Path7
   m_TagString: Path
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6838,7 +6852,7 @@ GameObject:
   - component: {fileID: 626791072}
   - component: {fileID: 626791073}
   m_Layer: 0
-  m_Name: Cube (21)
+  m_Name: Path22
   m_TagString: Path
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7587,7 +7601,7 @@ GameObject:
   - component: {fileID: 677895990}
   - component: {fileID: 677895991}
   m_Layer: 0
-  m_Name: Cube (2)
+  m_Name: Path3
   m_TagString: Path
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8363,7 +8377,7 @@ GameObject:
   - component: {fileID: 758611275}
   - component: {fileID: 758611276}
   m_Layer: 0
-  m_Name: Cube (19)
+  m_Name: Path20
   m_TagString: Path
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8579,7 +8593,7 @@ GameObject:
   - component: {fileID: 800451905}
   - component: {fileID: 800451906}
   m_Layer: 0
-  m_Name: Cube (22)
+  m_Name: Path23
   m_TagString: Path
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8783,7 +8797,7 @@ GameObject:
   - component: {fileID: 851340052}
   - component: {fileID: 851340053}
   m_Layer: 0
-  m_Name: Cube (10)
+  m_Name: Path11
   m_TagString: Path
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8902,7 +8916,7 @@ GameObject:
   - component: {fileID: 857009772}
   - component: {fileID: 857009773}
   m_Layer: 0
-  m_Name: Cube (25)
+  m_Name: Path26
   m_TagString: Path
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9602,7 +9616,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -31.250366, y: 24.094055}
+  m_AnchoredPosition: {x: -31.250488, y: 24.094055}
   m_SizeDelta: {x: 300, y: 300}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &899032463
@@ -9733,7 +9747,7 @@ GameObject:
   - component: {fileID: 918730101}
   - component: {fileID: 918730102}
   m_Layer: 0
-  m_Name: Cube (13)
+  m_Name: Path14
   m_TagString: Path
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10482,10 +10496,10 @@ RectTransform:
   m_Father: {fileID: 754050266}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 0, y: -100}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &983990879
 MonoBehaviour:
@@ -11790,10 +11804,10 @@ RectTransform:
   m_Father: {fileID: 622821805}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 0, y: -140}
-  m_SizeDelta: {x: 300, y: 70}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1074891565
 MonoBehaviour:
@@ -12379,7 +12393,7 @@ GameObject:
   - component: {fileID: 1112284317}
   - component: {fileID: 1112284318}
   m_Layer: 0
-  m_Name: Cube (9)
+  m_Name: Path10
   m_TagString: Path
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12446,10 +12460,10 @@ RectTransform:
   m_Father: {fileID: 622821805}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 0, y: -70}
-  m_SizeDelta: {x: 300, y: 70}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1124422511
 MonoBehaviour:
@@ -12527,10 +12541,10 @@ RectTransform:
   m_Father: {fileID: 1223179894}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 430, y: -200}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 1, y: 0}
 --- !u!114 &1133651543
 MonoBehaviour:
@@ -13552,7 +13566,7 @@ GameObject:
   - component: {fileID: 1209726142}
   - component: {fileID: 1209726143}
   m_Layer: 0
-  m_Name: Cube (15)
+  m_Name: Path16
   m_TagString: Path
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13849,7 +13863,7 @@ GameObject:
   - component: {fileID: 1279713459}
   - component: {fileID: 1279713460}
   m_Layer: 0
-  m_Name: Cube (14)
+  m_Name: Path15
   m_TagString: Path
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14676,7 +14690,7 @@ GameObject:
   - component: {fileID: 1425969487}
   - component: {fileID: 1425969488}
   m_Layer: 0
-  m_Name: Cube (18)
+  m_Name: Path19
   m_TagString: Path
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14720,7 +14734,7 @@ GameObject:
   - component: {fileID: 1429522084}
   - component: {fileID: 1429522085}
   m_Layer: 0
-  m_Name: Cube (28)
+  m_Name: Path29
   m_TagString: Path
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15213,7 +15227,7 @@ GameObject:
   - component: {fileID: 1448932378}
   - component: {fileID: 1448932379}
   m_Layer: 0
-  m_Name: Cube (24)
+  m_Name: Path25
   m_TagString: Path
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15257,7 +15271,7 @@ GameObject:
   - component: {fileID: 1454990144}
   - component: {fileID: 1454990145}
   m_Layer: 0
-  m_Name: Cube (8)
+  m_Name: Path9
   m_TagString: Path
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15734,7 +15748,7 @@ GameObject:
   - component: {fileID: 1476060120}
   - component: {fileID: 1476060121}
   m_Layer: 0
-  m_Name: Cube (26)
+  m_Name: Path27
   m_TagString: Path
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16361,7 +16375,7 @@ GameObject:
   - component: {fileID: 1614179649}
   - component: {fileID: 1614179650}
   m_Layer: 0
-  m_Name: Cube (3)
+  m_Name: Path4
   m_TagString: Path
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16502,10 +16516,10 @@ RectTransform:
   m_Father: {fileID: 754050266}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -30}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 130, y: -100}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1628356756
 MonoBehaviour:
@@ -17545,7 +17559,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1691718042}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1.9, y: 1.69, z: 3.64}
@@ -17598,17 +17612,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95fdecc37d840f24c874e1c621a4c84d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  banana: {fileID: 137873794}
-  greenShell: {fileID: 1735066841391017723}
-  redShell: {fileID: 7012572007147172540}
-  blueShell: {fileID: 1173353667012431889}
   kart: {fileID: 0}
   LFTire: {fileID: 0}
   RFTire: {fileID: 0}
   LRTire: {fileID: 0}
   RRTire: {fileID: 0}
   rigid: {fileID: 0}
-  charAnim: {fileID: 0}
   boostTime: 0
 --- !u!114 &1691718047
 MonoBehaviour:
@@ -17704,7 +17713,7 @@ GameObject:
   - component: {fileID: 1700387078}
   - component: {fileID: 1700387079}
   m_Layer: 0
-  m_Name: Cube (7)
+  m_Name: Path8
   m_TagString: Path
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18543,7 +18552,7 @@ GameObject:
   - component: {fileID: 1822534881}
   - component: {fileID: 1822534882}
   m_Layer: 0
-  m_Name: Cube (5)
+  m_Name: Path6
   m_TagString: Path
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -19361,10 +19370,10 @@ RectTransform:
   m_Father: {fileID: 622821805}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 300, y: 70}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1905281378
 MonoBehaviour:
@@ -19515,7 +19524,7 @@ GameObject:
   - component: {fileID: 1917395174}
   - component: {fileID: 1917395175}
   m_Layer: 0
-  m_Name: Cube (1)
+  m_Name: Path2
   m_TagString: Path
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -20507,7 +20516,7 @@ GameObject:
   - component: {fileID: 2024067026}
   - component: {fileID: 2024067027}
   m_Layer: 0
-  m_Name: Cube (17)
+  m_Name: Path18
   m_TagString: Path
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -20747,7 +20756,7 @@ GameObject:
   - component: {fileID: 2052180109}
   - component: {fileID: 2052180110}
   m_Layer: 0
-  m_Name: Cube (20)
+  m_Name: Path21
   m_TagString: Path
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -20852,7 +20861,7 @@ GameObject:
   - component: {fileID: 2068988856}
   - component: {fileID: 2068988857}
   m_Layer: 0
-  m_Name: Cube (27)
+  m_Name: Path28
   m_TagString: Path
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -24078,6 +24087,7 @@ GameObject:
   - component: {fileID: 1735066841391017724}
   - component: {fileID: 1735066841391017726}
   - component: {fileID: 1735066841391017727}
+  - component: {fileID: 1735066841391017728}
   m_Layer: 20
   m_Name: GreenShell
   m_TagString: Untagged
@@ -24112,8 +24122,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 7.417968, y: 7.757032, z: 8.257812}
-  m_Center: {x: 0.00012207031, y: 0.4, z: 0}
+  m_Size: {x: 6.6761713, y: 0.7757032, z: 7.4320307}
+  m_Center: {x: 0.00012207031, y: -3.08, z: 0}
 --- !u!114 &1735066841391017726
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24145,6 +24155,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!65 &1735066841391017728
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1735066841391017723}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 7.417968, y: 6.957032, z: 8.257812}
+  m_Center: {x: 0.00012207031, y: 0, z: 0}
 --- !u!137 &1850633337101804785
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 0
@@ -25524,23 +25547,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2d01ab241bed7e4e933d588f33740f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  banana: {fileID: 137873794}
-  greenShell: {fileID: 0}
-  redShell: {fileID: 0}
-  blueShell: {fileID: 0}
   kart: {fileID: 0}
   LFTire: {fileID: 0}
   RFTire: {fileID: 0}
   LRTire: {fileID: 0}
   RRTire: {fileID: 0}
   rigid: {fileID: 0}
-  charAnim: {fileID: 0}
   boostTime: 0
   radius: 180
   input: {fileID: 0}
   speed_txt: {fileID: 1907800445}
   inven: {fileID: 0}
-  currentCheckPoint: {fileID: 0}
 --- !u!4 &2932356870956387723
 Transform:
   m_ObjectHideFlags: 0
@@ -28971,6 +28988,11 @@ PrefabInstance:
       propertyPath: totalLap_txt
       value: 
       objectReference: {fileID: 392525204}
+    - target: {fileID: 5258254341282931551, guid: 588ae9e76af299844945417641e18807,
+        type: 3}
+      propertyPath: currentLap_txt
+      value: 
+      objectReference: {fileID: 1007670786}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 588ae9e76af299844945417641e18807, type: 3}
 --- !u!95 &5300395205856555469
@@ -31718,11 +31740,11 @@ GameObject:
   m_Component:
   - component: {fileID: 6030943357667902465}
   - component: {fileID: 7968597557418204012}
+  - component: {fileID: 7343522572029064724}
   - component: {fileID: 7968597556882261405}
   - component: {fileID: 7968597556882261406}
-  - component: {fileID: 2928822974776759365}
   - component: {fileID: 7343522572029064723}
-  - component: {fileID: 7343522572029064724}
+  - component: {fileID: 2928822974776759365}
   - component: {fileID: 7343522572029064725}
   m_Layer: 7
   m_Name: Player
@@ -31752,7 +31774,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7343522572029064722}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1.9, y: 1.69, z: 3.64}

@@ -6,11 +6,11 @@ public class Banana : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("Player") || other.CompareTag("AI"))
+        if (other.CompareTag("Player") || other.CompareTag("AI"))
         {
             CharacterControl character = other.GetComponent<CharacterControl>();
             character.kart.anim.SetTrigger(character.kart.BananaHitHash);
-            character.rigid.velocity /= 5;
+            character.rigid.velocity *= 0.2f;
             gameObject.SetActive(false);
         }
     }

@@ -8,4 +8,8 @@ public class AIControl : CharacterControl
     {
         item.behavior.UseItem(this);
     }
+
+    public override void LapIncrease()
+    {
+    }
 }

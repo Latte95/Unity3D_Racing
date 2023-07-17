@@ -26,14 +26,14 @@ public class TimeManager : MonoBehaviour
     private void Update()
     {
         // 게임 시작(카운트다운 이후)하면 경과 시간 표시
-        if (gameManager.isStart)
+        if (gameManager.isPlay)
         {
             currentTime += Time.deltaTime;
             UpdateTime();
         }
     }
 
-    public void UpdateTime()
+    private void UpdateTime()
     {
         timeSpan = TimeSpan.FromSeconds(currentTime);
         // 경과 시간 표시
@@ -48,4 +48,6 @@ public class TimeManager : MonoBehaviour
             currnetTime_txt.text = "59:59:99";
         }
     }
+
+    //public 
 }
