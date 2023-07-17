@@ -136,7 +136,7 @@ public class GameManager : MonoBehaviour
     {
         if (SceneManager.GetActiveScene().name.Equals("MooMooMeadows"))
         {
-            totalLap = 2;
+            totalLap = 1;
         }
         else
         {
@@ -145,6 +145,9 @@ public class GameManager : MonoBehaviour
         totalLap_txt.text = "/" + totalLap.ToString();
     }
 
+    /// <summary>
+    /// 캐릭터가 정상 경로로 경주하여 한 바퀴를 돌았는지 판단하고 완주한 캐릭터가 있을 시 게임을 종료하는 메소드.
+    /// </summary>
     public void SetPathCheck(GameObject character, int pathIndex)
     {
         for (int i = 0; i < characters.Length; i++)
@@ -176,6 +179,7 @@ public class GameManager : MonoBehaviour
                     if (c.currentLapCount > totalLap)
                     {
                         isPlay = false;
+                        countAnim.SetTrigger("Finish");
                     }
                 }
 
