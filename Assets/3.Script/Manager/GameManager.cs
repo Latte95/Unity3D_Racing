@@ -124,7 +124,7 @@ public class GameManager : MonoBehaviour
     {
         if (SceneManager.GetActiveScene().name.Equals("MooMooMeadows"))
         {
-            totalLap = 1;
+            totalLap = 2;
         }
         else
         {
@@ -139,24 +139,34 @@ public class GameManager : MonoBehaviour
         {
             if (characters[i].character == character)
             {
-                // 모든 지점을 지나친 뒤 다시 첫 지점(=골인 지점)에 도착했을 경우 Lap수 증가
-                if(pathIndex == 0 && characters[i].allCheck)
+                // 이전 포인트를 지나치지 않았을 경우(=역주행) pathCheck 실행 x
+                if (pathIndex > 0 && !characters[i].pathCheck[pathIndex - 1])
                 {
+                    return;
+                }
+
+                // 모든 지점을 지나친 뒤 다시 첫 지점(=골인 지점)에 도착했을 경우 Lap수 증가
+                if (pathIndex == 0 && characters[i].allCheck)
+                {
+                    // pathCheck 초기화
                     int length = paths.Length;
                     for (int j = 0; j < length;j++)
                     {
                         characters[i].pathCheck[j] = false;
                     }
 
+                    // lapCount 증가
                     CharacterControl c = characters[i].character.GetComponent<CharacterControl>();
                     c.currentLapCount++;
-                    if(c.currentLapCount > totalLap)
+                    c.LapIncrease();
+
+                    // 완주했을 경우 게임 종료
+                    if (c.currentLapCount > totalLap)
                     {
                         isPlay = false;
                     }
-
-                    c.LapIncrease();
                 }
+
                 characters[i].pathCheck[pathIndex] = true;
                 break;
             }

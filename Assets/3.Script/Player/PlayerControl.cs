@@ -484,8 +484,11 @@ public class PlayerControl : CharacterControl
         inven.AddItem(item);
     }
 
+    [SerializeField]
+    private TimeManager timeManager;
     public override void LapIncrease()
     {
         currentLap_txt.text = currentLapCount.ToString();
+        timeManager.SetBestTime();
     }
 }

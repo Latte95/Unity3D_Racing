@@ -15,6 +15,7 @@ public class TimeManager : MonoBehaviour
 
     private float currentTime = 0f;
     private TimeSpan timeSpan;
+    private TimeSpan bestTime = TimeSpan.MaxValue;
 
     private GameManager gameManager;
 
@@ -49,5 +50,13 @@ public class TimeManager : MonoBehaviour
         }
     }
 
-    //public 
+    public void SetBestTime()
+    {
+        if(bestTime > timeSpan)
+        {
+            bestTime = timeSpan;
+        }
+        bestTime_txt.text = string.Format($"{bestTime.Minutes:D2}:{bestTime.Seconds:D2}:{(int)(bestTime.Milliseconds * 0.1F):D2}");
+        currentTime = 0;
+    }
 }
