@@ -185,11 +185,11 @@ public class GameManager : MonoBehaviour
         }
         else if (SceneManager.GetActiveScene().name.Equals("MooMooMeadows"))
         {
-            totalLap = 1;
+            totalLap = 2;
         }
         else
         {
-            totalLap = 1;
+            totalLap = 2;
         }
         isTitle = false;
     }
