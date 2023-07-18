@@ -26,6 +26,28 @@ public class Character
             return true;
         }
     }
+    public int pathCheckCount
+    {
+        get
+        {
+            int c = 0;
+            foreach (bool pc in pathCheck)
+            {
+                if (pc)
+                {
+                    c++;
+                }
+            }
+            return c + (character.GetComponent<CharacterControl>().currentLapCount - 1) * pathCheck.Length;
+        }
+    }
+    public string name
+    {
+        get
+        {
+            return character.GetComponent<CharacterControl>().charAnim.gameObject.name;
+        }
+    }
 
     public Character(GameObject c, bool[] pc)
     {
@@ -58,6 +80,7 @@ public class GameManager : MonoBehaviour
     public Character[] characters;
     public string charName { get; set; }
     public string kartName { get; set; }
+    public int totalCharacters { get; private set; }
     public bool isTitle = false;
     public bool isPlay = false;
 
@@ -65,8 +88,8 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private Text totalLap_txt;
 
-    [SerializeField]
-    private GameObject[] paths;
+    [HideInInspector]
+    public GameObject[] paths;
 
     public bool isMobile = false;
     public GameObject pcUI;
@@ -87,7 +110,7 @@ public class GameManager : MonoBehaviour
             GameObject countObject = GameObject.FindGameObjectWithTag("Count");
             countObject.TryGetComponent(out countAnim);
             GameObject Lap = GameObject.FindGameObjectWithTag("Lap");
-            Lap.transform.GetChild(0).gameObject.TryGetComponent(out totalLap_txt);
+            Lap.TryGetComponent(out totalLap_txt);
             totalLap_txt.text = "/" + totalLap.ToString();
 
             SetPath();
@@ -120,7 +143,7 @@ public class GameManager : MonoBehaviour
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
         GameObject[] ais = GameObject.FindGameObjectsWithTag("AI");
 
-        int totalCharacters = players.Length + ais.Length;
+        totalCharacters = players.Length + ais.Length;
         characters = new Character[totalCharacters];
 
         for (int i = 0; i < totalCharacters; i++)
@@ -162,7 +185,7 @@ public class GameManager : MonoBehaviour
         }
         else if (SceneManager.GetActiveScene().name.Equals("MooMooMeadows"))
         {
-            totalLap = 2;
+            totalLap = 1;
         }
         else
         {

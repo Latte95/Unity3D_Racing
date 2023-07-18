@@ -23,7 +23,7 @@ public abstract class CharacterControl : MonoBehaviour
     [HideInInspector]
     public Rigidbody rigid;
     [Tooltip("캐릭터 모델 애니메이터")]
-    protected Animator charAnim;
+    public Animator charAnim;
 
 
     public abstract void HandleItem(Item item);
