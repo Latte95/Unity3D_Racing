@@ -36,8 +36,6 @@ public class Minimap : MonoBehaviour
     }
     private void Update()
     {
-        Debug.Log("¸Ê : " +normalDistance);
-        Debug.Log("¹Ì´Ï : " + minimapDistance);
         float proportionX = -transform.position.x / normalDistance;
         float proportionY = -transform.position.z / normalDistance;
 

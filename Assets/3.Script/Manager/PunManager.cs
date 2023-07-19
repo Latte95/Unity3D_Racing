@@ -31,7 +31,7 @@ public class PunManager : MonoBehaviourPunCallbacks // ±âº» À¯´ÏÆ¼ ÄÝ¹é + Æ÷Åæ Ä
     public ServerSettings setting = null;
 
     private int maxPlayer = 8;
-    private float maxTime = 1f;
+    private float maxTime = 3f;
     private float matchingStartTime;
     public Button btn;
 
@@ -79,19 +79,20 @@ public class PunManager : MonoBehaviourPunCallbacks // ±âº» À¯´ÏÆ¼ ÄÝ¹é + Æ÷Åæ Ä
         RoomOptions option = new RoomOptions();
 
         option.MaxPlayers = maxPlayer;
-        // MaxTime ÇÁ·ÎÆÛÆ¼ °´Ã¼ »ý¼º
+        // IsGameStarted ÇÁ·ÎÆÛÆ¼ °´Ã¼ »ý¼º
+        // °ÔÀÓÀÌ ÀÌ¹Ì ½ÃÀÛµÈ °æ¿ì Âü°¡ÇÏÁö ¾Ê°Ô ÇÏ´Â ¿ªÇÒ
         option.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable()
         {
-            { "MaxTime", maxTime }
+            { "IsGameStarted", false }
         };
-        option.CustomRoomPropertiesForLobby = new string[] { "MaxTime" };
+        option.CustomRoomPropertiesForLobby = new string[] { "IsGameStarted" };
         StartMatchmakingTimer();
 
         // ¹æ Âü°¡ ½Ãµµ ¹× ½ÇÆÐ½Ã ¹æ »ý¼º
         PhotonNetwork.JoinRandomOrCreateRoom
         (
             expectedCustomRoomProperties:
-            new ExitGames.Client.Photon.Hashtable() { { "MaxTime", option.CustomRoomProperties["MaxTime"] } },
+            new ExitGames.Client.Photon.Hashtable() { { "IsGameStarted", false } },
             expectedMaxPlayers:
             (byte)option.MaxPlayers,
             roomOptions:
@@ -120,7 +121,6 @@ public class PunManager : MonoBehaviourPunCallbacks // ±âº» À¯´ÏÆ¼ ÄÝ¹é + Æ÷Åæ Ä
     {
         Debug.Log("Entered Lobby");
         base.OnJoinedLobby();
-        PhotonNetwork.JoinRandomRoom();
 
         btn.onClick.AddListener(JoinRandomRoomOrCreateRoom);
     }
@@ -160,6 +160,8 @@ public class PunManager : MonoBehaviourPunCallbacks // ±âº» À¯´ÏÆ¼ ÄÝ¹é + Æ÷Åæ Ä
                 {
                     yield return new WaitForSeconds(0.5f);
                     photonView.RPC("GameStart", RpcTarget.All);
+
+                    PhotonNetwork.CurrentRoom.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "IsGameStarted", true } });
                 }
                 break;
             }
