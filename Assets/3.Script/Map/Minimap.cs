@@ -18,6 +18,12 @@ public class Minimap : MonoBehaviour
 
     private void Awake()
     {
+        minimapStart = GameObject.FindGameObjectWithTag("MiniStart").GetComponent<RectTransform>();
+        minimapEnd = GameObject.FindGameObjectWithTag("MiniEnd").GetComponent<RectTransform>();
+        normalStart = GameObject.FindGameObjectWithTag("MapStart").GetComponent<Transform>();
+        normalEnd = GameObject.FindGameObjectWithTag("MapEnd").GetComponent<Transform>();
+        minimap = GameObject.FindGameObjectWithTag("MiniMap").GetComponent<Transform>();
+
         normalDistance = Vector3.Distance(normalEnd.position, normalStart.position);
         minimapDistance = Vector3.Distance(minimapEnd.position, minimapStart.position);
         icon.transform.SetParent(minimap);

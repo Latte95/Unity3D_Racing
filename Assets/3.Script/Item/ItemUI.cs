@@ -54,7 +54,10 @@ public class ItemUI : MonoBehaviour
     {
         while (inventory == null)
         {
-            inventory = FindObjectOfType<PlayerControl>().inven;
+            if (FindObjectOfType<PlayerControl>() != null)
+            {
+                inventory = FindObjectOfType<PlayerControl>().inven;
+            }
             yield return null;
         }
 

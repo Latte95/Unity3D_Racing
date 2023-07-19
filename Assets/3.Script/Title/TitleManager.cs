@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Photon.Pun;
+using Photon.Realtime;
 
 public enum ECharacter
 {
@@ -26,11 +28,11 @@ public class TitleManager : MonoBehaviour
     private GameObject[] karts;
 
     [SerializeField]
-    private Text model_txt;
+    public Text model_txt;
     [SerializeField]
-    private Text kart_txt;
+    public Text kart_txt;
     [SerializeField]
-    private Text map_txt;
+    public Text map_txt;
 
     int activeModel = 0;
     int activeKart = 0;
@@ -163,10 +165,11 @@ public class TitleManager : MonoBehaviour
 
         SceneManager.sceneLoaded += OnSceneLoaded;
 
-        SceneManager.LoadScene(map_txt.text);
+        PhotonNetwork.LoadLevel(map_txt.text);
     }
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        PunManager.Instance.GameStart();
         GameManager.Instance.Init();
 
         SceneManager.sceneLoaded -= OnSceneLoaded;

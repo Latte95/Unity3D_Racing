@@ -297,7 +297,7 @@ GameObject:
   - component: {fileID: 114873692}
   - component: {fileID: 114873691}
   m_Layer: 5
-  m_Name: Start
+  m_Name: Match
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -366,19 +366,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114873692}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 17849786}
-        m_TargetAssemblyTypeName: TitleManager, Assembly-CSharp
-        m_MethodName: GameStart
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &114873692
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -956,7 +944,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &533680097
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1847,13 +1835,14 @@ GameObject:
   m_Component:
   - component: {fileID: 1020569643}
   - component: {fileID: 1020569642}
+  - component: {fileID: 1020569644}
   m_Layer: 0
   m_Name: PunManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1020569642
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1867,8 +1856,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   setting: {fileID: 11400000, guid: c5cf06dc6e1b0ea47a9f1d1dbbace9bb, type: 2}
+  btn: {fileID: 114873691}
   playerPrefabs: {fileID: 6124134344948997707, guid: 5d329b7acf8b3dd42a33c3912c131ee2,
     type: 3}
+  titleManager: {fileID: 17849786}
 --- !u!4 &1020569643
 Transform:
   m_ObjectHideFlags: 0
@@ -1883,6 +1874,28 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1020569644
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1020569641}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 1
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &1076726879
 GameObject:
   m_ObjectHideFlags: 0
@@ -2326,7 +2339,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1300549593
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4492,7 +4505,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Start
+  m_Text: Matching
 --- !u!222 &1890537816
 CanvasRenderer:
   m_ObjectHideFlags: 0

@@ -21,6 +21,13 @@ TagManager:
   - Lap
   - PCUI
   - MobileUI
+  - Speed
+  - CurrentLap
+  - MiniStart
+  - MiniEnd
+  - MapStart
+  - MapEnd
+  - MiniMap
   layers:
   - Default
   - TransparentFX

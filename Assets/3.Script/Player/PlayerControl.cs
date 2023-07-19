@@ -59,6 +59,8 @@ public class PlayerControl : CharacterControl
         base.Awake();
         TryGetComponent(out input);
         TryGetComponent(out inven);
+        speed_txt = GameObject.FindGameObjectWithTag("Speed").GetComponent<Text>();
+        currentLap_txt = GameObject.FindGameObjectWithTag("CurrentLap").GetComponent<Text>();
         timeManager = FindObjectOfType<TimeManager>();
         Init();
     }
