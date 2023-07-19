@@ -96,7 +96,6 @@ public class GameManager : MonoBehaviour
     public GameObject mobileUI;
     public Animator countAnim;
 
-
     private void Start()
     {
         Init();
@@ -114,7 +113,6 @@ public class GameManager : MonoBehaviour
             totalLap_txt.text = "/" + totalLap.ToString();
 
             SetPath();
-            //SetChar();
             SetUI();
 
             StartCoroutine(CountDown_co(5));
@@ -185,7 +183,7 @@ public class GameManager : MonoBehaviour
         }
         else if (SceneManager.GetActiveScene().name.Equals("MooMooMeadows"))
         {
-            totalLap = 2;
+            totalLap = 1;
         }
         else
         {

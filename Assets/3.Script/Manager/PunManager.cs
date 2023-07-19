@@ -13,18 +13,21 @@ public class PunManager : MonoBehaviourPunCallbacks // ±âº» À¯´ÏÆ¼ ÄÝ¹é + Æ÷Åæ Ä
 
     private void Awake()
     {
-        if (Instance == null)
+        if (Instance != null)
         {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
+            if (PhotonNetwork.IsConnected)
+            {
+                PhotonNetwork.Destroy(Instance.photonView);
+            }
+
+            DestroyImmediate(Instance.gameObject);
         }
-        else
-        {
-            Destroy(gameObject);
-        }
+
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
     }
     #endregion ½Ì±ÛÅæ
-
+    
     [Header("Server Setting")]
     // ¼­¹ö Á¢¼Ó(Master ¼­¹ö -> Lobby -> Room)
     private readonly string gameVersion = "1";
@@ -33,23 +36,30 @@ public class PunManager : MonoBehaviourPunCallbacks // ±âº» À¯´ÏÆ¼ ÄÝ¹é + Æ÷Åæ Ä
     private int maxPlayer = 8;
     private float maxTime = 3f;
     private float matchingStartTime;
-    public Button btn;
+    private Button btn;
 
     [Header("Player Prefab")]
     // ÇÃ·¹ÀÌ¾î ÇÁ¸®ÆÕ
     public GameObject playerPrefabs;
 
-    public TitleManager titleManager;
+    private TitleManager titleManager;
 
     private PhotonView photonView;
 
     private void Start()
     {
+        btn = GameObject.FindGameObjectWithTag("Match").GetComponent<Button>();
+        titleManager = GameObject.FindGameObjectWithTag("TitleManager").GetComponent<TitleManager>();
         photonView = GetComponent<PhotonView>();
         Connect();
     }
     private void OnApplicationQuit()
     {
+        Disconnect();
+    }
+    private void OnDisable()
+    {
+        base.OnDisable();
         Disconnect();
     }
 
@@ -185,12 +195,12 @@ public class PunManager : MonoBehaviourPunCallbacks // ±âº» À¯´ÏÆ¼ ÄÝ¹é + Æ÷Åæ Ä
     }
     private void MakePlayer()
     {
-
         Vector3 position = new Vector3(-317.22f, 83.1f, -26.26f);
         Quaternion rotation = Quaternion.Euler(0, 180, 0);
         GameObject player = PhotonNetwork.Instantiate(playerPrefabs.name, position, rotation);
 
         player.name = "Player";
+        player.GetComponent<PlayerControl>().enabled = true;
     }
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {

@@ -28,6 +28,8 @@ TagManager:
   - MapStart
   - MapEnd
   - MiniMap
+  - Match
+  - TitleManager
   layers:
   - Default
   - TransparentFX

@@ -19,16 +19,20 @@ public class RankManager : MonoBehaviour
 
     private void Start()
     {
-        for (int i = gameManager.totalCharacters; i < 8; i++)
-        {
-            ranks[i].SetActive(false);
-        }
+        //for (int i = gameManager.totalCharacters; i < 8; i++)
+        //{
+        //    ranks[i].SetActive(false);
+        //}
         panel.SetActive(false);
     }
 
     public void SetRank()
     {
         panel.SetActive(true);
+        for (int i = gameManager.totalCharacters; i < 8; i++)
+        {
+            ranks[i].SetActive(false);
+        }
 
         int length = gameManager.totalCharacters;
 

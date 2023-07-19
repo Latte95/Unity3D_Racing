@@ -7,6 +7,10 @@ public class SceneChange : MonoBehaviour
 {
     public void ChangeScene(string scene)
     {
+        if (PunManager.Instance != null)
+        {
+            Destroy(PunManager.Instance.gameObject);
+        }
         SceneManager.LoadScene(scene);
     }
 }
