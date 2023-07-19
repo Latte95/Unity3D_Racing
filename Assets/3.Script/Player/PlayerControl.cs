@@ -62,11 +62,13 @@ public class PlayerControl : CharacterControl
         speed_txt = GameObject.FindGameObjectWithTag("Speed").GetComponent<Text>();
         currentLap_txt = GameObject.FindGameObjectWithTag("CurrentLap").GetComponent<Text>();
         timeManager = FindObjectOfType<TimeManager>();
-        Init();
     }
 
     private void Start()
     {
+        Init();
+        //test
+        //GameObject.Find("Player(Clone)").GetComponent<PlayerControl>()
         carWeigth = rigid.mass * 9.8f;
         tireContactArea = carWeigth / tirePressure;
 
@@ -430,11 +432,12 @@ public class PlayerControl : CharacterControl
     #endregion 애니메이션
 
     #region 시작 전 초기 설정들
+    public int myIndex;
     private new void Init()
     {
         gameManager = GameManager.Instance;
 
-        GameObject kartPrefab = Resources.Load<GameObject>("Kart/" + gameManager.kartName[gameManager.myIndex]);
+        GameObject kartPrefab = Resources.Load<GameObject>("Kart/" + PunManager.Instance.kartName[myIndex]);
         if (kartPrefab != null)
         {
             // 카트 생성
@@ -444,9 +447,10 @@ public class PlayerControl : CharacterControl
             kartInstance.TryGetComponent(out kart);
 
             // 캐릭터 생성
-            GameObject characterPrefab = Resources.Load<GameObject>("Character/" + gameManager.charName[gameManager.myIndex]);
+            GameObject characterPrefab = Resources.Load<GameObject>("Character/" + PunManager.Instance.charName[myIndex]);
             if (characterPrefab != null)
             {
+                Debug.Log(myIndex);
                 GameObject characterInstance = Instantiate(characterPrefab, kartInstance.transform);
                 characterInstance.name = gameManager.charName[0];
                 characterInstance.transform.SetSiblingIndex(1);

@@ -302,6 +302,7 @@ public class GameManager : MonoBehaviour
         kartName[0] = ECharacter.Mario.ToString();
     }
 
+    //test
     public SceneChange a;
     private void Update()
     {

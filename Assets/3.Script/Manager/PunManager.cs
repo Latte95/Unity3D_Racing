@@ -202,11 +202,10 @@ public class PunManager : MonoBehaviourPunCallbacks // ±âº» À¯´ÏÆ¼ ÄÝ¹é + Æ÷Åæ Ä
         {
             ExitGames.Client.Photon.Hashtable properties = player.CustomProperties;
 
-            GameManager.Instance.charName[player.ActorNumber - 1] = properties["ModelName"] as string;
-            GameManager.Instance.kartName[player.ActorNumber - 1] = properties["KartName"] as string;
+            charName[player.ActorNumber - 1] = properties["ModelName"] as string;
+            kartName[player.ActorNumber - 1] = properties["KartName"] as string;
         }
         num = PhotonNetwork.LocalPlayer.ActorNumber -1;
-        GameManager.Instance.myIndex = num;
 
         SceneManager.sceneLoaded += OnSceneLoaded;
 
@@ -219,7 +218,9 @@ public class PunManager : MonoBehaviourPunCallbacks // ±âº» À¯´ÏÆ¼ ÄÝ¹é + Æ÷Åæ Ä
         GameObject player = PhotonNetwork.Instantiate(playerPrefabs.name, position, rotation);
 
         player.name = "Player";
-        player.GetComponent<PlayerControl>().enabled = true;
+        PlayerControl p = player.GetComponent<PlayerControl>();
+        p.myIndex = num;
+        p.enabled = true;
     }
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
@@ -228,4 +229,7 @@ public class PunManager : MonoBehaviourPunCallbacks // ±âº» À¯´ÏÆ¼ ÄÝ¹é + Æ÷Åæ Ä
 
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
+
+    public string[] charName = new string[8];
+    public string[] kartName = new string[8];
 }
