@@ -114,7 +114,7 @@ public class GameManager : MonoBehaviour
             totalLap_txt.text = "/" + totalLap.ToString();
 
             SetPath();
-            SetChar();
+            //SetChar();
             SetUI();
 
             StartCoroutine(CountDown_co(5));
@@ -260,6 +260,7 @@ public class GameManager : MonoBehaviour
 
         // 카운트 다운 시작
         yield return new WaitForSeconds(preTime);
+        SetChar();
         countAnim.SetTrigger("Timer");
 
         // 카운트다운이 끝나기 전에 미리 Freeze를 통한 이동제한 해제

@@ -15,9 +15,11 @@ public class Minimap : MonoBehaviour
 
     private float normalDistance;
     private float minimapDistance;
+    private Vector2 defaultResolution = new Vector2(1920, 1080);
 
     private void Awake()
     {
+
         minimapStart = GameObject.FindGameObjectWithTag("MiniStart").GetComponent<RectTransform>();
         minimapEnd = GameObject.FindGameObjectWithTag("MiniEnd").GetComponent<RectTransform>();
         normalStart = GameObject.FindGameObjectWithTag("MapStart").GetComponent<Transform>();
@@ -26,10 +28,16 @@ public class Minimap : MonoBehaviour
 
         normalDistance = Vector3.Distance(normalEnd.position, normalStart.position);
         minimapDistance = Vector3.Distance(minimapEnd.position, minimapStart.position);
+        // 해상도에 따른 minimapDistance 보정
+        float currentResolutionRatio = Mathf.Min(Screen.width / defaultResolution.x, Screen.height / defaultResolution.y);
+        minimapDistance /= currentResolutionRatio;
+
         icon.transform.SetParent(minimap);
     }
     private void Update()
     {
+        Debug.Log("맵 : " +normalDistance);
+        Debug.Log("미니 : " + minimapDistance);
         float proportionX = -transform.position.x / normalDistance;
         float proportionY = -transform.position.z / normalDistance;
 

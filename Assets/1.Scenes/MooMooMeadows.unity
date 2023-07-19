@@ -4355,7 +4355,7 @@ GameObject:
   - component: {fileID: 316356589}
   m_Layer: 0
   m_Name: Path1
-  m_TagString: MapStart
+  m_TagString: Path
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -10020,7 +10020,7 @@ GameObject:
   - component: {fileID: 797255481}
   m_Layer: 3
   m_Name: GameObject
-  m_TagString: Untagged
+  m_TagString: MapStart
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -15796,7 +15796,7 @@ GameObject:
   - component: {fileID: 1383510767}
   m_Layer: 3
   m_Name: GameObject (1)
-  m_TagString: Untagged
+  m_TagString: MapEnd
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -17216,7 +17216,7 @@ GameObject:
   - component: {fileID: 1476060121}
   m_Layer: 0
   m_Name: Path27
-  m_TagString: MapEnd
+  m_TagString: Path
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295

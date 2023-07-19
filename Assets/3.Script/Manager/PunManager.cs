@@ -31,7 +31,7 @@ public class PunManager : MonoBehaviourPunCallbacks // ±âº» À¯´ÏÆ¼ ÄÝ¹é + Æ÷Åæ Ä
     public ServerSettings setting = null;
 
     private int maxPlayer = 8;
-    private float maxTime = 5f;
+    private float maxTime = 1f;
     private float matchingStartTime;
     public Button btn;
 
