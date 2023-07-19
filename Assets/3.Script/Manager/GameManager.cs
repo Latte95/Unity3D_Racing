@@ -76,10 +76,10 @@ public class GameManager : MonoBehaviour
     }
     #endregion ΩÃ±€≈Ê
 
-    [SerializeField]
     public Character[] characters;
-    public string charName { get; set; }
-    public string kartName { get; set; }
+    public int myIndex;
+    public string[] charName = new string[8];
+    public string[] kartName = new string[8];
     public int totalCharacters { get; private set; }
     public bool isTitle = false;
     public bool isPlay = false;
@@ -99,6 +99,18 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         Init();
+    }
+
+    public void SetName(string name)
+    {
+        for(int i = 1; i< charName.Length;i++)
+        {
+            if(charName[i] == null)
+            {
+                charName[i] = name;
+                break;
+            }
+        }
     }
 
     public void Init()
@@ -286,7 +298,16 @@ public class GameManager : MonoBehaviour
 
     private void Test()
     {
-        charName = ECharacter.Mario.ToString();
-        kartName = ECharacter.Mario.ToString();
+        charName[0] = ECharacter.Mario.ToString();
+        kartName[0] = ECharacter.Mario.ToString();
+    }
+
+    public SceneChange a;
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            a.ChangeScene("Title");
+        }
     }
 }

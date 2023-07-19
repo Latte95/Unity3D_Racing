@@ -27,7 +27,7 @@ public class PunManager : MonoBehaviourPunCallbacks // ±âº» À¯´ÏÆ¼ ÄÝ¹é + Æ÷Åæ Ä
         DontDestroyOnLoad(gameObject);
     }
     #endregion ½Ì±ÛÅæ
-    
+
     [Header("Server Setting")]
     // ¼­¹ö Á¢¼Ó(Master ¼­¹ö -> Lobby -> Room)
     private readonly string gameVersion = "1";
@@ -84,8 +84,7 @@ public class PunManager : MonoBehaviourPunCallbacks // ±âº» À¯´ÏÆ¼ ÄÝ¹é + Æ÷Åæ Ä
     public void JoinRandomRoomOrCreateRoom()
     {
         Debug.Log($"¸ÅÄª ½ÃÀÛ");
-        PhotonNetwork.LocalPlayer.NickName = GameManager.Instance.charName;
-
+                
         RoomOptions option = new RoomOptions();
 
         option.MaxPlayers = maxPlayer;
@@ -139,12 +138,24 @@ public class PunManager : MonoBehaviourPunCallbacks // ±âº» À¯´ÏÆ¼ ÄÝ¹é + Æ÷Åæ Ä
     {
         base.OnJoinedRoom();
         Debug.Log("Entered room");
+
+        PhotonNetwork.LocalPlayer.NickName = titleManager.model_txt.text;
+
+        // Set custom properties
+        ExitGames.Client.Photon.Hashtable properties = new ExitGames.Client.Photon.Hashtable
+        {
+            { "ModelName", titleManager.model_txt.text },
+            { "KartName", titleManager.kart_txt.text }
+        };
+        PhotonNetwork.LocalPlayer.SetCustomProperties(properties);
+
         StartCoroutine(GameStart_co());
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         base.OnPlayerEnteredRoom(newPlayer);
+
         Debug.Log($"{newPlayer.NickName} Âü°¡");
     }
     public override void OnPlayerLeftRoom(Player otherPlayer)
@@ -183,11 +194,19 @@ public class PunManager : MonoBehaviourPunCallbacks // ±âº» À¯´ÏÆ¼ ÄÝ¹é + Æ÷Åæ Ä
     }
     #endregion ¼­¹ö °ü·Ã ÄÝ¹é ÇÔ¼ö
 
+    int num;
     [PunRPC]
     public void GameStart()
     {
-        GameManager.Instance.charName = titleManager.model_txt.text;
-        GameManager.Instance.kartName = titleManager.kart_txt.text;
+        foreach (Player player in PhotonNetwork.PlayerList)
+        {
+            ExitGames.Client.Photon.Hashtable properties = player.CustomProperties;
+
+            GameManager.Instance.charName[player.ActorNumber - 1] = properties["ModelName"] as string;
+            GameManager.Instance.kartName[player.ActorNumber - 1] = properties["KartName"] as string;
+        }
+        num = PhotonNetwork.LocalPlayer.ActorNumber -1;
+        GameManager.Instance.myIndex = num;
 
         SceneManager.sceneLoaded += OnSceneLoaded;
 
@@ -195,7 +214,7 @@ public class PunManager : MonoBehaviourPunCallbacks // ±âº» À¯´ÏÆ¼ ÄÝ¹é + Æ÷Åæ Ä
     }
     private void MakePlayer()
     {
-        Vector3 position = new Vector3(-317.22f, 83.1f, -26.26f);
+        Vector3 position = new Vector3(-317.22f + num* 7.78f, 83.1f, -26.26f + num * 10.36f);
         Quaternion rotation = Quaternion.Euler(0, 180, 0);
         GameObject player = PhotonNetwork.Instantiate(playerPrefabs.name, position, rotation);
 

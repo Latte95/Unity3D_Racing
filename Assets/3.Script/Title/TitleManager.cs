@@ -158,20 +158,20 @@ public class TitleManager : MonoBehaviour
         kart_txt.text = karts[activeKart].name;
     }
 
-    public void GameStart()
-    {
-        GameManager.Instance.charName = model_txt.text;
-        GameManager.Instance.kartName = kart_txt.text;
+    //public void GameStart()
+    //{
+    //    GameManager.Instance.charName[0] = model_txt.text;
+    //    GameManager.Instance.kartName[0] = kart_txt.text;
 
-        SceneManager.sceneLoaded += OnSceneLoaded;
+    //    SceneManager.sceneLoaded += OnSceneLoaded;
 
-        PhotonNetwork.LoadLevel(map_txt.text);
-    }
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        PunManager.Instance.GameStart();
-        GameManager.Instance.Init();
+    //    PhotonNetwork.LoadLevel(map_txt.text);
+    //}
+    //private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    //{
+    //    PunManager.Instance.GameStart();
+    //    GameManager.Instance.Init();
 
-        SceneManager.sceneLoaded -= OnSceneLoaded;
-    }
+    //    SceneManager.sceneLoaded -= OnSceneLoaded;
+    //}
 }

@@ -434,7 +434,7 @@ public class PlayerControl : CharacterControl
     {
         gameManager = GameManager.Instance;
 
-        GameObject kartPrefab = Resources.Load<GameObject>("Kart/" + gameManager.kartName);
+        GameObject kartPrefab = Resources.Load<GameObject>("Kart/" + gameManager.kartName[gameManager.myIndex]);
         if (kartPrefab != null)
         {
             // 카트 생성
@@ -444,11 +444,11 @@ public class PlayerControl : CharacterControl
             kartInstance.TryGetComponent(out kart);
 
             // 캐릭터 생성
-            GameObject characterPrefab = Resources.Load<GameObject>("Character/" + gameManager.charName);
+            GameObject characterPrefab = Resources.Load<GameObject>("Character/" + gameManager.charName[gameManager.myIndex]);
             if (characterPrefab != null)
             {
                 GameObject characterInstance = Instantiate(characterPrefab, kartInstance.transform);
-                characterInstance.name = gameManager.charName;
+                characterInstance.name = gameManager.charName[0];
                 characterInstance.transform.SetSiblingIndex(1);
                 characterInstance.TryGetComponent(out charAnim);
             }
