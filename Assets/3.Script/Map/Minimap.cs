@@ -19,7 +19,6 @@ public class Minimap : MonoBehaviour
 
     private void Awake()
     {
-
         minimapStart = GameObject.FindGameObjectWithTag("MiniStart").GetComponent<RectTransform>();
         minimapEnd = GameObject.FindGameObjectWithTag("MiniEnd").GetComponent<RectTransform>();
         normalStart = GameObject.FindGameObjectWithTag("MapStart").GetComponent<Transform>();
@@ -32,7 +31,7 @@ public class Minimap : MonoBehaviour
         float currentResolutionRatio = Mathf.Min(Screen.width / defaultResolution.x, Screen.height / defaultResolution.y);
         minimapDistance /= currentResolutionRatio;
 
-        icon.transform.SetParent(minimap);
+        StartCoroutine(SetIcon_co());
     }
     private void Update()
     {
@@ -43,6 +42,19 @@ public class Minimap : MonoBehaviour
             proportionX * minimapDistance,
             proportionY * minimapDistance, 0);
 
-        icon.rectTransform.anchoredPosition = minimapPosition;
+        if (icon != null)
+        {
+            icon.rectTransform.anchoredPosition = minimapPosition;
+        }
+    }
+    private IEnumerator SetIcon_co()
+    {
+        // 캐릭터 모델 생성 기다림
+        yield return new WaitForSeconds(1);
+        // 캐릭터 모델에 있던 icon 오브젝트를 minimap UI로 이동
+        icon.transform.SetParent(minimap);
+        // 해상도에 따른 아이콘 크기 조절
+        float currentResolutionRatio = Mathf.Min(Screen.width / defaultResolution.x, Screen.height / defaultResolution.y);
+        icon.transform.localScale *= currentResolutionRatio;
     }
 }

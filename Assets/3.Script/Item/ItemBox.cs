@@ -15,8 +15,8 @@ public class ItemBox : MonoBehaviour
     public BananaBehavior bananaBehavior = new BananaBehavior();
     public GoldMushroomBehavior goldMushroomBehavior = new GoldMushroomBehavior();
     public GreenShellBehavior greenShellBehavior = new GreenShellBehavior();
-    public RedShellBehavior redShellBehavior= new RedShellBehavior();
-    public BlueShellBehavior blueShellBehavior = new BlueShellBehavior();
+    //public RedShellBehavior redShellBehavior= new RedShellBehavior();
+    //public BlueShellBehavior blueShellBehavior = new BlueShellBehavior();
     public StarBehavior starBehavior = new StarBehavior();
     public ReverseBehavior reverseBehavior = new ReverseBehavior();
 
@@ -40,9 +40,8 @@ public class ItemBox : MonoBehaviour
         {
             Deactivate();
 
-            int random = Random.Range(0, (int)EItem.Count);
-            //test
-            //int random = (int)EItem.GoldMushroom;
+            //int random = Random.Range(0, (int)EItem.Count);
+            int random = (int)EItem.GoldMushroom;
             IItemBehavior behavior = GetBehaviorForItem((EItem)random);
             Item newItem = new Item((EItem)random, behavior);
             character.HandleItem(newItem);
@@ -58,14 +57,14 @@ public class ItemBox : MonoBehaviour
                 return goldMushroomBehavior;
             case EItem.GreenShell:
                 return greenShellBehavior;
-            case EItem.RedShell:
-                return redShellBehavior;
-            case EItem.BlueShell:
-                return blueShellBehavior;
-            case EItem.Star:
-                return starBehavior;
-            case EItem.Reverse:
-                return reverseBehavior;
+            //case EItem.RedShell:
+            //    return redShellBehavior;
+            //case EItem.BlueShell:
+            //    return blueShellBehavior;
+            //case EItem.Star:
+            //    return starBehavior;
+            //case EItem.Reverse:
+            //    return reverseBehavior;
             default:
                 throw new System.NotImplementedException($"{item} 아이템에 대한 정의가 존재하지 않습니다.");
         }

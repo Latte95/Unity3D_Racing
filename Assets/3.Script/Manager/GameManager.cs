@@ -45,7 +45,7 @@ public class Character
     {
         get
         {
-            return character.GetComponent<CharacterControl>().charAnim.gameObject.name;
+            return character.GetComponent<PlayerControl>().myName;
         }
     }
 
@@ -80,9 +80,11 @@ public class GameManager : MonoBehaviour
     public int myIndex;
     public string[] charName = new string[8];
     public string[] kartName = new string[8];
+    public string userName;
     public int totalCharacters { get; private set; }
     public bool isTitle = false;
     public bool isPlay = false;
+    public bool isLogin = false;
 
     public int totalLap;
     [SerializeField]
@@ -267,19 +269,10 @@ public class GameManager : MonoBehaviour
             preTime = 0;
         }
 
-
         // 카운트 다운 시작
         yield return new WaitForSeconds(preTime);
         SetChar();
         countAnim.SetTrigger("Timer");
-
-        //if (GameObject.Find("Player(Clone)") != null)
-        //{
-        //    foreach (PlayerControl p in GameObject.Find("Player(Clone)").GetComponents<PlayerControl>())
-        //    {
-        //        p.enabled = false;
-        //    }
-        //}
 
         // 카운트다운이 끝나기 전에 미리 Freeze를 통한 이동제한 해제
         yield return new WaitForSeconds(time - preTime - 1);

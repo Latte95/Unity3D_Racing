@@ -39,6 +39,7 @@ public class PlayerControl : CharacterControl
     [SerializeField]
     [Tooltip("몇 바퀴 째인지 표시 하는 텍스트 UI")]
     private Text currentLap_txt;
+    public GameObject icon;
 
     [HideInInspector]
     public Inventory inven;
@@ -432,10 +433,12 @@ public class PlayerControl : CharacterControl
 
     #region 시작 전 초기 설정들
     public int myIndex;
+    public string myName;
     [PunRPC]
-    public void SetMyIndex(int index)
+    public void SetMyIndex(int index, string name)
     {
         myIndex = index;
+        myName = name;
     }
     private new void Init()
     {
@@ -454,11 +457,11 @@ public class PlayerControl : CharacterControl
             GameObject characterPrefab = Resources.Load<GameObject>("Character/" + PunManager.Instance.charName[myIndex]);
             if (characterPrefab != null)
             {
-                Debug.Log(myIndex);
                 GameObject characterInstance = Instantiate(characterPrefab, kartInstance.transform);
                 characterInstance.name = PunManager.Instance.charName[0];
                 characterInstance.transform.SetSiblingIndex(1);
                 characterInstance.TryGetComponent(out charAnim);
+                gameObject.GetComponent<Minimap>().icon = characterInstance.transform.Find("MyIcon").GetComponent<Image>();
             }
         }
         base.Init();

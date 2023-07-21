@@ -22,7 +22,7 @@ public class GreenShell : MonoBehaviour
         velocity.y = rigid.velocity.y;
         rigid.velocity = velocity;
 
-        rigid.AddForce(Vector3.down * 10000 * Time.deltaTime, ForceMode.Acceleration);
+        rigid.AddForce(Vector3.down * 50000 * Time.deltaTime, ForceMode.Acceleration);
     }
 
     private void OnTriggerEnter(Collider other)

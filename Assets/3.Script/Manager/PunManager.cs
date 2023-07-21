@@ -44,11 +44,10 @@ public class PunManager : MonoBehaviourPunCallbacks // ±âº» À¯´ÏÆ¼ ÄÝ¹é + Æ÷Åæ Ä
 
     private TitleManager titleManager;
 
-    private PhotonView photonView;
+    private new PhotonView photonView;
 
     private void Start()
     {
-        btn = GameObject.FindGameObjectWithTag("Match").GetComponent<Button>();
         titleManager = GameObject.FindGameObjectWithTag("TitleManager").GetComponent<TitleManager>();
         photonView = GetComponent<PhotonView>();
         Connect();
@@ -57,7 +56,7 @@ public class PunManager : MonoBehaviourPunCallbacks // ±âº» À¯´ÏÆ¼ ÄÝ¹é + Æ÷Åæ Ä
     {
         Disconnect();
     }
-    private void OnDisable()
+    private new void OnDisable()
     {
         base.OnDisable();
         Disconnect();
@@ -67,6 +66,11 @@ public class PunManager : MonoBehaviourPunCallbacks // ±âº» À¯´ÏÆ¼ ÄÝ¹é + Æ÷Åæ Ä
     // connecttomaser
     public void Connect()
     {
+        btn = GameObject.FindGameObjectWithTag("Match").GetComponent<Button>();
+        if (!GameManager.Instance.isLogin)
+        {
+            btn.transform.parent.gameObject.SetActive(false);
+        }
         PhotonNetwork.GameVersion = gameVersion;
 
         // ¸¶½ºÅÍ ¼­¹ö ¿¬°á
@@ -225,7 +229,7 @@ public class PunManager : MonoBehaviourPunCallbacks // ±âº» À¯´ÏÆ¼ ÄÝ¹é + Æ÷Åæ Ä
 
         player.name = "Player";
         PlayerControl p = player.GetComponent<PlayerControl>();
-        p.GetComponent<PhotonView>().RPC("SetMyIndex", RpcTarget.AllBuffered, num);
+        p.GetComponent<PhotonView>().RPC("SetMyIndex", RpcTarget.AllBuffered, num, GameManager.Instance.userName);
 
         p.enabled = true;
     }

@@ -60,35 +60,33 @@ public class ItemManager : MonoBehaviour
                 clone.SetActive(false);
                 return greenShell[greenShell.Count - 1];
 
-            case EItem.RedShell:
-                foreach (GameObject gm in redShell)
-                {
-                    if (!gm.activeSelf)
-                    {
-                        return gm;
-                    }
-                }
-                clone = Instantiate(redShell[0]);
-                clone.name = redShell[0].name;
-                redShell.Add(clone);
-                clone.SetActive(false);
-                return redShell[redShell.Count - 1];
+            //case EItem.RedShell:
+            //    foreach (GameObject gm in redShell)
+            //    {
+            //        if (!gm.activeSelf)
+            //        {
+            //            return gm;
+            //        }
+            //    }
+            //    clone = Instantiate(redShell[0]);
+            //    clone.name = redShell[0].name;
+            //    redShell.Add(clone);
+            //    clone.SetActive(false);
+            //    return redShell[redShell.Count - 1];
 
-            case EItem.BlueShell:
-                foreach (GameObject gm in blueShell)
-                {
-                    if (!gm.activeSelf)
-                    {
-                        return gm;
-                    }
-                }
-                clone = Instantiate(blueShell[0]);
-                clone.name = blueShell[0].name;
-                blueShell.Add(clone);
-                clone.SetActive(false);
-                return blueShell[blueShell.Count - 1];
-
-
+            //case EItem.BlueShell:
+            //    foreach (GameObject gm in blueShell)
+            //    {
+            //        if (!gm.activeSelf)
+            //        {
+            //            return gm;
+            //        }
+            //    }
+            //    clone = Instantiate(blueShell[0]);
+            //    clone.name = blueShell[0].name;
+            //    blueShell.Add(clone);
+            //    clone.SetActive(false);
+            //    return blueShell[blueShell.Count - 1];
         }
         return null;
     }

@@ -10,40 +10,6 @@ using SimpleJSON;
 public class LoginControl : MonoBehaviour
 {
     private string serverUrl = "http://3.19.19.98:5000/login";
-    public IEnumerator Login_co(string userID, string password)
-    {
-        WWWForm form = new WWWForm();
-        form.AddField("id", userID);
-        form.AddField("password", password);
-
-        Debug.Log(userID);
-        using (UnityWebRequest www = UnityWebRequest.Post(serverUrl, form))
-        {
-            yield return www.SendWebRequest();
-
-            if (www.result == UnityWebRequest.Result.ConnectionError)
-            {
-                Debug.Log("1 : " + www.error);
-            }
-            else if (www.result == UnityWebRequest.Result.ProtocolError)
-            {
-                Debug.Log("2 : " + www.error);
-            }
-            else
-            {
-                var response = JSON.Parse(www.downloadHandler.text);
-
-                if (response["message"] == "Logged in.")
-                {
-                    Debug.Log("Login successful");
-                }
-                else
-                {
-                    Debug.Log("Login failed: " + response["message"]);
-                }
-            }
-        }
-    }
 
     public InputField ID_i;
     public InputField Password_i;
@@ -58,6 +24,13 @@ public class LoginControl : MonoBehaviour
         ID_i.text = "";
         Password_i.text = "";
         log.text = "";
+        if (GameManager.Instance != null)
+        {
+            if (GameManager.Instance.isLogin)
+            {
+                gameObject.SetActive(false);
+            }
+        }
     }
 
     private void SignIn()
@@ -75,16 +48,44 @@ public class LoginControl : MonoBehaviour
         else
         {
             StartCoroutine(Login_co(ID_i.text, Password_i.text));
-            //test
-            //bool isLoggedIn = Login(ID_i.text, Password_i.text);
-            //if (isLoggedIn)
-            //{
-            //    Debug.Log("Login successful.");
-            //}
-            //else
-            //{
-            //    Debug.Log("Login failed.");
-            //}
+        }
+    }
+    public IEnumerator Login_co(string userID, string password)
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("id", userID);
+        form.AddField("password", password);
+
+        using (UnityWebRequest www = UnityWebRequest.Post(serverUrl, form))
+        {
+            yield return www.SendWebRequest();
+
+            if (www.result == UnityWebRequest.Result.ConnectionError || www.result == UnityWebRequest.Result.ProtocolError)
+            {
+                Debug.Log(www.error);
+                log.text = "로그인 실패";
+            }
+            else
+            {
+                var response = JSON.Parse(www.downloadHandler.text);
+
+                if (response["message"] == "Logged in.")
+                {
+                    Debug.Log("로그인 성공");
+                    log.text = $"{userID}님 환영합니다.";
+
+                    yield return new WaitForSeconds(2);
+                    gameObject.SetActive(false);
+                    select.SetActive(true);
+                    GameManager.Instance.isLogin = true;
+                    GameManager.Instance.userName = userID;
+                }
+                else
+                {
+                    Debug.Log("Login failed: " + response["message"]);
+                    log.text = "로그인 실패";
+                }
+            }
         }
     }
 
