@@ -98,11 +98,6 @@ public class GameManager : MonoBehaviour
     public GameObject mobileUI;
     public Animator countAnim;
 
-    private void Start()
-    {
-        Init();
-    }
-
     public void SetName(string name)
     {
         for(int i = 1; i< charName.Length;i++)
@@ -120,6 +115,7 @@ public class GameManager : MonoBehaviour
         SetTotalLap();
         if (!isTitle)
         {
+            //Cursor.visible = false;
             GameObject countObject = GameObject.FindGameObjectWithTag("Count");
             countObject.TryGetComponent(out countAnim);
             GameObject Lap = GameObject.FindGameObjectWithTag("Lap");
@@ -133,6 +129,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
+            Cursor.visible = true;
             isPlay = false;
         }
     }
@@ -146,7 +143,6 @@ public class GameManager : MonoBehaviour
         mobileUI.SetActive(false);
         isMobile = false;
 #endif
-        //test
 #if UNITY_ANDROID || UNITY_EDITOR
         pcUI.SetActive(false);
         mobileUI.SetActive(true);
@@ -176,6 +172,13 @@ public class GameManager : MonoBehaviour
 
             bool[] pathCheck = new bool[paths.Length];
             characters[i] = new Character(characterGameObject, pathCheck);
+        }
+        foreach (GameObject p in players)
+        {
+            if (p.name.Contains("Clone"))
+            {
+                p.GetComponent<PlayerControl>().enabled = false;
+            }
         }
     }
 

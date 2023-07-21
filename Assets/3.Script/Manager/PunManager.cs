@@ -42,6 +42,7 @@ public class PunManager : MonoBehaviourPunCallbacks // ±âº» À¯´ÏÆ¼ ÄÝ¹é + Æ÷Åæ Ä
     // ÇÃ·¹ÀÌ¾î ÇÁ¸®ÆÕ
     public GameObject playerPrefabs;
 
+    private GameManager gameManager;
     private TitleManager titleManager;
 
     private new PhotonView photonView;
@@ -49,6 +50,7 @@ public class PunManager : MonoBehaviourPunCallbacks // ±âº» À¯´ÏÆ¼ ÄÝ¹é + Æ÷Åæ Ä
     private void Start()
     {
         titleManager = GameObject.FindGameObjectWithTag("TitleManager").GetComponent<TitleManager>();
+        gameManager = GameManager.Instance;
         photonView = GetComponent<PhotonView>();
         Connect();
     }
@@ -67,7 +69,7 @@ public class PunManager : MonoBehaviourPunCallbacks // ±âº» À¯´ÏÆ¼ ÄÝ¹é + Æ÷Åæ Ä
     public void Connect()
     {
         btn = GameObject.FindGameObjectWithTag("Match").GetComponent<Button>();
-        if (!GameManager.Instance.isLogin)
+        if (!gameManager.isLogin)
         {
             btn.transform.parent.gameObject.SetActive(false);
         }
@@ -205,8 +207,8 @@ public class PunManager : MonoBehaviourPunCallbacks // ±âº» À¯´ÏÆ¼ ÄÝ¹é + Æ÷Åæ Ä
         {
             ExitGames.Client.Photon.Hashtable properties = player.CustomProperties;
 
-            charName[player.ActorNumber - 1] = properties["ModelName"] as string;
-            kartName[player.ActorNumber - 1] = properties["KartName"] as string;
+            gameManager.charName[player.ActorNumber - 1] = properties["ModelName"] as string;
+            gameManager.kartName[player.ActorNumber - 1] = properties["KartName"] as string;
         }
         num = PhotonNetwork.LocalPlayer.ActorNumber -1;
 
@@ -217,7 +219,7 @@ public class PunManager : MonoBehaviourPunCallbacks // ±âº» À¯´ÏÆ¼ ÄÝ¹é + Æ÷Åæ Ä
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         MakePlayer();
-        GameManager.Instance.Init();
+        gameManager.Init();
 
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
@@ -229,11 +231,11 @@ public class PunManager : MonoBehaviourPunCallbacks // ±âº» À¯´ÏÆ¼ ÄÝ¹é + Æ÷Åæ Ä
 
         player.name = "Player";
         PlayerControl p = player.GetComponent<PlayerControl>();
-        p.GetComponent<PhotonView>().RPC("SetMyIndex", RpcTarget.AllBuffered, num, GameManager.Instance.userName);
+        p.GetComponent<PhotonView>().RPC("SetMyIndex", RpcTarget.AllBuffered, num, gameManager.userName);
 
         p.enabled = true;
     }
 
-    public string[] charName = new string[8];
-    public string[] kartName = new string[8];
+    //public string[] charName = new string[8];
+    //public string[] kartName = new string[8];
 }

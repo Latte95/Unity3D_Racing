@@ -5,15 +5,18 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/1.Scenes/Title.unity
     guid: 4c423143788f0dc4d84063f90b9aa4d9
   - enabled: 1
     path: Assets/1.Scenes/MooMooMeadows.unity
     guid: ca649371757997541b74e958de65d097
-  - enabled: 1
+  - enabled: 0
     path: Assets/1.Scenes/RainbowRoad.unity
     guid: 617e37435e29cf34e90b2d4b026835dd
+  - enabled: 0
+    path: Assets/1.Scenes/test.unity
+    guid: 1150c88dfec58f542b326c947ec90b9d
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 1cf728adea2b16641af03512ae4972ab,
       type: 2}

@@ -427,7 +427,7 @@ public class PlayerControl : CharacterControl
         // 후진
         // 이동 방향과 바라보는 방향의 각도가 90도 이상(후진)이면 음수, 이하(전진)면 양수
         float dotProduct = Vector3.Dot(rigid.velocity.normalized, transform.forward.normalized);
-        //test 후면 카메라?
+        // 후방 바라보는 애니메이션이 mario밖에 없어서 삭제
     }
     #endregion 애니메이션
 
@@ -444,7 +444,7 @@ public class PlayerControl : CharacterControl
     {
         gameManager = GameManager.Instance;
 
-        GameObject kartPrefab = Resources.Load<GameObject>("Kart/" + PunManager.Instance.kartName[myIndex]);
+        GameObject kartPrefab = Resources.Load<GameObject>("Kart/" + gameManager.kartName[myIndex]);
         if (kartPrefab != null)
         {
             // 카트 생성
@@ -454,11 +454,11 @@ public class PlayerControl : CharacterControl
             kartInstance.TryGetComponent(out kart);
 
             // 캐릭터 생성
-            GameObject characterPrefab = Resources.Load<GameObject>("Character/" + PunManager.Instance.charName[myIndex]);
+            GameObject characterPrefab = Resources.Load<GameObject>("Character/" + gameManager.charName[myIndex]);
             if (characterPrefab != null)
             {
                 GameObject characterInstance = Instantiate(characterPrefab, kartInstance.transform);
-                characterInstance.name = PunManager.Instance.charName[0];
+                characterInstance.name = gameManager.charName[0];
                 characterInstance.transform.SetSiblingIndex(1);
                 characterInstance.TryGetComponent(out charAnim);
                 gameObject.GetComponent<Minimap>().icon = characterInstance.transform.Find("MyIcon").GetComponent<Image>();
