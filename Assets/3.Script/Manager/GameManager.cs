@@ -131,6 +131,10 @@ public class GameManager : MonoBehaviour
 
             StartCoroutine(CountDown_co(5));
         }
+        else
+        {
+            isPlay = false;
+        }
     }
 
     private void SetUI()

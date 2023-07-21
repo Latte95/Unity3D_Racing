@@ -40,6 +40,8 @@ public class TitleManager : MonoBehaviour
 
     private void Start()
     {
+        GameManager.Instance.Init();
+
         // 기본 설정
         model_txt.text = ECharacter.Mario.ToString();
         kart_txt.text = ECharacter.Mario.ToString();
@@ -157,21 +159,4 @@ public class TitleManager : MonoBehaviour
         model_txt.text = models[activeModel].name;
         kart_txt.text = karts[activeKart].name;
     }
-
-    //public void GameStart()
-    //{
-    //    GameManager.Instance.charName[0] = model_txt.text;
-    //    GameManager.Instance.kartName[0] = kart_txt.text;
-
-    //    SceneManager.sceneLoaded += OnSceneLoaded;
-
-    //    PhotonNetwork.LoadLevel(map_txt.text);
-    //}
-    //private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    //{
-    //    PunManager.Instance.GameStart();
-    //    GameManager.Instance.Init();
-
-    //    SceneManager.sceneLoaded -= OnSceneLoaded;
-    //}
 }
