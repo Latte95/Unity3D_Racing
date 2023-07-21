@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -67,8 +68,6 @@ public class PlayerControl : CharacterControl
     private void Start()
     {
         Init();
-        //test
-        //GameObject.Find("Player(Clone)").GetComponent<PlayerControl>()
         carWeigth = rigid.mass * 9.8f;
         tireContactArea = carWeigth / tirePressure;
 
@@ -433,6 +432,11 @@ public class PlayerControl : CharacterControl
 
     #region 시작 전 초기 설정들
     public int myIndex;
+    [PunRPC]
+    public void SetMyIndex(int index)
+    {
+        myIndex = index;
+    }
     private new void Init()
     {
         gameManager = GameManager.Instance;
@@ -452,7 +456,7 @@ public class PlayerControl : CharacterControl
             {
                 Debug.Log(myIndex);
                 GameObject characterInstance = Instantiate(characterPrefab, kartInstance.transform);
-                characterInstance.name = gameManager.charName[0];
+                characterInstance.name = PunManager.Instance.charName[0];
                 characterInstance.transform.SetSiblingIndex(1);
                 characterInstance.TryGetComponent(out charAnim);
             }

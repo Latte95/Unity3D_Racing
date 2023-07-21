@@ -321,7 +321,6 @@ GameObject:
   - component: {fileID: 1324238660317486895}
   - component: {fileID: 1324238660317486892}
   - component: {fileID: 7425215675009614560}
-  - component: {fileID: 6295320167327113672}
   m_Layer: 0
   m_Name: Mario
   m_TagString: Untagged
@@ -389,22 +388,6 @@ CapsuleCollider:
   m_Height: 1.14
   m_Direction: 1
   m_Center: {x: 0, y: 0.6, z: -0.06}
---- !u!114 &6295320167327113672
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1324238660317486894}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b8c4a61274f60b4ea5fb4299cfdbf14, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowLayerWeightsInspector: 1
-  ShowParameterInspector: 1
-  m_SynchronizeParameters: []
-  m_SynchronizeLayers: []
 --- !u!1 &1351108829493468329
 GameObject:
   m_ObjectHideFlags: 0

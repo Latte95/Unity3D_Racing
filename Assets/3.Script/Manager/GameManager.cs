@@ -273,6 +273,14 @@ public class GameManager : MonoBehaviour
         SetChar();
         countAnim.SetTrigger("Timer");
 
+        //if (GameObject.Find("Player(Clone)") != null)
+        //{
+        //    foreach (PlayerControl p in GameObject.Find("Player(Clone)").GetComponents<PlayerControl>())
+        //    {
+        //        p.enabled = false;
+        //    }
+        //}
+
         // 카운트다운이 끝나기 전에 미리 Freeze를 통한 이동제한 해제
         yield return new WaitForSeconds(time - preTime - 1);
         for (int i = 0; i < characters.Length; i++)

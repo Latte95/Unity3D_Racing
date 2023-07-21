@@ -33,8 +33,8 @@ public class PunManager : MonoBehaviourPunCallbacks // ±âº» À¯´ÏÆ¼ ÄÝ¹é + Æ÷Åæ Ä
     private readonly string gameVersion = "1";
     public ServerSettings setting = null;
 
-    private int maxPlayer = 8;
-    private float maxTime = 3f;
+    private const int MAX_PLAYER = 4;
+    private const float MAX_TIME = 3f;
     private float matchingStartTime;
     private Button btn;
 
@@ -87,7 +87,7 @@ public class PunManager : MonoBehaviourPunCallbacks // ±âº» À¯´ÏÆ¼ ÄÝ¹é + Æ÷Åæ Ä
                 
         RoomOptions option = new RoomOptions();
 
-        option.MaxPlayers = maxPlayer;
+        option.MaxPlayers = MAX_PLAYER;
         // IsGameStarted ÇÁ·ÎÆÛÆ¼ °´Ã¼ »ý¼º
         // °ÔÀÓÀÌ ÀÌ¹Ì ½ÃÀÛµÈ °æ¿ì Âü°¡ÇÏÁö ¾Ê°Ô ÇÏ´Â ¿ªÇÒ
         option.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable()
@@ -175,14 +175,13 @@ public class PunManager : MonoBehaviourPunCallbacks // ±âº» À¯´ÏÆ¼ ÄÝ¹é + Æ÷Åæ Ä
             int playerCount = PhotonNetwork.CurrentRoom.PlayerCount;
             int maxPlayers = PhotonNetwork.CurrentRoom.MaxPlayers;
 
-            if (playerCount == maxPlayers || elapsedTime > maxTime)
+            if (playerCount == maxPlayers || elapsedTime > MAX_TIME)
             {
                 if (PhotonNetwork.IsMasterClient)
                 {
-                    yield return new WaitForSeconds(0.5f);
-                    photonView.RPC("GameStart", RpcTarget.All);
-
                     PhotonNetwork.CurrentRoom.SetCustomProperties(new ExitGames.Client.Photon.Hashtable() { { "IsGameStarted", true } });
+                    yield return new WaitForSeconds(1f);
+                    photonView.RPC("GameStart", RpcTarget.All);
                 }
                 break;
             }
@@ -211,6 +210,13 @@ public class PunManager : MonoBehaviourPunCallbacks // ±âº» À¯´ÏÆ¼ ÄÝ¹é + Æ÷Åæ Ä
 
         PhotonNetwork.LoadLevel(titleManager.map_txt.text);
     }
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        MakePlayer();
+        GameManager.Instance.Init();
+
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
     private void MakePlayer()
     {
         Vector3 position = new Vector3(-317.22f + num* 7.78f, 83.1f, -26.26f + num * 10.36f);
@@ -219,15 +225,9 @@ public class PunManager : MonoBehaviourPunCallbacks // ±âº» À¯´ÏÆ¼ ÄÝ¹é + Æ÷Åæ Ä
 
         player.name = "Player";
         PlayerControl p = player.GetComponent<PlayerControl>();
-        p.myIndex = num;
-        p.enabled = true;
-    }
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        MakePlayer();
-        GameManager.Instance.Init();
+        p.GetComponent<PhotonView>().RPC("SetMyIndex", RpcTarget.AllBuffered, num);
 
-        SceneManager.sceneLoaded -= OnSceneLoaded;
+        p.enabled = true;
     }
 
     public string[] charName = new string[8];
