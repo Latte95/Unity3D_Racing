@@ -7,9 +7,6 @@ using UnityEngine.Events;
 
 public class VirtualJoystick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointerUpHandler
 {
-    [System.Serializable]
-    public class Event : UnityEvent<Vector2> { }
-
     [Header("Rect References")]
     public RectTransform containerRect;
     public RectTransform handleRect;
@@ -26,11 +23,18 @@ public class VirtualJoystick : MonoBehaviour, IPointerDownHandler, IDragHandler,
     public Text tt;
 
     [Header("Output")]
-    public Event joystickOutputEvent;
+    public PlayerInput playerInput;
 
     private void Start()
     {
         SetupHandle();
+        StartCoroutine(SetInput_co());
+    }
+
+    private IEnumerator SetInput_co()
+    {
+        yield return new WaitUntil(() => GameObject.Find("Player"));
+        GameObject.Find("Player").TryGetComponent(out playerInput);
     }
 
     private void SetupHandle()
@@ -38,14 +42,6 @@ public class VirtualJoystick : MonoBehaviour, IPointerDownHandler, IDragHandler,
         if (handleRect)
         {
             UpdateHandleRectPosition(Vector2.zero);
-        }
-    }
-
-    private void Update()
-    {
-        if (isInput)
-        {
-            Debug.Log(inputVector);
         }
     }
 
@@ -58,7 +54,6 @@ public class VirtualJoystick : MonoBehaviour, IPointerDownHandler, IDragHandler,
     {
         RectTransformUtility.ScreenPointToLocalPointInRectangle(containerRect, eventData.position, eventData.pressEventCamera, out Vector2 position);
 
-        Debug.Log(position);
         position = ApplySizeDelta(position);
 
         Vector2 clampedPosition = ClampValuesToMagnitude(position);
@@ -75,7 +70,7 @@ public class VirtualJoystick : MonoBehaviour, IPointerDownHandler, IDragHandler,
 
     private void OutputPointerEventValue(Vector2 pointerPosition)
     {
-        joystickOutputEvent.Invoke(pointerPosition);
+        playerInput.MoveInput(pointerPosition);
     }
 
     private void UpdateHandleRectPosition(Vector2 newPosition)
@@ -112,13 +107,14 @@ public class VirtualJoystick : MonoBehaviour, IPointerDownHandler, IDragHandler,
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        tt.text = "aa";
+        isInput = true;
         OnDrag(eventData);
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
         handleRect.anchoredPosition = Vector2.zero;
+        playerInput.MoveInput(Vector2.zero);
         isInput = false;
     }
 

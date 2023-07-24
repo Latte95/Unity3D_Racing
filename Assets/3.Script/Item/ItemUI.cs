@@ -14,6 +14,11 @@ public class ItemUI : MonoBehaviour
     {
         StartCoroutine(EventRegist_co());
     }
+    private void OnDisable()
+    {
+        inventory.OnItemAdded -= RenewSlot;
+        inventory.OnItemRemoved -= RenewSlot;
+    }
 
     private void RenewSlot(string name)
     {
@@ -54,9 +59,9 @@ public class ItemUI : MonoBehaviour
     {
         while (inventory == null)
         {
-            if (FindObjectOfType<PlayerControl>() != null)
+            if (GameObject.Find("Player"))
             {
-                inventory = FindObjectOfType<PlayerControl>().inven;
+                inventory = GameObject.Find("Player").GetComponent<PlayerControl>().inven;
             }
             yield return null;
         }

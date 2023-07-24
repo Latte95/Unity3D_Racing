@@ -62,7 +62,6 @@ public class LoginControl : MonoBehaviour
 
             if (www.result == UnityWebRequest.Result.ConnectionError || www.result == UnityWebRequest.Result.ProtocolError)
             {
-                Debug.Log(www.error);
                 log.text = "로그인 실패";
             }
             else
@@ -71,7 +70,6 @@ public class LoginControl : MonoBehaviour
 
                 if (response["message"] == "Logged in.")
                 {
-                    Debug.Log("로그인 성공");
                     log.text = $"{userID}님 환영합니다.";
 
                     yield return new WaitForSeconds(2);
@@ -82,7 +80,6 @@ public class LoginControl : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("Login failed: " + response["message"]);
                     log.text = "로그인 실패";
                 }
             }

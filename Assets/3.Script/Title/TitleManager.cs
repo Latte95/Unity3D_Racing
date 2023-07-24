@@ -90,7 +90,7 @@ public class TitleManager : MonoBehaviour
         {
             activeModel = 0;
         }
-        else if (activeModel <= 0)
+        else if (activeModel < 0)
         {
             activeModel = (int)ECharacter.Count - 1;
         }
@@ -123,7 +123,7 @@ public class TitleManager : MonoBehaviour
         {
             activeKart = 0;
         }
-        else if (activeKart <= 0)
+        else if (activeKart < 0)
         {
             activeKart = (int)ECharacter.Count - 1;
         }
@@ -145,7 +145,7 @@ public class TitleManager : MonoBehaviour
         {
             activeMap = 0;
         }
-        else if (activeMap <= 0)
+        else if (activeMap < 0)
         {
             activeMap = (int)EMap.Count - 1;
         }

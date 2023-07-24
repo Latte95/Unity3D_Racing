@@ -78,8 +78,6 @@ public class PunManager : MonoBehaviourPunCallbacks // ±âº» À¯´ÏÆ¼ ÄÝ¹é + Æ÷Åæ Ä
         // ¸¶½ºÅÍ ¼­¹ö ¿¬°á
         // Æ÷Åæ ¼­¹ö¿¡ Á¢¼ÓÇÏ´Â°Å¶ó ¾Û ID ¾øÀ½
         PhotonNetwork.ConnectToMaster(setting.AppSettings.Server, setting.AppSettings.Port, "");
-
-        Debug.Log("Connect to Master Server");
     }
     public void Disconnect()
     {
@@ -89,8 +87,6 @@ public class PunManager : MonoBehaviourPunCallbacks // ±âº» À¯´ÏÆ¼ ÄÝ¹é + Æ÷Åæ Ä
     // ÄÝ¹é
     public void JoinRandomRoomOrCreateRoom()
     {
-        Debug.Log($"¸ÅÄª ½ÃÀÛ");
-                
         RoomOptions option = new RoomOptions();
 
         option.MaxPlayers = MAX_PLAYER;
@@ -98,7 +94,8 @@ public class PunManager : MonoBehaviourPunCallbacks // ±âº» À¯´ÏÆ¼ ÄÝ¹é + Æ÷Åæ Ä
         // °ÔÀÓÀÌ ÀÌ¹Ì ½ÃÀÛµÈ °æ¿ì Âü°¡ÇÏÁö ¾Ê°Ô ÇÏ´Â ¿ªÇÒ
         option.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable()
         {
-            { "IsGameStarted", false }
+            { "IsGameStarted", false },
+            { "ReadyCount", 0 }
         };
         option.CustomRoomPropertiesForLobby = new string[] { "IsGameStarted" };
         StartMatchmakingTimer();
@@ -128,13 +125,11 @@ public class PunManager : MonoBehaviourPunCallbacks // ±âº» À¯´ÏÆ¼ ÄÝ¹é + Æ÷Åæ Ä
     public override void OnConnectedToMaster()
     {
         base.OnConnectedToMaster();
-        Debug.Log("Connect Complete");
 
         PhotonNetwork.JoinLobby();
     }
     public override void OnJoinedLobby()
     {
-        Debug.Log("Entered Lobby");
         base.OnJoinedLobby();
 
         btn.onClick.AddListener(JoinRandomRoomOrCreateRoom);
@@ -143,11 +138,10 @@ public class PunManager : MonoBehaviourPunCallbacks // ±âº» À¯´ÏÆ¼ ÄÝ¹é + Æ÷Åæ Ä
     public override void OnJoinedRoom()
     {
         base.OnJoinedRoom();
-        Debug.Log("Entered room");
 
         PhotonNetwork.LocalPlayer.NickName = titleManager.model_txt.text;
 
-        // Set custom properties
+        // Ä¿½ºÅÒ ÇÁ·ÎÆÛÆ¼ ¼³Á¤
         ExitGames.Client.Photon.Hashtable properties = new ExitGames.Client.Photon.Hashtable
         {
             { "ModelName", titleManager.model_txt.text },
@@ -161,15 +155,12 @@ public class PunManager : MonoBehaviourPunCallbacks // ±âº» À¯´ÏÆ¼ ÄÝ¹é + Æ÷Åæ Ä
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         base.OnPlayerEnteredRoom(newPlayer);
-
-        Debug.Log($"{newPlayer.NickName} Âü°¡");
     }
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         base.OnPlayerLeftRoom(otherPlayer);
-        Debug.Log($"{otherPlayer.NickName} Å»ÁÖ");
-        base.OnPlayerLeftRoom(otherPlayer);
     }
+
 
     public IEnumerator GameStart_co()
     {
@@ -199,6 +190,9 @@ public class PunManager : MonoBehaviourPunCallbacks // ±âº» À¯´ÏÆ¼ ÄÝ¹é + Æ÷Åæ Ä
     }
     #endregion ¼­¹ö °ü·Ã ÄÝ¹é ÇÔ¼ö
 
+
+    public bool isReady = false;
+    public int readyCount = 0;
     int num;
     [PunRPC]
     public void GameStart()
@@ -210,22 +204,54 @@ public class PunManager : MonoBehaviourPunCallbacks // ±âº» À¯´ÏÆ¼ ÄÝ¹é + Æ÷Åæ Ä
             gameManager.charName[player.ActorNumber - 1] = properties["ModelName"] as string;
             gameManager.kartName[player.ActorNumber - 1] = properties["KartName"] as string;
         }
-        num = PhotonNetwork.LocalPlayer.ActorNumber -1;
+        num = PhotonNetwork.LocalPlayer.ActorNumber - 1;
 
         SceneManager.sceneLoaded += OnSceneLoaded;
 
-        PhotonNetwork.LoadLevel(titleManager.map_txt.text);
+        PhotonNetwork.AutomaticallySyncScene = true;
+        if (PhotonNetwork.IsMasterClient)
+        {
+            PhotonNetwork.LoadLevel(titleManager.map_txt.text);
+        }
     }
+
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         MakePlayer();
-        gameManager.Init();
-
+        PhotonNetwork.AutomaticallySyncScene = false;
+        photonView.RPC("PlayerLoadedScene", RpcTarget.MasterClient);
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
+
+    [PunRPC]
+    private void PlayerLoadedScene()
+    {
+        ExitGames.Client.Photon.Hashtable roomProperties = PhotonNetwork.CurrentRoom.CustomProperties;
+        readyCount = 0;
+        if (roomProperties.ContainsKey("ReadyCount"))
+        {
+            readyCount = (int)roomProperties["ReadyCount"];
+        }
+        readyCount++;
+        roomProperties["ReadyCount"] = readyCount;
+        PhotonNetwork.CurrentRoom.SetCustomProperties(roomProperties);
+
+        // ¸ðµç ÇÃ·¹ÀÌ¾î°¡ ¾À·Îµå ¿Ï·áµÈ ÈÄ °ÔÀÓ ½ÃÀÛ
+        if (readyCount == PhotonNetwork.CurrentRoom.PlayerCount)
+        {
+            photonView.RPC("StartGame", RpcTarget.All);
+        }
+    }
+
+    [PunRPC]
+    private void StartGame()
+    {
+        gameManager.Init();
+    }
+
     private void MakePlayer()
     {
-        Vector3 position = new Vector3(-317.22f + num* 7.78f, 83.1f, -26.26f + num * 10.36f);
+        Vector3 position = new Vector3(-317.22f + num * 7.78f, 83.1f, -26.26f + num * 10.36f);
         Quaternion rotation = Quaternion.Euler(0, 180, 0);
         GameObject player = PhotonNetwork.Instantiate(playerPrefabs.name, position, rotation);
 
@@ -235,7 +261,4 @@ public class PunManager : MonoBehaviourPunCallbacks // ±âº» À¯´ÏÆ¼ ÄÝ¹é + Æ÷Åæ Ä
 
         p.enabled = true;
     }
-
-    //public string[] charName = new string[8];
-    //public string[] kartName = new string[8];
 }

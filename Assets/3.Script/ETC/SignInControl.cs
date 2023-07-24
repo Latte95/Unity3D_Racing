@@ -53,7 +53,6 @@ public class SignInControl : MonoBehaviour
 
             if (www.result == UnityWebRequest.Result.ConnectionError)
             {
-                Debug.Log(www.error);
                 log.text = "회원가입 실패";
             }
             else
@@ -62,7 +61,6 @@ public class SignInControl : MonoBehaviour
 
                 if (response["message"] == "Signin success.")
                 {
-                    Debug.Log("Login successful");
                     log.text = "회원가입 성공";
                     yield return new WaitForSeconds(2);
                     transform.gameObject.SetActive(false);
@@ -70,7 +68,6 @@ public class SignInControl : MonoBehaviour
                 }
                 else if (response["message"] == "ID that exists.")
                 {
-                    Debug.Log("Signin failed: " + response["message"]);
                     log.text = "이미 존재하는 ID입니다.";
                 }
             }

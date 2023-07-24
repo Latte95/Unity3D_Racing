@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 public class TabInputField : MonoBehaviour
 {
     private List<InputField> inputFields = new List<InputField>();
+    public Button login;
 
     private void Awake()
     {

@@ -115,7 +115,7 @@ public class GameManager : MonoBehaviour
         SetTotalLap();
         if (!isTitle)
         {
-            //Cursor.visible = false;
+            Cursor.visible = false;
             GameObject countObject = GameObject.FindGameObjectWithTag("Count");
             countObject.TryGetComponent(out countAnim);
             GameObject Lap = GameObject.FindGameObjectWithTag("Lap");
@@ -204,7 +204,7 @@ public class GameManager : MonoBehaviour
         }
         else if (SceneManager.GetActiveScene().name.Equals("MooMooMeadows"))
         {
-            totalLap = 1;
+            totalLap = 2;
         }
         else
         {
