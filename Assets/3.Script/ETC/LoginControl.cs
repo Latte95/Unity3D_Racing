@@ -33,7 +33,7 @@ public class LoginControl : MonoBehaviour
         }
     }
 
-    private void SignIn()
+    private void SignUp()
     {
         signIn.SetActive(true);
     }
@@ -86,9 +86,9 @@ public class LoginControl : MonoBehaviour
         }
     }
 
-    public void SignIn_btn()
+    public void SignUp_btn()
     {
         transform.gameObject.SetActive(false);
-        SignIn();
+        SignUp();
     }
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
-public class SignInControl : MonoBehaviour
+public class SignUpControl : MonoBehaviour
 {
     private string serverUrl = "http://3.19.19.98:5000/signin";
 
@@ -23,12 +23,12 @@ public class SignInControl : MonoBehaviour
         log.text = "";
     }
 
-    private void SignIn()
+    private void SignUp()
     {
         logIn.SetActive(true);
     }
 
-    public void SignIn_btn()
+    public void SignUp_btn()
     {
         if (ID_i.text.Equals(string.Empty) || Password_i.text.Equals(string.Empty))
         {
@@ -64,7 +64,7 @@ public class SignInControl : MonoBehaviour
                     log.text = "회원가입 성공";
                     yield return new WaitForSeconds(2);
                     transform.gameObject.SetActive(false);
-                    SignIn();
+                    SignUp();
                 }
                 else if (response["message"] == "ID that exists.")
                 {
