@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 0.123
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 924710239}
-  m_IndirectSpecularColor: {r: 0.022573344, g: 0.012092404, b: 0.011068978, a: 0.123}
+  m_IndirectSpecularColor: {r: 0.022715408, g: 0.012220085, b: 0.011090165, a: 0.123}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -10018,7 +10018,7 @@ GameObject:
   - component: {fileID: 842968498}
   - component: {fileID: 842968497}
   m_Layer: 5
-  m_Name: ItemAA
+  m_Name: Item
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -19525,6 +19525,26 @@ Transform:
   m_Father: {fileID: 860230211}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1759795651 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9181225505331306387, guid: 656ca77a1a2914047a40b5562188b06b,
+    type: 3}
+  m_PrefabInstance: {fileID: 9181225505394512997}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1759795653
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1759795651}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9d677f1681015749b15c436eec6d880, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_MovementRange: 50
+  m_ControlPath: <Gamepad>/leftStick
 --- !u!4 &1766337215 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: c09b20565a7988241b00b77f77d6551a,
@@ -38970,6 +38990,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9181225503745786543, guid: 656ca77a1a2914047a40b5562188b06b,
         type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9181225503745786543, guid: 656ca77a1a2914047a40b5562188b06b,
+        type: 3}
       propertyPath: joystickOutputEvent.m_PersistentCalls.m_Calls.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -38983,7 +39008,8 @@ PrefabInstance:
       propertyPath: joystickOutputEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 9181225505331306397, guid: 656ca77a1a2914047a40b5562188b06b, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 656ca77a1a2914047a40b5562188b06b, type: 3}
 --- !u!137 &9219209898599451034
 SkinnedMeshRenderer:

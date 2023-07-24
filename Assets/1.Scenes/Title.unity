@@ -971,7 +971,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 533680100}
         m_TargetAssemblyTypeName: LoginControl, Assembly-CSharp
-        m_MethodName: SignIn_btn
+        m_MethodName: SignUp_btn
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1693,8 +1693,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 63969451}
-        m_TargetAssemblyTypeName: SignInControl, Assembly-CSharp
-        m_MethodName: SignIn_btn
+        m_TargetAssemblyTypeName: SignUpControl, Assembly-CSharp
+        m_MethodName: SignUp_btn
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

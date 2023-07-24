@@ -16,8 +16,11 @@ public class ItemUI : MonoBehaviour
     }
     private void OnDisable()
     {
-        inventory.OnItemAdded -= RenewSlot;
-        inventory.OnItemRemoved -= RenewSlot;
+        if (inventory != null)
+        {
+            inventory.OnItemAdded -= RenewSlot;
+            inventory.OnItemRemoved -= RenewSlot;
+        }
     }
 
     private void RenewSlot(string name)

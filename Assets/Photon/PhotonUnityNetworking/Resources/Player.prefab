@@ -164,6 +164,7 @@ MonoBehaviour:
   currentLap_txt: {fileID: 0}
   icon: {fileID: 0}
   inven: {fileID: 0}
+  aa: {fileID: 0}
   myIndex: 0
   myName: 
 --- !u!114 &6124134344948997708
