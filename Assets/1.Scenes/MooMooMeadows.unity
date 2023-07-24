@@ -22088,6 +22088,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: EventSystem (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 5733219265671923051, guid: cc188571ed55bd04eaf10459e4a172a0,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cc188571ed55bd04eaf10459e4a172a0, type: 3}
 --- !u!1001 &2045083589
@@ -39073,33 +39078,7 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 9181225503745786543, guid: 656ca77a1a2914047a40b5562188b06b,
-        type: 3}
-      propertyPath: tt
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 9181225503745786543, guid: 656ca77a1a2914047a40b5562188b06b,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9181225503745786543, guid: 656ca77a1a2914047a40b5562188b06b,
-        type: 3}
-      propertyPath: joystickOutputEvent.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9181225503745786543, guid: 656ca77a1a2914047a40b5562188b06b,
-        type: 3}
-      propertyPath: joystickOutputEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9181225503745786543, guid: 656ca77a1a2914047a40b5562188b06b,
-        type: 3}
-      propertyPath: joystickOutputEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 9181225505331306397, guid: 656ca77a1a2914047a40b5562188b06b, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 656ca77a1a2914047a40b5562188b06b, type: 3}
 --- !u!137 &9219209898599451034
 SkinnedMeshRenderer:

@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 9181225503745786530}
   - component: {fileID: 9181225503745786540}
   - component: {fileID: 9181225503745786541}
-  - component: {fileID: 9181225503745786543}
   m_Layer: 5
   m_Name: Joystick
   m_TagString: Untagged
@@ -77,28 +76,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &9181225503745786543
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9181225503745786531}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7e7c982f8d72fc644bea8f7f3997fd13, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  containerRect: {fileID: 9181225503745786530}
-  handleRect: {fileID: 9181225505331306386}
-  joystickRange: 50
-  magnitudeMultiplier: 1
-  invertXOutputValue: 0
-  invertYOutputValue: 0
-  tt: {fileID: 0}
-  joystickOutputEvent:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &9181225505331306387
 GameObject:
   m_ObjectHideFlags: 0
@@ -110,7 +87,6 @@ GameObject:
   - component: {fileID: 9181225505331306386}
   - component: {fileID: 9181225505331306399}
   - component: {fileID: 9181225505331306396}
-  - component: {fileID: 9181225505331306397}
   m_Layer: 5
   m_Name: Image
   m_TagString: Untagged
@@ -175,17 +151,3 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &9181225505331306397
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9181225505331306387}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e9d677f1681015749b15c436eec6d880, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_MovementRange: 50
-  m_ControlPath: <Gamepad>/leftStick
