@@ -330,7 +330,7 @@ public class PlayerControl : CharacterControl
         rigid.AddForceAtPosition(-transform.up * force, rigid.worldCenterOfMass + 0.5f * transform.forward);
 
         // 속도가 빠를 수록 회전시 sideSlip이 커짐 => 마찰력 감소
-        // ㄴasymptoteSlip을 속도에 비례하게 변화켜 미끄러짐 방지
+        // ㄴasymptoteSlip을 속도에 비례하게 변화시켜 미끄러짐 방지
         //tempFric = kart.initForwardTireSideFric;
         //tempFric.extremumSlip *= (1 + force / rigid.mass);
         //tempFric.asymptoteSlip *= (1 + force / rigid.mass);

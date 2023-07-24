@@ -21,8 +21,6 @@ public class GreenShell : MonoBehaviour
     private void FixedUpdate()
     {
         rigid.velocity = velocity;
-
-        //rigid.AddForce(-Vector3.forward * 200000 * Time.deltaTime, ForceMode.Acceleration);
     }
 
     private void OnTriggerEnter(Collider other)
