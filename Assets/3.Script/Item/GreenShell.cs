@@ -14,15 +14,15 @@ public class GreenShell : MonoBehaviour
 
     private void OnEnable()
     {
-        velocity = 50 * transform.forward;
+        velocity = 70 * transform.forward;
+        velocity.y = -9.8f;
     }
 
     private void FixedUpdate()
     {
-        velocity.y = rigid.velocity.y;
         rigid.velocity = velocity;
 
-        rigid.AddForce(Vector3.down * 50000 * Time.deltaTime, ForceMode.Acceleration);
+        //rigid.AddForce(-Vector3.forward * 200000 * Time.deltaTime, ForceMode.Acceleration);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -40,6 +40,8 @@ public class GreenShell : MonoBehaviour
         if(collision.gameObject.CompareTag("fence"))
         {
             velocity = Vector3.Reflect(velocity, collision.contacts[0].normal);
+            velocity.y = -9.8f;
+            Debug.Log(1);
         }
     }
 }
