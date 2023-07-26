@@ -39,7 +39,6 @@ public class GreenShell : MonoBehaviour
         {
             velocity = Vector3.Reflect(velocity, collision.contacts[0].normal);
             velocity.y = -9.8f;
-            Debug.Log(1);
         }
     }
 }

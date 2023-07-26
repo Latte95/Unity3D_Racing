@@ -95,7 +95,7 @@ public class PunManager : MonoBehaviourPunCallbacks // ±âº» À¯´ÏÆ¼ ÄÝ¹é + Æ÷Åæ Ä
         option.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable()
         {
             { "IsGameStarted", false },
-            { "ReadyCount", 0 }
+            { "LoadedCount", 0 }
         };
         option.CustomRoomPropertiesForLobby = new string[] { "IsGameStarted" };
         StartMatchmakingTimer();
@@ -152,16 +152,6 @@ public class PunManager : MonoBehaviourPunCallbacks // ±âº» À¯´ÏÆ¼ ÄÝ¹é + Æ÷Åæ Ä
         StartCoroutine(GameStart_co());
     }
 
-    public override void OnPlayerEnteredRoom(Player newPlayer)
-    {
-        base.OnPlayerEnteredRoom(newPlayer);
-    }
-    public override void OnPlayerLeftRoom(Player otherPlayer)
-    {
-        base.OnPlayerLeftRoom(otherPlayer);
-    }
-
-
     public IEnumerator GameStart_co()
     {
         while (true)
@@ -192,7 +182,7 @@ public class PunManager : MonoBehaviourPunCallbacks // ±âº» À¯´ÏÆ¼ ÄÝ¹é + Æ÷Åæ Ä
 
 
     public bool isReady = false;
-    public int readyCount = 0;
+    public int loadedCount = 0;
     int num;
     [PunRPC]
     public void GameStart()
@@ -207,7 +197,6 @@ public class PunManager : MonoBehaviourPunCallbacks // ±âº» À¯´ÏÆ¼ ÄÝ¹é + Æ÷Åæ Ä
         num = PhotonNetwork.LocalPlayer.ActorNumber - 1;
 
         SceneManager.sceneLoaded += OnSceneLoaded;
-
         PhotonNetwork.AutomaticallySyncScene = true;
         if (PhotonNetwork.IsMasterClient)
         {
@@ -219,25 +208,24 @@ public class PunManager : MonoBehaviourPunCallbacks // ±âº» À¯´ÏÆ¼ ÄÝ¹é + Æ÷Åæ Ä
     {
         MakePlayer();
         PhotonNetwork.AutomaticallySyncScene = false;
-        photonView.RPC("PlayerLoadedScene", RpcTarget.MasterClient);
+        photonView.RPC("CountLoadedScene", RpcTarget.MasterClient);
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     [PunRPC]
-    private void PlayerLoadedScene()
+    private void CountLoadedScene()
     {
         ExitGames.Client.Photon.Hashtable roomProperties = PhotonNetwork.CurrentRoom.CustomProperties;
-        readyCount = 0;
-        if (roomProperties.ContainsKey("ReadyCount"))
+        if (roomProperties.ContainsKey("LoadedCount"))
         {
-            readyCount = (int)roomProperties["ReadyCount"];
+            loadedCount = (int)roomProperties["LoadedCount"];
         }
-        readyCount++;
-        roomProperties["ReadyCount"] = readyCount;
+        loadedCount++;
+        roomProperties["LoadedCount"] = loadedCount;
         PhotonNetwork.CurrentRoom.SetCustomProperties(roomProperties);
 
         // ¸ðµç ÇÃ·¹ÀÌ¾î°¡ ¾À·Îµå ¿Ï·áµÈ ÈÄ °ÔÀÓ ½ÃÀÛ
-        if (readyCount == PhotonNetwork.CurrentRoom.PlayerCount)
+        if (loadedCount == PhotonNetwork.CurrentRoom.PlayerCount)
         {
             photonView.RPC("StartGame", RpcTarget.All);
         }

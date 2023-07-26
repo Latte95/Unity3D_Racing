@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
-using MySql.Data.MySqlClient;
 using SimpleJSON;
 
 public class LoginControl : MonoBehaviour
@@ -52,11 +51,11 @@ public class LoginControl : MonoBehaviour
     }
     public IEnumerator Login_co(string userID, string password)
     {
-        WWWForm form = new WWWForm();
-        form.AddField("id", userID);
-        form.AddField("password", password);
+        WWWForm userData = new WWWForm();
+        userData.AddField("id", userID);
+        userData.AddField("password", password);
 
-        using (UnityWebRequest www = UnityWebRequest.Post(serverUrl, form))
+        using (UnityWebRequest www = UnityWebRequest.Post(serverUrl, userData))
         {
             yield return www.SendWebRequest();
 
@@ -66,7 +65,7 @@ public class LoginControl : MonoBehaviour
             }
             else
             {
-                var response = JSON.Parse(www.downloadHandler.text);
+                JSONNode response = JSON.Parse(www.downloadHandler.text);
 
                 if (response["message"] == "Logged in.")
                 {

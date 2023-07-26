@@ -100,9 +100,9 @@ public class GameManager : MonoBehaviour
 
     public void SetName(string name)
     {
-        for(int i = 1; i< charName.Length;i++)
+        for (int i = 1; i < charName.Length; i++)
         {
-            if(charName[i] == null)
+            if (charName[i] == null)
             {
                 charName[i] = name;
                 break;
@@ -204,7 +204,7 @@ public class GameManager : MonoBehaviour
         }
         else if (SceneManager.GetActiveScene().name.Equals("MooMooMeadows"))
         {
-            totalLap = 2;
+            totalLap = 1;
         }
         else
         {
@@ -240,12 +240,14 @@ public class GameManager : MonoBehaviour
 
                     // lapCount 증가
                     CharacterControl c = characters[i].character.GetComponent<CharacterControl>();
-                    c.currentLapCount++;
                     c.LapIncrease();
-
-                    // 완주했을 경우 게임 종료
-                    if (c.currentLapCount > totalLap)
+                    if (c.currentLapCount < totalLap)
                     {
+                        c.currentLapCount++;
+                    }
+                    else
+                    {
+                        // 완주했을 경우 게임 종료
                         isPlay = false;
                         countAnim.SetTrigger("Finish");
                     }
@@ -314,7 +316,7 @@ public class GameManager : MonoBehaviour
     public SceneChange a;
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             a.ChangeScene("Title");
         }

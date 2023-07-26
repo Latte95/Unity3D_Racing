@@ -25,6 +25,7 @@ public class RankManager : MonoBehaviour
     public void SetRank()
     {
         panel.SetActive(true);
+        Cursor.visible = true;
         for (int i = gameManager.totalCharacters; i < 8; i++)
         {
             ranks[i].SetActive(false);

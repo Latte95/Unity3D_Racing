@@ -2499,7 +2499,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "\uCE74\uD2B8"
+  m_Text: "\uB9F5"
 --- !u!222 &1308735790
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3175,8 +3175,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1576769965}
   m_TextComponent: {fileID: 1668759503}
   m_Placeholder: {fileID: 1887478250}
-  m_ContentType: 0
-  m_InputType: 0
+  m_ContentType: 7
+  m_InputType: 2
   m_AsteriskChar: 42
   m_KeyboardType: 0
   m_LineType: 0
@@ -3816,8 +3816,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1689816047}
   m_TextComponent: {fileID: 1950494950}
   m_Placeholder: {fileID: 1457442984}
-  m_ContentType: 0
-  m_InputType: 0
+  m_ContentType: 7
+  m_InputType: 2
   m_AsteriskChar: 42
   m_KeyboardType: 0
   m_LineType: 0

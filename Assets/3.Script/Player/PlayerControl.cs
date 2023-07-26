@@ -105,16 +105,13 @@ public class PlayerControl : CharacterControl
     public void UseItem()
     {
         // PC
-        if (!gameManager.isMobile)
+        if (input.useItem)
         {
-            if (input.useItem)
+            input.useItem = false;
+            if (inven.items.Count > 0)
             {
-                input.useItem = false;
-                if (inven.items.Count > 0)
-                {
-                    inven.items[0].behavior.UseItem(this);
-                    inven.RemoveItem();
-                }
+                inven.items[0].behavior.UseItem(this);
+                inven.RemoveItem();
             }
         }
     }
@@ -156,14 +153,13 @@ public class PlayerControl : CharacterControl
 
                 LRTire.sidewaysFriction = newFrictionCurve;
                 RRTire.sidewaysFriction = newFrictionCurve;
-
-                bool isMovingForward = input.move.y > 0 && !currentState.Equals(cantMoveState);
-                if (isMovingForward)
-                {
-                    Quaternion rotation = Quaternion.Euler(0, LFTire.steerAngle, 0);
-                    Vector3 direction = rotation * -LFTire.transform.up;
-                    rigid.AddForce(kart.accelForce * 3 * direction, ForceMode.Impulse);
-                }
+            }
+            bool isMovingForward = input.move.y > 0 && !currentState.Equals(cantMoveState);
+            if (isMovingForward && KPH < kart.maxSpeed)
+            {
+                Quaternion rotation = Quaternion.Euler(0, LFTire.steerAngle, 0);
+                Vector3 direction = rotation * -LFTire.transform.up;
+                rigid.AddForce(kart.accelForce * 100 * direction, ForceMode.Impulse);
             }
         }
         else
@@ -174,7 +170,6 @@ public class PlayerControl : CharacterControl
             RRTire.sidewaysFriction = kart.initRearTireSideFric;
         }
     }
-
 
     private void Move()
     {
@@ -228,8 +223,8 @@ public class PlayerControl : CharacterControl
                 // 후진은 모터 약하게
                 else
                 {
-                    a.leftWheel.motorTorque = targetTorque * 0.3f;
-                    a.rightWheel.motorTorque = targetTorque * 0.3f;
+                    a.leftWheel.motorTorque = targetTorque * 0.5f;
+                    a.rightWheel.motorTorque = targetTorque * 0.5f;
                 }
 
                 // 반대 방향을 누른 순간 모터를 멈춰 바퀴가 바로 반대로 돌아가도록함
@@ -271,8 +266,10 @@ public class PlayerControl : CharacterControl
         else
         {
             // 속도가 빠를수록 핸들이 천천히 돌아옴
-            float returnSpeedFactor = 10; //Mathf.Clamp(KPH / 10, 1f, 10f);   // => 속도 빠를수록 빠르게 돌릴 경우
-                                          //float returnSpeedFactor = Mathf.Clamp(kart.maxSpeed / KPH, 1f, 10f);
+            //float returnSpeedFactor = Mathf.Clamp(kart.maxSpeed / KPH, 1f, 10f);
+            //Mathf.Clamp(KPH / 10, 1f, 10f);   // => 속도 빠를수록 빠르게 돌릴 경우
+
+            float returnSpeedFactor = 10;
 
             LFTire.steerAngle = Mathf.Lerp(LFTire.steerAngle, 0, Time.deltaTime * returnSpeedFactor);
             RFTire.steerAngle = Mathf.Lerp(RFTire.steerAngle, 0, Time.deltaTime * returnSpeedFactor);
@@ -318,9 +315,9 @@ public class PlayerControl : CharacterControl
     {
         float force;
         // 현실 계산
-        // force = (0.5f * airDensity * carFrontalArea * dragCoefficient * rigid.velocity.sqrMagnitude) / tireContactArea;
+        force = (0.5f * airDensity * carFrontalArea * dragCoefficient * rigid.velocity.sqrMagnitude) / tireContactArea;
         // 게임성 위한 조정값
-        force = rigid.mass * (-1 + KPH / 30);
+        //force = rigid.mass * (-1 + KPH / 30);
         if (force < 0)
         {
             force = 0;

@@ -43,6 +43,7 @@ MonoBehaviour:
   - SetMyIndex
   - PlayerLoadedScene
   - StartGame
+  - CountLoadedScene
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0

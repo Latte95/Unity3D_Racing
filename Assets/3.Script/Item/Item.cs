@@ -17,8 +17,8 @@ public enum EItem
 [System.Serializable]
 public class Item
 {
-    public EItem item;
     public IItemBehavior behavior;
+    public EItem item;
 
     public Item(EItem item, IItemBehavior behavior)
     {
@@ -45,7 +45,6 @@ public class BananaBehavior : IItemBehavior
         item.SetActive(true);
     }
 }
-
 public class GoldMushroomBehavior : IItemBehavior
 {
     public void UseItem(CharacterControl user)
@@ -53,7 +52,6 @@ public class GoldMushroomBehavior : IItemBehavior
         user.boostTime = 4;
     }
 }
-
 public class GreenShellBehavior : IItemBehavior
 {
     public void UseItem(CharacterControl user)
@@ -65,6 +63,7 @@ public class GreenShellBehavior : IItemBehavior
         item.SetActive(true);
     }
 }
+
 //public class RedShellBehavior : IItemBehavior
 //{
 //    public void UseItem(CharacterControl user)
