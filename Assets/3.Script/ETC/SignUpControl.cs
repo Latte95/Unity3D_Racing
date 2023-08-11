@@ -18,6 +18,7 @@ public class SignUpControl : MonoBehaviour
 
     private void OnEnable()
     {
+        // 회원가입을 여러번 할 경우를 대비한 기존 입력 데이터 초기화
         ID_i.text = "";
         Password_i.text = "";
         log.text = "";
@@ -30,6 +31,7 @@ public class SignUpControl : MonoBehaviour
 
     public void SignUp_btn()
     {
+        // 필수 입력 값 없을 경우
         if (ID_i.text.Equals(string.Empty) || Password_i.text.Equals(string.Empty))
         {
             log.text = "아이디 혹은 비밀번호를 입력해주세요.";
@@ -47,10 +49,13 @@ public class SignUpControl : MonoBehaviour
         form.AddField("id", userID);
         form.AddField("password", password);
 
+        // 서버에게 DB에 회원정보 등록 요청
         using (UnityWebRequest www = UnityWebRequest.Post(serverUrl, form))
         {
+            // 응답 대기
             yield return www.SendWebRequest();
 
+            // 서버와 연결 실패
             if (www.result == UnityWebRequest.Result.ConnectionError)
             {
                 log.text = "회원가입 실패";
@@ -59,6 +64,7 @@ public class SignUpControl : MonoBehaviour
             {
                 var response = JSON.Parse(www.downloadHandler.text);
 
+                // 일치하는 회원이 없을 경우 회원가입 성공
                 if (response["message"] == "Signin success.")
                 {
                     log.text = "회원가입 성공";
@@ -66,6 +72,7 @@ public class SignUpControl : MonoBehaviour
                     transform.gameObject.SetActive(false);
                     SignUp();
                 }
+                // 이미 존재하는 ID로 회원가입 시도할 경우
                 else if (response["message"] == "ID that exists.")
                 {
                     log.text = "이미 존재하는 ID입니다.";

@@ -25,7 +25,8 @@ public class GreenShell : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player") || other.CompareTag("AI"))
+        // 아이템이 플레이어에게 효과를 가하도록 구현
+        if (other.CompareTag("Player"))
         {
             CharacterControl character = other.GetComponent<CharacterControl>();
             character.kart.anim.SetTrigger(character.kart.ShellHitHash);
@@ -35,6 +36,7 @@ public class GreenShell : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collision)
     {
+        // 벽에 부딪힐 경우 반사
         if(collision.gameObject.CompareTag("fence"))
         {
             velocity = Vector3.Reflect(velocity, collision.contacts[0].normal);

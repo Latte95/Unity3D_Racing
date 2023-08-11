@@ -27,8 +27,6 @@ public class PlayerControl : CharacterControl
     private float carWeigth;                // 차량 무게
     private float dragCoefficient = 0.3f;   // 항력 계수
 
-    private WheelFrictionCurve tempFric;
-
     [HideInInspector]
     public PlayerInput input;
 
@@ -82,10 +80,7 @@ public class PlayerControl : CharacterControl
         WheelPos();
         SetAnimation();
         ResetPositon();
-        if (!gameManager.isMobile)
-        {
-            UseItem();
-        }
+        UseItem();
     }
 
     private new void FixedUpdate()
@@ -110,7 +105,7 @@ public class PlayerControl : CharacterControl
             input.useItem = false;
             if (inven.items.Count > 0)
             {
-                inven.items[0].behavior.UseItem(this);
+                inven.items[0].UseItem(this);
                 inven.RemoveItem();
             }
         }
@@ -122,7 +117,7 @@ public class PlayerControl : CharacterControl
         {
             if (inven.items[index] != null)
             {
-                inven.items[index].behavior.UseItem(this);
+                inven.items[index].UseItem(this);
                 inven.RemoveItem(index);
             }
         }
@@ -249,7 +244,7 @@ public class PlayerControl : CharacterControl
         {
             // 속도가 빠를수록 핸들이 천천히 꺾임
             float rotationSpeedFactor = Mathf.Clamp(kart.maxSpeed / KPH, 1f, 5f);
-            float steerAngle = currentState.Curve() * Mathf.Rad2Deg * Mathf.Atan(kart.wheelBase / (radius + kart.vehicleWidth * 0.5f * input.move.x)) * kart.steerRotate * input.move.x;
+            float steerAngle = currentState.CurveDirection() * Mathf.Rad2Deg * Mathf.Atan(kart.wheelBase / (radius + kart.vehicleWidth * 0.5f * input.move.x)) * kart.steerRotate * input.move.x;
 
             steerAngle = Mathf.Clamp(steerAngle, -kart.steerRotate, kart.handleAccel);
             if (input.drift)
@@ -469,7 +464,7 @@ public class PlayerControl : CharacterControl
     }
     #endregion 초기 설정
 
-    public override void HandleItem(Item item)
+    public override void HandleItem(IItem item)
     {
         inven.AddItem(item);
     }

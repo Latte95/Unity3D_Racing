@@ -6,33 +6,30 @@ using UnityEngine.InputSystem;
 
 public class TabInputField : MonoBehaviour
 {
-    private List<InputField> inputFields = new List<InputField>();
+    private const int InputFieldSize = 2;
+
+    private InputField[] inputFields = new InputField[InputFieldSize];
     public Button login;
 
     private void Awake()
     {
         InputField[] Fields = transform.GetComponentsInChildren<InputField>();
-        foreach (InputField f in Fields)
+        for (int i = 0; i < Fields.Length; i++)
         {
-            inputFields.Add(f);
+            inputFields[i] = Fields[i];
         }
     }
 
     private void Update()
     {
-        for (int i = 0; i < inputFields.Count; i++)
+        int inputFieldLength = inputFields.Length;
+
+        for (int i = 0; i < inputFieldLength; i++)
         {
+            // 탭키 입력시 현재 입력중인 필드 다음으로 넘어감
             if (inputFields[i].isFocused && Keyboard.current[Key.Tab].wasPressedThisFrame)
             {
-                if (i == inputFields.Count - 1)
-                {
-                    inputFields[0].Select();
-                }
-                else
-                {
-                    inputFields[i + 1].Select();
-                }
-                break;
+                inputFields[(i + 1) % inputFieldLength].Select();
             }
         }
     }

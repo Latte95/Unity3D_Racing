@@ -140,8 +140,6 @@ public class Kart : MonoBehaviour
     }
 
 
-
-
     #region ¿ŒΩ∫∆Â≈Õ
     private void OnValidate()
     {

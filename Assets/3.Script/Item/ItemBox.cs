@@ -9,16 +9,13 @@ public class ItemBox : MonoBehaviour
     private BoxCollider col;
     private Animator anim;
 
+    // 캐싱
     private WaitForSeconds respawn_wait;
     private readonly int EnlargeHash = Animator.StringToHash("Enlarge");
 
     public BananaBehavior bananaBehavior = new BananaBehavior();
     public GoldMushroomBehavior goldMushroomBehavior = new GoldMushroomBehavior();
     public GreenShellBehavior greenShellBehavior = new GreenShellBehavior();
-    //public RedShellBehavior redShellBehavior= new RedShellBehavior();
-    //public BlueShellBehavior blueShellBehavior = new BlueShellBehavior();
-    public StarBehavior starBehavior = new StarBehavior();
-    public ReverseBehavior reverseBehavior = new ReverseBehavior();
 
     private void Awake()
     {
@@ -29,24 +26,29 @@ public class ItemBox : MonoBehaviour
 
     private void OnEnable()
     {
+        // 회전 애니메이션
         anim.SetBool(EnlargeHash, true);
         col.enabled = true;
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        CharacterControl character = other.GetComponent<CharacterControl>();
-        if (character != null)
+        CharacterControl character;
+        if (other.TryGetComponent(out character))
         {
             Deactivate();
 
-            int random = Random.Range(0, (int)EItem.Count);
-            IItemBehavior behavior = GetBehaviorForItem((EItem)random);
-            Item newItem = new Item((EItem)random, behavior);
+            IItem newItem = CreateRandomItem();
             character.HandleItem(newItem);
         }
     }
-    private IItemBehavior GetBehaviorForItem(EItem item)
+    private IItem CreateRandomItem()
+    {
+        int random = Random.Range(0, (int)EItem.Count);
+
+        return GetBehaviorForItem((EItem)random);
+    }
+    private IItem GetBehaviorForItem(EItem item)
     {
         switch (item)
         {
@@ -56,22 +58,17 @@ public class ItemBox : MonoBehaviour
                 return goldMushroomBehavior;
             case EItem.GreenShell:
                 return greenShellBehavior;
-            //case EItem.RedShell:
-            //    return redShellBehavior;
-            //case EItem.BlueShell:
-            //    return blueShellBehavior;
-            //case EItem.Star:
-            //    return starBehavior;
-            //case EItem.Reverse:
-            //    return reverseBehavior;
             default:
                 throw new System.NotImplementedException($"{item} 아이템에 대한 정의가 존재하지 않습니다.");
         }
     }
+    /// <summary>
+    /// 리스폰을 위해 충돌과 이미지만 끄고 오브젝트는 활성화 상태로 유지
+    /// </summary>
     private void Deactivate()
     {
         col.enabled = false;
-        anim.SetBool(EnlargeHash, false);
+        // 자식 오브젝트들이 매쉬를 가지고 있기 때문에 비활성화
         foreach (Transform child in transform)
         {
             child.gameObject.SetActive(false);
@@ -83,7 +80,6 @@ public class ItemBox : MonoBehaviour
     {
         yield return respawn_wait;
         col.enabled = true;
-        anim.SetBool(EnlargeHash, true);
         foreach (Transform child in transform)
         {
             child.gameObject.SetActive(true);

@@ -8,7 +8,7 @@ using System;
 [System.Serializable]
 public class Character
 {
-    public GameObject character;
+    public GameObject character_object;
     public bool[] pathCheck;
     public bool allCheck
     {
@@ -38,20 +38,20 @@ public class Character
                     c++;
                 }
             }
-            return c + (character.GetComponent<CharacterControl>().currentLapCount - 1) * pathCheck.Length;
+            return c + (character_object.GetComponent<CharacterControl>().currentLapCount - 1) * pathCheck.Length;
         }
     }
     public string name
     {
         get
         {
-            return character.GetComponent<PlayerControl>().myName;
+            return character_object.GetComponent<PlayerControl>().myName;
         }
     }
 
     public Character(GameObject c, bool[] pc)
     {
-        character = c;
+        character_object = c;
         pathCheck = pc;
     }
 }
@@ -220,7 +220,7 @@ public class GameManager : MonoBehaviour
     {
         for (int i = 0; i < characters.Length; i++)
         {
-            if (characters[i].character == character)
+            if (characters[i].character_object == character)
             {
                 // 이전 포인트를 지나치지 않았을 경우(=역주행) pathCheck 실행 x
                 if (pathIndex > 0 && !characters[i].pathCheck[pathIndex - 1])
@@ -239,7 +239,7 @@ public class GameManager : MonoBehaviour
                     }
 
                     // lapCount 증가
-                    CharacterControl c = characters[i].character.GetComponent<CharacterControl>();
+                    CharacterControl c = characters[i].character_object.GetComponent<CharacterControl>();
                     c.LapIncrease();
                     if (c.currentLapCount < totalLap)
                     {
@@ -287,7 +287,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(time - preTime - 1);
         for (int i = 0; i < characters.Length; i++)
         {
-            CharacterControl cc = characters[i].character.GetComponent<CharacterControl>();
+            CharacterControl cc = characters[i].character_object.GetComponent<CharacterControl>();
 
             cc.rigid.constraints = RigidbodyConstraints.None;
         }
@@ -297,9 +297,9 @@ public class GameManager : MonoBehaviour
         isPlay = true;
         for (int i = 0; i < characters.Length; i++)
         {
-            if (characters[i].character.CompareTag("Player"))
+            if (characters[i].character_object.CompareTag("Player"))
             {
-                PlayerControl pc = characters[i].character.GetComponent<PlayerControl>();
+                PlayerControl pc = characters[i].character_object.GetComponent<PlayerControl>();
                 pc.SetState(pc.nomalState);
             }
         }

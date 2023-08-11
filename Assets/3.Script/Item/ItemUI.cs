@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class ItemUI : MonoBehaviour
 {
-    [SerializeField]
     private Inventory inventory;
     [SerializeField]
     private Image[] slotIcon;
@@ -18,13 +17,14 @@ public class ItemUI : MonoBehaviour
     {
         if (inventory != null)
         {
-            inventory.OnItemAdded -= RenewSlot;
-            inventory.OnItemRemoved -= RenewSlot;
+            inventory.OnItemAdded -= AddSlot;
+            inventory.OnItemRemoved -= RemoveSlot;
         }
     }
 
-    private void RenewSlot(string name)
+    private void AddSlot(string name)
     {
+        // 빈 슬롯 찾아서 해당 슬롯에 아이콘 할당
         foreach (Image img in slotIcon)
         {
             if (img.sprite == null)
@@ -36,7 +36,7 @@ public class ItemUI : MonoBehaviour
         }
     }
 
-    private void RenewSlot(int index)
+    private void RemoveSlot(int index)
     {
         slotIcon[index].sprite = null;
         slotIcon[index].color = new Color(1, 1, 1, 0);
@@ -58,6 +58,10 @@ public class ItemUI : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 인벤토리 할당 후 이벤트 등록
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator EventRegist_co()
     {
         while (inventory == null)
@@ -69,17 +73,21 @@ public class ItemUI : MonoBehaviour
             yield return null;
         }
 
-        inventory.OnItemAdded += RenewSlot;
-        inventory.OnItemRemoved += RenewSlot;
+        inventory.OnItemAdded += AddSlot;
+        inventory.OnItemRemoved += RemoveSlot;
     }
 
+    /// <summary>
+    /// 모바일 환경에서 UI 클릭시 클릭 된 아이템 사용
+    /// </summary>
+    /// <param name="slot"></param>
     public void OnClick(Image slot)
     {
         for (int i = 0; i < Define.ITEM_MAX_NUM; i++)
         {
             if (slotIcon[i].Equals(slot))
             {
-                GameManager.Instance.characters[0].character.GetComponent<PlayerControl>().UseItem(i);
+                GameManager.Instance.characters[0].character_object.GetComponent<PlayerControl>().UseItem(i);
                 break;
             }
         }

@@ -26,7 +26,7 @@ public abstract class CharacterControl : MonoBehaviour
     public Animator charAnim;
 
 
-    public abstract void HandleItem(Item item);
+    public abstract void HandleItem(IItem item);
     public abstract void LapIncrease();
 
     protected void Awake()
