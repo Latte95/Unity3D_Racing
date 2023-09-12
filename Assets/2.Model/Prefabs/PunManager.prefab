@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2067287395152175530}
   - component: {fileID: 2067287395152175531}
-  - component: {fileID: 3202473355892042204}
   m_Layer: 0
   m_Name: PunManager
   m_TagString: Untagged
@@ -47,26 +46,5 @@ MonoBehaviour:
   setting: {fileID: 11400000, guid: c5cf06dc6e1b0ea47a9f1d1dbbace9bb, type: 2}
   playerPrefabs: {fileID: 6124134344948997707, guid: 5d329b7acf8b3dd42a33c3912c131ee2,
     type: 3}
---- !u!114 &3202473355892042204
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2067287395152175528}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 3
-  OwnershipTransfer: 0
-  observableSearch: 0
-  ObservedComponents:
-  - {fileID: 0}
-  sceneViewId: 0
-  InstantiationId: 0
-  isRuntimeInstantiated: 0
+  isReady: 0
+  loadedCount: 0

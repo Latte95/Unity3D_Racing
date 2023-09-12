@@ -44,6 +44,8 @@ MonoBehaviour:
   - PlayerLoadedScene
   - StartGame
   - CountLoadedScene
+  - UseItem
+  - ActiveOn
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0

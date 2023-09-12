@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,11 +10,14 @@ public class GreenShell : MonoBehaviour
 
     private void Awake()
     {
-        TryGetComponent(out rigid);        
+        TryGetComponent(out rigid);
+        gameObject.SetActive(false);
     }
 
     private void OnEnable()
     {
+        PhotonView photon = gameObject.GetPhotonView();
+        photon.RPC("ActiveOn", RpcTarget.AllBuffered);
         velocity = 70 * transform.forward;
         velocity.y = -9.8f;
     }
@@ -42,5 +46,10 @@ public class GreenShell : MonoBehaviour
             velocity = Vector3.Reflect(velocity, collision.contacts[0].normal);
             velocity.y = -9.8f;
         }
+    }
+    [PunRPC]
+    public void ActiveOn()
+    {
+        gameObject.SetActive(true);
     }
 }

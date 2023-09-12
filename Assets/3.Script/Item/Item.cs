@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -26,7 +27,7 @@ public interface IItem
     /// </summary>
     /// <param name="user"></param>
     void UseItem(CharacterControl user);
-}
+    }
 
 public class BananaBehavior : IItem
 {
@@ -35,7 +36,7 @@ public class BananaBehavior : IItem
     public BananaBehavior()
     {
         Name = EItem.Banana;
-    }
+}
 
     public void UseItem(CharacterControl user)
     {
@@ -54,7 +55,7 @@ public class GoldMushroomBehavior : IItem
     public EItem Name { get; private set; }
 
     public GoldMushroomBehavior()
-    {
+{
         Name = EItem.GoldMushroom;
     }
 
@@ -69,7 +70,7 @@ public class GreenShellBehavior : IItem
     public EItem Name { get; private set; }
 
     public GreenShellBehavior()
-    {
+{
         Name = EItem.GreenShell;
     }
 
@@ -83,3 +84,25 @@ public class GreenShellBehavior : IItem
         item.SetActive(true);
     }
 }
+
+/*
+    private IEnumerator Banana_co(CharacterControl character)
+    {
+        Debug.Log(1);
+        //WheelFrictionCurve a = character.LFTire.forwardFriction;
+        //WheelFrictionCurve b = character.RFTire.forwardFriction;
+        //WheelFrictionCurve c = character.LRTire.forwardFriction;
+        //WheelFrictionCurve d = character.RRTire.forwardFriction;
+        //character.LFTire.forwardFriction = new WheelFrictionCurve();
+        //character.RFTire.forwardFriction = new WheelFrictionCurve();
+        //character.LRTire.forwardFriction = new WheelFrictionCurve();
+        //character.RRTire.forwardFriction = new WheelFrictionCurve();
+
+        yield return new WaitForSeconds(3);
+        Debug.Log(2);
+        //character.LFTire.forwardFriction = a;
+        //character.RFTire.forwardFriction = b;
+        //character.LRTire.forwardFriction = c;
+        //character.RRTire.forwardFriction = d;
+    }
+*/

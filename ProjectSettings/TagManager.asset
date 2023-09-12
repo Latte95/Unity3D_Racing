@@ -8,6 +8,8 @@ TagManager:
   - Wheel
   - Fense
   - WheelMesh
+<<<<<<< Updated upstream
+=======
   - WheelCollider
   - Coin
   - GliderPanel
@@ -30,36 +32,38 @@ TagManager:
   - MiniMap
   - Match
   - TitleManager
+  - Fade
+>>>>>>> Stashed changes
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - Ground
+  - 
   - Water
   - UI
   - 
+  - 
+  - PostProcessing
+  - PlayerCollider
   - Player
-  - AI
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - Item
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - GliderPath
+  - Path
+  - Shell
+  - OrbitingItems
+  - Surroundings
+  - Banana
+  - DIRECTIONAL LIGHT
+  - JumpPanel
+  - Fence
+  - PlayerBody
+  - Checkpoints
+  - Opponent
+  - PanelsAndTriggers
+  - TrailingItems
+  - ShellPlatforms
+  - Trolley
+  - PlayerClothes
+  - Tire
   - 
   - 
   - 

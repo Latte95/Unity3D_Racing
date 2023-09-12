@@ -32,12 +32,13 @@ public class PlayerControl : CharacterControl
 
     [Header("ETC")]
     [SerializeField]
-    [Tooltip("속도 표시 텍스트 UI")]
-    private Text speed_txt;
+    private float speed = 400.0f;
     [SerializeField]
-    [Tooltip("몇 바퀴 째인지 표시 하는 텍스트 UI")]
-    private Text currentLap_txt;
-    public GameObject icon;
+    private float maxSpeed = 10f;
+    [SerializeField]
+    private float boostSpeed = 1.3f;
+    [SerializeField]
+    private float steerRotate = 40.0f;
 
     [HideInInspector]
     public Inventory inven;
@@ -53,6 +54,8 @@ public class PlayerControl : CharacterControl
     private readonly int ThrowForwardHash = Animator.StringToHash("ThrowForward");
     private readonly int ThrowBackwardHash = Animator.StringToHash("ThrowBackward");
     private readonly int CurveHash = Animator.StringToHash("Curve");
+=======
+    private WheelFrictionCurve tempFric;
 
     private new void Awake()
     {
@@ -264,7 +267,8 @@ public class PlayerControl : CharacterControl
             //float returnSpeedFactor = Mathf.Clamp(kart.maxSpeed / KPH, 1f, 10f);
             //Mathf.Clamp(KPH / 10, 1f, 10f);   // => 속도 빠를수록 빠르게 돌릴 경우
 
-            float returnSpeedFactor = 10;
+        float targetRot = steerRotate;
+        float steering = targetRot * input.move.x;
 
             LFTire.steerAngle = Mathf.Lerp(LFTire.steerAngle, 0, Time.deltaTime * returnSpeedFactor);
             RFTire.steerAngle = Mathf.Lerp(RFTire.steerAngle, 0, Time.deltaTime * returnSpeedFactor);
@@ -344,6 +348,7 @@ public class PlayerControl : CharacterControl
         {
             speed_txt.text = "0";
         }
+        Debug.Log($"{rigid.velocity.magnitude * 3.6f} km/h" );
     }
 
     /// <summary>

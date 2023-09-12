@@ -8,7 +8,7 @@ using SimpleJSON;
 
 public class LoginControl : MonoBehaviour
 {
-    private string serverUrl = "http://3.19.19.98:5000/login";
+    private string serverUrl = "http://18.218.154.6:5000/login";
 
     public InputField ID_Field;
     public InputField Password_Field;
@@ -73,9 +73,10 @@ public class LoginControl : MonoBehaviour
             // 서버에서 로그인 성공 메세지 응답 받았으면 로그인 성공
             else
             {
-                JSONNode response = JSON.Parse(www.downloadHandler.text);
+                //JSONNode response = JSON.Parse(www.downloadHandler.text);
 
-                if (response["message"] == "Logged in.")
+                //if (response["message"] == "Logged in.")
+                if (www.downloadHandler.text == "Logged in.")
                 {
                     log.text = $"{userID}님 환영합니다.";
 

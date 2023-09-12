@@ -23,7 +23,7 @@ public class VirtualJoystick : MonoBehaviour, IPointerDownHandler, IDragHandler,
     public Text tt;
 
     [Header("Output")]
-    public PlayerInput playerInput;
+    public PlayerInputs playerInput;
 
     private void Start()
     {

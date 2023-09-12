@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System;
@@ -8,7 +9,7 @@ using System;
 [System.Serializable]
 public class Character
 {
-    public GameObject character_object;
+    public GameObject character;
     public bool[] pathCheck;
     public bool allCheck
     {
@@ -38,20 +39,20 @@ public class Character
                     c++;
                 }
             }
-            return c + (character_object.GetComponent<CharacterControl>().currentLapCount - 1) * pathCheck.Length;
+            return c + (character.GetComponent<CharacterControl>().currentLapCount - 1) * pathCheck.Length;
         }
     }
     public string name
     {
         get
         {
-            return character_object.GetComponent<PlayerControl>().myName;
+            return character.GetComponent<PlayerControl>().myName;
         }
     }
 
     public Character(GameObject c, bool[] pc)
     {
-        character_object = c;
+        character = c;
         pathCheck = pc;
     }
 }
@@ -134,6 +135,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public GameObject fade;
     private void SetUI()
     {
         pcUI = GameObject.FindGameObjectWithTag("PCUI");
@@ -148,6 +150,11 @@ public class GameManager : MonoBehaviour
         mobileUI.SetActive(true);
         isMobile = true;
 #endif
+        if(fade == null)
+        {
+            fade = GameObject.FindGameObjectWithTag("Fade");
+        }
+        fade.SetActive(false);
     }
 
     private void SetChar()
@@ -178,6 +185,7 @@ public class GameManager : MonoBehaviour
             if (p.name.Contains("Clone"))
             {
                 p.GetComponent<PlayerControl>().enabled = false;
+                p.GetComponent<PlayerInput>().enabled = false;
             }
         }
     }
@@ -220,7 +228,7 @@ public class GameManager : MonoBehaviour
     {
         for (int i = 0; i < characters.Length; i++)
         {
-            if (characters[i].character_object == character)
+            if (characters[i].character == character)
             {
                 // 이전 포인트를 지나치지 않았을 경우(=역주행) pathCheck 실행 x
                 if (pathIndex > 0 && !characters[i].pathCheck[pathIndex - 1])
@@ -239,18 +247,14 @@ public class GameManager : MonoBehaviour
                     }
 
                     // lapCount 증가
-                    CharacterControl c = characters[i].character_object.GetComponent<CharacterControl>();
-                    c.LapIncrease();
-                    if (c.currentLapCount < totalLap)
-                    {
-                        c.currentLapCount++;
-                    }
-                    else
+                    CharacterControl c = characters[i].character.GetComponent<CharacterControl>();
+                    if (c.currentLapCount >= totalLap)
                     {
                         // 완주했을 경우 게임 종료
                         isPlay = false;
                         countAnim.SetTrigger("Finish");
                     }
+                    c.LapIncrease();
                 }
 
                 characters[i].pathCheck[pathIndex] = true;
@@ -287,7 +291,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(time - preTime - 1);
         for (int i = 0; i < characters.Length; i++)
         {
-            CharacterControl cc = characters[i].character_object.GetComponent<CharacterControl>();
+            CharacterControl cc = characters[i].character.GetComponent<CharacterControl>();
 
             cc.rigid.constraints = RigidbodyConstraints.None;
         }
@@ -297,9 +301,9 @@ public class GameManager : MonoBehaviour
         isPlay = true;
         for (int i = 0; i < characters.Length; i++)
         {
-            if (characters[i].character_object.CompareTag("Player"))
+            if (characters[i].character.CompareTag("Player"))
             {
-                PlayerControl pc = characters[i].character_object.GetComponent<PlayerControl>();
+                PlayerControl pc = characters[i].character.GetComponent<PlayerControl>();
                 pc.SetState(pc.nomalState);
             }
         }
