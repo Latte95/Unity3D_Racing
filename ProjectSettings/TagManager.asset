@@ -8,6 +8,32 @@ TagManager:
   - Wheel
   - Fense
   - WheelMesh
+<<<<<<< Updated upstream
+=======
+  - WheelCollider
+  - Coin
+  - GliderPanel
+  - fence
+  - TrickCollider
+  - Dirt
+  - Path
+  - ItemBox
+  - AI
+  - Count
+  - Lap
+  - PCUI
+  - MobileUI
+  - Speed
+  - CurrentLap
+  - MiniStart
+  - MiniEnd
+  - MapStart
+  - MapEnd
+  - MiniMap
+  - Match
+  - TitleManager
+  - Fade
+>>>>>>> Stashed changes
   layers:
   - Default
   - TransparentFX
